@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Daşınmaz.az | Mövcud kateqoriyalar
+{% endblock title %}
+
+{% block container %}
+    <section class="about-section about-page pb-0">
+        <div class="auto-container">
+            <div class="content-box">
+                <div class="sec-title">
+                    <h5>Kateqoriyalar</h5>
+                    <h2>Saytdakı mövcud kateqoriyalar</h2>
+                </div>  
+                {% if html_text %}
+                    <ul class="reset-css">
+                        {{html_text|safe}}    
+                    </ul>  
+                {% endif %} 
+            </div>
+            
+        </div>
+    </section>
+{% endblock container %}

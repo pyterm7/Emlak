@@ -1,0 +1,143 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <title>{% block title %}{% endblock title %}</title>
+
+    <!-- Fontawesome new -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Fav Icon -->
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link href=" {% static 'css/font-awesome-all.css' %} " rel="stylesheet">
+    <link href=" {% static 'css/flaticon.css' %} " rel="stylesheet">
+    <link href=" {% static 'css/owl.css' %} " rel="stylesheet">
+    <link href=" {% static 'css/bootstrap.css' %} " rel="stylesheet">
+    <link href=" {% static 'css/jquery.fancybox.min.css' %} " rel="stylesheet">
+    <link href=" {% static 'css/animate.css' %} " rel="stylesheet">
+    <link href=" {% static 'css/jquery-ui.css' %} " rel="stylesheet">
+    <link href=" {% static 'css/nice-select.css' %} " rel="stylesheet">
+    <link href=" {% static 'css/color/theme-color.css' %} " id="jssDefault" rel="stylesheet">
+    <link href=" {% static 'css/switcher-style.css' %} " rel="stylesheet">
+    <link href=" {% static 'css/style.css' %} " rel="stylesheet">
+    <link href=" {% static 'css/responsive.css' %} " rel="stylesheet">
+    <style>
+        .reset-css {
+            margin-bottom: 1rem;
+        }
+        .reset-css ul, .reset-css ol, .reset-css li{ 
+            list-style: square;
+        }
+        .reset-css ul, .reset-css ol{
+            margin-left: 1.5rem;
+        }
+
+
+         
+    </style>
+
+    {% block styles %}{% endblock styles %}
+
+</head> 
+<body> 
+    
+    <div class="boxed_wrapper"> 
+        <!-- Navbar -->
+        {% include 'partials/header.html' %}
+        {% include 'partials/mobile-menu.html' %}
+        <!-- Container -->
+        {% block container %}{% endblock container %} 
+        <!-- Footer -->
+        {% include 'partials/footer.html' %}
+        <!-- BackToTop -->
+        {% include 'partials/backToTop.html' %} 
+    </div> 
+    
+    <!-- jequery plugins -->
+    <script src=" {% static 'js/alert.js' %}"></script> 
+    <script src=" {% static 'js/jquery.js' %} "></script>
+    <script src=" {% static 'js/popper.min.js' %} "></script>
+    <script src=" {% static 'js/bootstrap.min.js' %} "></script>
+    <script src=" {% static 'js/owl.js' %} "></script>
+    <script src=" {% static 'js/wow.js' %} "></script>
+    <script src=" {% static 'js/validation.js' %} "></script>
+    <script src=" {% static 'js/jquery.fancybox.js' %} "></script>
+    <script src=" {% static 'js/appear.js' %} "></script>
+    <script src=" {% static 'js/scrollbar.js' %} "></script>
+    <script src=" {% static 'js/isotope.js' %} "></script>
+    <script src=" {% static 'js/jquery.nice-select.min.js' %} "></script>
+    <script src=" {% static 'js/jQuery.style.switcher.min.js' %} "></script>
+    <script src=" {% static 'js/jquery-ui.js' %}"></script>
+    <script src=" {% static 'js/nav-tool.js' %}"></script> 
+    <script src=" {% static 'js/script.js' %}"></script>
+
+    {% if messages %} 
+        {% for message in messages %} 
+            {% if message.tags == 'alert-info' %}
+                <script> swal("Məlumat!", "{{message}}", "info"); </script> 
+            {% elif message.tags == 'alert-success' %}
+                <script> swal("Uğurlu proses!", "{{message}}", "success"); </script>  
+            {% endif %}
+        {% endfor %} 
+    {% endif %}
+
+    
+
+    <script>  
+        document.getElementById("header-social-links").innerHTML = ''
+        $.get("{% url 'get-about-data' %}", function(data, status){  
+            const location = data['location']
+            document.getElementById("site-location").innerHTML = `<i class="far fa-map-marker-alt"></i> ${location}`
+            const phone_1 = data['phone_1']
+            document.getElementById("site-phone-1").innerHTML = `<i class="far fa-phone"></i><a href="tel:${data['safe_phone']}"> ${phone_1}</a>`
+            const short_description = data['short_description']
+            document.getElementById("short-description").innerHTML = `${short_description} <br/> <br/> <a href='{%url "about-page" %}' class='btn btn-outline-light'>Daha çoxu</a>`
+            document.getElementById("footer-location").innerHTML = `<i class="fas fa-map-marker-alt"></i> ${location}`
+            document.getElementById("footer-phone-1").innerHTML = phone_1
+            document.getElementById("footer-email-1").innerHTML = data['email_1']
+            if(data['facebook']){
+                const facebook = data['facebook']
+                document.getElementById("header-social-links").innerHTML += `<li><a href="${facebook}" target='_blank'><i class="fab fa-facebook-f"></i></a></li>`
+            }
+            if(data['instagram']){
+                const instagram = data['instagram']
+                document.getElementById("header-social-links").innerHTML += `<li><a href="${instagram}" target='_blank'><i class="fab fa-instagram"></i></a></li>`
+            }
+            if(data['youtube']){
+                const youtube = data['youtube']
+                document.getElementById("header-social-links").innerHTML += `<li><a href="${youtube}" target='_blank'><i class="fab fa-youtube"></i></a></li>`
+            }
+            if(data['twitter']){
+                const twitter = data['twitter']
+                document.getElementById("header-social-links").innerHTML += `<li><a href="${twitter}" target='_blank'><i class="fab fa-twitter"></i></a></li>`
+            }
+            if(data['pinterest']){
+                const pinterest = data['pinterest']
+                document.getElementById("header-social-links").innerHTML += `<li><a href="${pinterest}" target='_blank'><i class="fab fa-pinterest"></i></a></li>`
+            }
+            if(data['vimeo']){
+                const vimeo = data['vimeo']
+                document.getElementById("header-social-links").innerHTML += `<li><a href="${vimeo}" target='_blank'><i class="fab fa-vimeo"></i></a></li>`
+            }
+            if(data['tiktok']){
+                const tiktok = data['tiktok']
+                document.getElementById("header-social-links").innerHTML += `<li><a href="${tiktok}" target='_blank'><i class="fa-brands fa-tiktok"></i></a></li>`
+            }
+            
+
+        }); 
+    </script>
+
+    {% block scripts %}{% endblock scripts %}
+</body> 
+</html>

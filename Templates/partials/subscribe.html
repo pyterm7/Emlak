@@ -1,0 +1,25 @@
+{% load static %}
+<section class="subscribe-section bg-color-3">
+    <div class="pattern-layer" style="background-image: url({% static 'images/shape/shape-2.png' %});"></div>
+    <div class="auto-container">
+        <div class="row clearfix">
+            <div class="col-lg-6 col-md-6 col-sm-12 text-column">
+                <div class="text">
+                    <span>Abunə ol</span>
+                    <h2>Yeni xəbərlər, elanlar üçün abunə ola bilərsiniz.</h2>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 form-column">
+                <div class="form-inner">
+                    <form action="{% url 'subscribe-page' %}" method="post" class="subscribe-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="email" name="subscriber_email" placeholder="E-poçt daxil edin" required="" autocomplete="off">
+                            <button type="submit">Abunə ol</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 

@@ -1,0 +1,162 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    Daşınmaz.az | Hesabım
+{% endblock title %}
+
+{% block styles %}
+    <style>
+        figure.image-box{
+            position: relative;
+        }
+        figure.image-box form{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+         
+        figure.image-box form label input{
+            display: none;
+            position: absolute;
+        }
+        figure.image-box form label i{
+            font-size: 16px;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .1s ease-in-out;
+
+        }
+        figure.image-box form label i:hover{
+            color: #000;
+        }
+    </style>
+{% endblock styles %}
+
+{% block container %}
+    {% if my_account %}
+        <section class="agent-details p-4">
+            <div class="auto-container">
+                <div class="agent-details-content">
+                    <div class="agents-block-one">
+                        <div class="inner-box mr-0">
+                            <figure class="image-box">
+                                {% if my_account.avatar %}
+                                    <img src="{{my_account.avatar.url}}" alt="" style="width:100%;">
+                                {% else %}
+                                    <img src="{% static 'images/empty-profile270x330.png' %}" alt="">
+                                {% endif %}
+                                <form action="{% url 'change-avatar' %}" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <label for="user_avatar">
+                                        <input type="file" name="user_avatar" id="user_avatar" accept="image/*">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </label>
+                                </form>
+                            </figure>
+                            <div class="content-box">
+                                <div class="upper clearfix">
+                                    <div class="title-inner pull-left">
+                                        <h4>
+                                            {{my_account.name}}
+                                            {{my_account.surname}}
+                                        </h4>
+                                        <span class="designation">
+                                            {{my_account.position}}
+                                        </span>
+                                    </div>
+                                    <ul class="social-list pull-right clearfix">
+                                        <li> Çıxış et : <a href="{% url 'sign-out-page' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i></a></li> 
+                                    </ul>
+                                </div>
+                                <div class="text">
+                                    <p>{{my_account.bio}}</p>
+                                </div>
+                                <ul class="info clearfix mr-0">
+                                    <li><i class="fab fa fa-envelope"></i><a href="mailto:{{my_account.email}}">{{my_account.email}}</a></li>
+                                    <li><i class="fab fa fa-phone"></i><a href="tel:{{my_account.phone}}">{{my_account.phone}}</a></li>
+                                </ul>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="agents-page-section agent-details-page">
+            <div class="auto-container">
+                <div class="row clearfix">
+                    <div class="col-lg-8 col-md-12 col-sm-12 content-side">
+                       
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
+                        <div class="default-sidebar agent-sidebar">
+                            <div class="agents-contact sidebar-widget">
+                                <div class="widget-title">
+                                    <h5>Sosial hesablar</h5>
+                                </div>
+                                <div class="form-inner">
+                                    <form action="{% url 'set-social-account' %}" method="post" class="default-form">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <input type="text" name="account_instagram" autocomplete="off" placeholder="İnstagram" value="{% if my_account.instagram %}{{my_account.instagram}}{%  endif %}">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="account_facebook" autocomplete="off" placeholder="Facebook" value="{% if my_account.facebook %}{{my_account.facebook}}{%  endif %}">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="account_twitter" autocomplete="off" placeholder="Twitter" value="{% if my_account.twitter %}{{my_account.twitter}}{%  endif %}">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="account_youtube" autocomplete="off" placeholder="Youtube" value="{% if my_account.youtube %}{{my_account.youtube}}{%  endif %}">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="account_pinterest" autocomplete="off" placeholder="Pinterest" value="{% if my_account.pinterest %}{{my_account.pinterest}}{%  endif %}">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="account_vimeo" autocomplete="off" placeholder="Vimeo" value="{% if my_account.vimeo %}{{my_account.vimeo}}{%  endif %}">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="account_tiktok" autocomplete="off" placeholder="Tiktok" value="{% if my_account.tiktok %}{{my_account.tiktok}}{%  endif %}">
+                                        </div>
+                                         
+                                        <div class="form-group">
+                                            <button type="submit" class="theme-btn btn-one">Yadda saxla</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="category-widget sidebar-widget">
+                                <div class="widget-title">
+                                    <h5>Sayt Aktivliyi</h5>
+                                </div>
+                                <ul class="category-list clearfix">
+                                    <!-- <li><a href="javascript:void(0)">Ümumi Elan Sayı: <span> 900 </span></a></li> -->
+                                    <li>Qeydiyyat tarixi: <span> {% language 'az' %}{{ my_account.created_at|date:"F" }} {{my_account.created_at|date:"d, Y"}}{% endlanguage %} </span></li>
+                                    <li>Son giriş tarixi: <span> {% language 'az' %}{{ my_account.last_login|date:"F" }} {{my_account.last_login|date:"d, Y | H:i:s"}}{% endlanguage %} </span></li>
+                                </ul>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock container %}
+
+
+{% block scripts %}
+        <script>
+            let avatar_input = document.getElementById("user_avatar")
+            avatar_input.addEventListener("change", function(e){
+                avatar_input.parentElement.parentElement.submit()
+            })
+        </script>
+{% endblock scripts %}

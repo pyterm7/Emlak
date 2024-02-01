@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Daşınmaz.az | Bizimlə əlaqə
+{% endblock title %}
+
+{% block container %}
+ 
+    <section class="contact-info-section sec-pad centred">
+        <div class="auto-container">
+            <div class="sec-title">
+                <h2>Bizimlə əlaqə</h2>
+                <h5 style="text-transform: lowercase;">İstənilən vaxt müraciət edə bilərsiniz</h5>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-4 col-md-6 col-sm-12 info-block">
+                    <div class="info-block-one">
+                        <div class="inner-box">
+                            <div class="icon-box"><i class="icon-32"></i></div>
+                            <h4>E-poçt</h4>
+                            <p>
+                                <a href="" id="contact-email-1"></a>
+                                <br>
+                                <a href="" id="contact-email-2"></a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 info-block">
+                    <div class="info-block-one">
+                        <div class="inner-box">
+                            <div class="icon-box"><i class="icon-33"></i></div>
+                            <h4>Telefon</h4>
+                            <p>
+                                <a href="" id="contact-phone-1"></a>
+                                <br>
+                                <a href="" id="contact-phone-2"></a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 info-block">
+                    <div class="info-block-one">
+                        <div class="inner-box">
+                            <div class="icon-box"><i class="icon-34"></i></div>
+                            <h4>Ofis ünvanı</h4>
+                            <p id="office-location"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section bg-color-1">
+        <div class="auto-container">
+            <div class="row align-items-center clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 content-column">
+                    <div class="content-box">
+                        <div class="sec-title">
+                            <h5>Əlaqə</h5>
+                            <h2>Bizimlə əlaqə</h2>
+                        </div>
+                        <div class="form-inner">
+                            <form method="post" action="" id="contact-form">
+                                {%csrf_token%} 
+                                <div class="row clearfix"> 
+                                    <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                        <input type="text" name="contact_email" placeholder="E-poçt" aria-required="true" autocomplete="off">
+                                    </div> 
+                                    <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+                                        <input type="text" name="contact_subject" placeholder="Mövzu" aria-required="true" autocomplete="off">
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                        <textarea name="contact_message" placeholder="Mesajınız"></textarea>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
+                                        <button class="theme-btn btn-one" type="submit" name="submit-form">Mesaj göndər</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+ 
+{% endblock container %}
+
+
+
+{% block scripts %}
+    <script>  
+        $.get("{% url 'get-about-data' %}", function(data, status){  
+            const location = data['location']
+            document.getElementById("office-location").innerHTML = location
+            const phone_1 = data['phone_1']
+            const phone_2 = data['phone_2']
+            document.getElementById("contact-phone-1").innerHTML = phone_1
+            document.getElementById("contact-phone-2").innerHTML = phone_2
+            const email_1 = data['email_1']
+            const email_2 = data['email_2']
+            document.getElementById("contact-email-1").innerHTML = email_1
+            document.getElementById("contact-email-2").innerHTML = email_2 
+        }); 
+    </script>
+{% endblock scripts %}

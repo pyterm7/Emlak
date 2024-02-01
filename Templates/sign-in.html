@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Daşınmaz.az | Hesabınıza daxil olun
+{% endblock title %}
+
+{% block container %}
+    <section class="ragister-section centred sec-pad">
+        <div class="auto-container">
+            <div class="row clearfix">
+                <div class="col-xl-8 col-lg-12 col-md-12 offset-xl-2 big-column">
+                    <div class="sec-title">
+                        <h5>Daxil ol</h5>
+                        <h2>Hesabınıza daxil olun</h2>
+                    </div>
+                    <div class="tabs-box">
+                        <div class="tabs-content">
+                            <div class="tab active-tab" id="tab-1">
+                                <div class="inner-box">
+                                    <h4>Daxil ol</h4>
+                                    <form method="post" class="default-form">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="sign-in-phone">Telefon</label>
+                                            <input type="text" name="login_phone" required="" autocomplete="off" id="sign-in-phone">
+                                        </div> 
+                                        <div class="form-group">
+                                            <label for="sign-in-pass">Şifrə</label>
+                                            <input type="password" name="login_password" required="" id="sign-in-pass">
+                                        </div>
+                                        <div class="form-group message-btn">
+                                            <button type="submit" class="theme-btn btn-one">Daxil ol</button>
+                                        </div>
+                                    </form>
+                                    <div class="othre-text">
+                                        <p>Hesabınız yoxdur ? <a href="{% url 'sign-up-page' %}">Hesab yaradın</a></p>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock container %}

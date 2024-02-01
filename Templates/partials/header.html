@@ -1,0 +1,123 @@
+{% load static %}
+<header class="main-header">
+    <!-- header-top -->
+    <div class="header-top">
+        <div class="top-inner clearfix">
+            <div class="left-column pull-left">
+                <ul class="info clearfix">
+                    <li id="site-location">
+                        <!-- Site location -->
+                    </li>
+                    <li id="site-phone-1">
+                        <!-- Site phone 1 -->
+                    </li>
+                </ul>
+            </div>
+            <div class="right-column pull-right">
+                <ul class="social-links clearfix" id="header-social-links">
+                    <!-- Social links - Header -->
+                </ul>
+                <div class="sign-box">
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff %}
+                            <a href="{% url 'my-account' %}"><i class="fas fa-user"></i>Hesabım</a>
+                        {% else %}
+                            <a href="{% url 'sign-out-page' %}"><i class="fas fa-user"></i>Çıxış</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'sign-in-page' %}"><i class="fas fa-user"></i>Daxil ol</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div> 
+    <!-- header-lower -->
+    <div class="header-lower">
+        <div class="outer-box">
+            <div class="main-box">
+                <div class="logo-box">
+                    <figure class="logo"><a href="/"><img src="{% static 'images/logo.png' %}" alt=""></a>
+                    </figure>
+                </div>
+                <div class="menu-area clearfix">
+                    <!--Mobile Navigation Toggler-->
+                    <div class="mobile-nav-toggler">
+                        <i class="icon-bar"></i>
+                        <i class="icon-bar"></i>
+                        <i class="icon-bar"></i>
+                    </div>
+                    <nav class="main-menu navbar-expand-md navbar-light">
+                        <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
+                            <ul class="navigation clearfix"> 
+                                <li><a href="{% url 'home-page' %}"><span>Ana səhifə</span></a></li>
+                                <li><a href="{% url 'about-page' %}"><span>Haqqımızda</span></a></li>
+                                <li><a href="{% url 'contact-page' %}"><span>Ofislə əlaqə</span></a></li>
+                               
+                                <li class="dropdown"><a href="/"><span>Keçidlər</span></a>
+                                    <div class="megamenu">
+                                        <div class="row clearfix">
+                                            <div class="col-xl-4 column">
+                                                <ul>
+                                                    {% if request.user.is_authenticated %} 
+                                                        <li>
+                                                            <h4>Profil</h4>
+                                                        </li>
+                                                        {% if request.user.is_staff %}
+                                                            <li><a href="{% url 'my-account' %}">Hesabım</a></li>
+                                                            <li><a href="{% url 'sign-out-page' %}">Çıxış et</a></li> 
+                                                        {% else %}
+                                                            <li><a href="{% url 'sign-out-page' %}">Çıxış et</a></li> 
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <li>
+                                                            <h4>Hesab</h4>
+                                                        </li>
+                                                        <li><a href="{% url 'sign-in-page' %}">Daxil ol</a></li> 
+                                                        <li><a href="{% url 'sign-up-page' %}">Hesab yarat</a></li> 
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                            <div class="col-xl-4 column">
+                                                <ul>
+                                                    <li>
+                                                        <h4>Elanlar</h4>
+                                                    </li>
+                                                    <li><a href="{% url 'show-categories' %}">Mövcud kateqoriyalar</a></li>  
+                                                </ul>
+                                            </div>
+                                            <div class="col-xl-4 column">
+                                                <ul>
+                                                    <li>
+                                                        <h4>--- --- --- ---</h4>
+                                                    </li>
+                                                    <li><a href="javascript:void(0)">--- --- ---</a></li>  
+                                                </ul>
+                                            </div>                                   
+                                        </div>                                        
+                                    </div>
+                                </li> 
+                            </ul>
+                        </div>
+                    </nav>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+    <!--sticky Header-->
+    <div class="sticky-header">
+        <div class="outer-box">
+            <div class="main-box">
+                <div class="logo-box">
+                    <figure class="logo"><a href="/"><img src="{% static 'images/logo.png' %}" alt=""></a>
+                    </figure>
+                </div>
+                <div class="menu-area clearfix">
+                    <nav class="main-menu clearfix">
+                        <!--Keep This Empty / Menu will come through Javascript-->
+                    </nav>
+                </div> 
+            </div>
+        </div>
+    </div>
+</header> 

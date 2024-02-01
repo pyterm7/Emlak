@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %} Ana səhifə  {% endblock title %}
+
+{% block container %} 
+
+    {% if not request.user.is_authenticated %} 
+        <!-- Signup Alert -->
+        {% include 'partials/signup-alert.html' %} 
+    {% endif %}
+
+    <!-- Our services -->
+    {% include 'partials/services.html' %}
+    
+    <!-- Subscribe -->
+    {% include 'partials/subscribe.html' %}
+
+    
+{% endblock container %}

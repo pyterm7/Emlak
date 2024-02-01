@@ -1,0 +1,94 @@
+{% load static %}
+
+<!-- main-footer -->
+<footer class="main-footer">
+    <div class="footer-top bg-color-2">
+        <div class="auto-container">
+            <div class="row clearfix">
+                <div class="col-lg-3 col-md-6 col-sm-12 footer-column">
+                    <div class="footer-widget about-widget">
+                        <div class="widget-title">
+                            <h3>Haqqımızda</h3>
+                        </div>
+                        <div class="text" id="short-description">
+                            <!-- Short description -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 footer-column">
+                    <div class="footer-widget links-widget ml-70">
+                        <div class="widget-title">
+                            <h3>Keçidlər</h3>
+                        </div>
+                        <div class="widget-content">
+                            <ul class="links-list class">
+                                <li><a href="{% url 'home-page' %}">Ana səhifə</a></li> 
+                                <li><a href="{% url 'about-page' %}">Haqqımızda</a></li> 
+                                {% if not request.user.is_authenticated %}
+                                    <li><a href="{% url 'sign-in-page' %}">Daxil ol</a></li> 
+                                    <li><a href="{% url 'sign-up-page' %}">Qeydiyyat</a></li>
+                                {% else %}
+                                    {% if request.user.is_staff %}
+                                        <li><a href="{% url 'my-account' %}">Hesabım</a></li>
+                                        <li><a href="{% url 'sign-out-page' %}">Çıxış et</a></li>
+                                    {% else %}
+                                        <li><a href="{% url 'sign-out-page' %}">Çıxış et</a></li>
+                                    {% endif %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 footer-column">
+                    <div class="footer-widget post-widget">
+                        <div class="widget-title">
+                            <h3>Xəbərlər</h3>
+                        </div>
+                        <div class="post-inner">
+                            <div class="post">
+                                <figure class="post-thumb"><a href="blog-details.html"><img src="{% static 'images/resource/footer-post-1.jpg' %}" alt=""></a></figure>
+                                <h5><a href="blog-details.html">The Added Value Social Worker</a></h5>
+                                <p>Mar 25, 2002</p>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 footer-column">
+                    <div class="footer-widget contact-widget">
+                        <div class="widget-title">
+                            <h3>Əlaqə</h3>
+                        </div>
+                        <div class="widget-content">
+                            <ul class="info-list clearfix">
+                                <li id="footer-location"></li>
+                                <li><i class="far fa-phone"></i><a href="" id="footer-phone-1"></a></li>
+                                <li><i class="fas fa-envelope"></i><a href="" id="footer-email-1"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="auto-container">
+            <div class="inner-box clearfix">
+                <figure class="footer-logo"><a href="{% url 'home-page' %}"><img src="{% static 'images/footer-logo.png' %}" alt=""></a>
+                </figure>
+                <div class="copyright pull-left">
+                    <p>
+                        <a href="{% url 'home-page' %}">Dasinmaz.az</a>
+                        &copy; 
+                        <script> document.write(new Date().getFullYear()) </script>
+                        Bütün Hüquqlar Qorunur
+                    </p>
+                </div>
+                <ul class="footer-nav pull-right clearfix">
+                    <li><a href="javascript:void(0)">Qaydalar və Şərtlər</a></li>
+                    <li><a href="javascript:void(0)">İstifadə Qaydası</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- main-footer end -->

@@ -1,0 +1,22 @@
+{% if services %}
+<section class="feature-style-three centred pb-110">
+    <div class="auto-container">
+        <div class="sec-title">
+            <h5 style="text-transform: capitalize;">Xidmətlərimiz</h5>
+            <h2>Xidmətdə özəlliklərimiz</h2>
+        </div>
+        <div class="three-item-carousel owl-carousel owl-theme owl-nav-none dots-style-one"> 
+            {% for service in services %}
+                <div class="feature-block-two">
+                    <div class="inner-box">
+                        <div class="icon-box"><i class="{{service.icon}}"></i></div>
+                        <h4>{{service.title}}</h4>
+                        <p>{{service.description}}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+</section> 
+{% endif %}

@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Daşınmaz.az | Hesabınıza daxil olun
+{% endblock title %}
+
+{% block container %}
+    <section class="ragister-section centred sec-pad">
+        <div class="auto-container">
+            <div class="row clearfix">
+                <div class="col-xl-8 col-lg-12 col-md-12 offset-xl-2 big-column">
+                    <div class="sec-title">
+                        <h5>Qeydiyyat</h5>
+                        <h2>Qeydiyyatdan keçərək bizə qoşulun</h2>
+                    </div>
+                    <div class="tabs-box">
+                        <div class="tabs-content">
+                            <div class="tab active-tab" id="tab-1">
+                                <div class="inner-box">
+                                    <h4>İstifadəçi qeydiyyatı</h4>
+                                    <form action="{% url 'sign-up-page' %}" method="post" class="default-form">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label>Ad</label>
+                                            <input type="text" name="name" autocomplete="off" value="{% if name %}{{name}}{% endif %}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Soyad</label>
+                                            <input type="text" name="surname" autocomplete="off" value="{% if surname %}{{surname}}{% endif %}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Telefon</label>
+                                            <input type="text" name="phone" autocomplete="off" placeholder="+994xxxxxxxxx" value="{% if phone %}{{phone}}{% endif %}">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label>Yaşadığınız ünvan</label>
+                                            <input type="text" name="loc" autocomplete="off" value="{% if location %}{{location}}{% endif %}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Şifrə</label>
+                                            <input type="password" name="password">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Təkrar şifrə</label>
+                                            <input type="password" name="repassword">
+                                        </div>
+
+                                        <div class="form-group message-btn">
+                                            <button type="submit" class="theme-btn btn-one">Qeydiyyatı tamamla</button>
+                                        </div>
+                                    </form>
+                                    <div class="othre-text">
+                                        <p>Hesabınız var ? <a href="{% url 'sign-in-page' %}">Daxil olun</a></p>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock container %}

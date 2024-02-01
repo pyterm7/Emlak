@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Daşınmaz.az | Haqqımızda
+{% endblock title %}
+
+{% block container %}
+    {% if about %}
+        <section class="about-section about-page pb-0">
+            <div class="auto-container">
+                <div class="inner-container">
+                    <div class="row align-items-center clearfix">
+                        <div class="col-lg-6 col-md-12 col-sm-12 image-column">
+                            <div class="image_block_2">
+                                <div class="image-box">
+                                    <figure class="image"><img src="{{about.image.url}}" alt=""></figure>
+                                    <div class="text wow fadeInLeft animated animated" data-wow-delay="00ms" data-wow-duration="1500ms" style="visibility: visible; animation-duration: 1500ms; animation-delay: 0ms; animation-name: fadeInLeft;">
+                                        <h2>{{about.experience_year}}</h2>
+                                        <h4>İllik təcrübə</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12 content-column">
+                            <div class="content_block_3">
+                                <div class="content-box">
+                                    <div class="sec-title">
+                                        <h5>{{about.title}}</h5>
+                                        <h2>{{about.subtitle}}</h2>
+                                    </div>
+                                    <div class="reset-css">
+                                        {{about.description|safe}}    
+                                    </div> 
+                                    <div class="btn-box">
+                                        <a href="{% url 'contact-page' %}" class="theme-btn btn-one">Bizimlə əlaqə</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock container %}
