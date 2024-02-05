@@ -1,6 +1,6 @@
 from django.urls import path 
 
-from Auth.views import SignIn, SignUp, SignOut, MyAccount, SetSocialAccount, ChangeAvatar
+from Auth.views import SignIn, SignUp, SignOut, MyAccount, SetSocialAccount, ChangeAvatar, EditAccount
 
 urlpatterns = [
     path('sign-in/', SignIn, name='sign-in-page'),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('my-account/', MyAccount, name='my-account'),
     path('set-social-account/', SetSocialAccount, name="set-social-account"),
     path('change-avatar/', ChangeAvatar, name="change-avatar"),
+    path('edit-account/', EditAccount, name="edit-account"),
 ]

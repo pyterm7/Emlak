@@ -5,16 +5,25 @@
 
 {% block container %} 
 
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_staff is False %}
+            <!-- Up To Agent -->
+            {% include 'partials/up-to-agent.html' %}
+        {% endif %}
+    {% endif %}
+
     {% if not request.user.is_authenticated %} 
         <!-- Signup Alert -->
         {% include 'partials/signup-alert.html' %} 
     {% endif %}
-
-    <!-- Our services -->
-    {% include 'partials/services.html' %}
     
+    <!-- Our services -->
+    {% include 'partials/services.html' %} 
+
+    <!-- Testimonials -->
+    {% include 'partials/testimonials.html' %}
+
     <!-- Subscribe -->
     {% include 'partials/subscribe.html' %}
 
-    
 {% endblock container %}

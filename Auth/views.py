@@ -220,6 +220,32 @@ def ChangeAvatar(request):
     messages.info(request, "İcazəsiz cəhd.")
     return redirect("my-account")
 
+@login_required(login_url="sign-in-page", redirect_field_name=None)
+def EditAccount(request):
+    if not request.user.is_staff: return redirect("home-page") 
+    if user := CustomUser.objects.filter(id=request.user.id).first():
+        if request.POST:
+            position = request.POST.get("edit_position", user.position)
+            bio = request.POST.get("edit_bio", user.bio)
+
+            if len(position) > 100:
+                messages.info(request, "Vəzifə maksimum 100 simvoldan ibarət olmalıdır.")
+                return redirect("my-account")
+            if len(bio) > 1000:
+                messages.info(request, "Haqqında məlumat maksimum 1000 simvoldan ibarət olmalıdır.")
+                return redirect("my-account")
+            try:
+                user.position = position 
+                user.bio = bio 
+                user.save()
+                messages.success(request, "Məlumatlar uğurla güncəlləndi.")
+            except:
+                messages.info(request, "Xəta oldu. Daha sonra yenidən cəhd edin.")
+            return redirect("my-account")
+
+    messages.info(request, "İcazəsiz cəhd.")
+    return redirect("home-page")
+
 
 
 

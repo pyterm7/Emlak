@@ -94,7 +94,20 @@
             <div class="auto-container">
                 <div class="row clearfix">
                     <div class="col-lg-8 col-md-12 col-sm-12 content-side">
-                       
+                        <form method="post" class="default-form" action="{% url 'edit-account' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="edit_position">Vəzifəm</label>
+                                <input type="text" name="edit_position" required="" autocomplete="off" id="edit_position" value="{% if my_account.position %}{{my_account.position}}{% endif %}">
+                            </div>  
+                            <div class="form-group">
+                                <label for="edit_bio">Haqqımda</label>
+                                <textarea name="edit_bio">{% if my_account.bio %}{{my_account.bio}}{%endif%}</textarea>
+                            </div>  
+                            <div class="form-group message-btn">
+                                <button type="submit" class="theme-btn btn-one">Yadda saxla</button>
+                            </div>
+                        </form>
                     </div>
                     <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                         <div class="default-sidebar agent-sidebar">

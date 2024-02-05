@@ -1,0 +1,21 @@
+{% if testimonials %}
+<section class="feature-style-three centred pb-110 bg-color-1">
+    <div class="auto-container">
+        <div class="sec-title">
+            <h5 style="text-transform: capitalize;">Rəylər</h5>
+            <h2>İstifadəçi rəyləri</h2>
+        </div>
+        <div class="three-item-carousel owl-carousel owl-theme owl-nav-none dots-style-one">
+            {% for testimonial in testimonials %}
+            <div class="feature-block-two">
+                <div class="inner-box">
+                    <div class="icon-box"><i class="icon-18"></i></div>
+                    <h4>{{testimonial.email}}</h4>
+                    <p>{{testimonial.message}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
