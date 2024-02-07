@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load i18n %}
 <!-- main-footer -->
 <footer class="main-footer">
     <div class="footer-top bg-color-2">
@@ -44,13 +44,27 @@
                         <div class="widget-title">
                             <h3>Xəbərlər</h3>
                         </div>
-                        <div class="post-inner">
-                            <div class="post">
-                                <figure class="post-thumb"><a href="blog-details.html"><img src="{% static 'images/resource/footer-post-1.jpg' %}" alt=""></a></figure>
-                                <h5><a href="blog-details.html">The Added Value Social Worker</a></h5>
-                                <p>Mar 25, 2002</p>
-                            </div> 
-                        </div>
+                        {% if news %} 
+                            {% for odd_news in news %} 
+                                <div class="post-inner">
+                                    <div class="post">
+                                        <figure class="post-thumb">
+                                            <a href="{% url 'news-detail' %}">
+                                                <img src="{{odd_news.cover.url}}" alt="{{odd_news.title}}">
+                                            </a>
+                                        </figure>
+                                        <h5 style="margin-bottom: 0px;">
+                                            <a href="{% url 'news-detail' %}">{{odd_news.title|slice:"0:12"}}...</a>
+                                        </h5>
+                                        <p style="font-size: 12px; line-height: 15px;">
+                                            {% language 'az' %}
+                                                {{odd_news.created_at|date:"d M, Y"}}
+                                            {% endlanguage %}
+                                        </p>
+                                    </div> 
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12 footer-column">

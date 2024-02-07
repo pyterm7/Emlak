@@ -15,6 +15,7 @@ urlpatterns = [
     path('category/', include("Category.urls")),
     path('announcement/', include("Announcement.urls")),
     path('testimonial/', include("Testimonial.urls")),
+    path('news/', include("News.urls")),
     # End URLS
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

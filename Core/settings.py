@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'Category.apps.CategoryConfig',
     'Auth.apps.AuthConfig',
     'City.apps.CityConfig',
+    'News.apps.NewsConfig',
+    'NewsTag.apps.NewstagConfig',
     'Testimonial.apps.TestimonialConfig',
     'Announcement.apps.AnnouncementConfig',
     # Tinymce
