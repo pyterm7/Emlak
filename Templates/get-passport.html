@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}
+    Daşınmaz.az | Agentlik üçün müraciət et
+{% endblock title %}
+
+{% block styles %}
+    <style>
+        .image-upload-area{
+            display: block;
+            width: 100%; 
+            border: 2px dotted #000;
+            border-radius: 5px; 
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        .image-upload-area input[type=file]{
+            display: none;
+        }
+        .image-upload-area i{
+            font-size: 44px;
+            text-align: center;
+            width: 100%;
+        }
+        .image-upload-area p{
+            font-size: 16px;
+            text-align: center;
+        }
+    </style>
+{% endblock styles %}
+
+{% block container %}
+    <section class="ragister-section centred sec-pad">
+        <div class="auto-container">
+            <div class="row clearfix">
+                <div class="col-xl-8 col-lg-12 col-md-12 offset-xl-2 big-column">
+                    <div class="sec-title">
+                        <h5>Agent olmaq üçün</h5>
+                        <h2>Müraciət formu</h2>
+                    </div>
+                    <div class="tabs-box">
+                        <div class="tabs-content">
+                            <div class="tab active-tab" id="tab-1">
+                                <div class="inner-box">
+                                    <h4>Şəxsiyyət vəsiqənizin şəklini göndərin</h4>
+                                    <form method="post" class="default-form" enctype="multipart/form-data">
+                                        {% csrf_token %} 
+                                        <div class="form-group">
+                                            <label class="image-upload-area">
+                                                <input type="file" name="passport" id="passport" accept="image/*">
+                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <p>Şəkil seçin</p>
+                                            </label>
+                                        </div> 
+                                    </form>
+                                    <div class="othre-text">
+                                        <p><a href="{% url 'home-page' %}">Ana səhifəyə qayıt</a></p>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock container %}
+
+{% block scripts %}
+    <script>
+        let passport_input = document.getElementById("passport")
+        passport_input.addEventListener("change", function(e){
+            passport_input.parentElement.parentElement.parentElement.submit()
+        })
+    </script>
+{% endblock scripts %}

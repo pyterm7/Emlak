@@ -14,6 +14,7 @@ urlpatterns = [
     path('auth/', include('Auth.urls')),
     path('category/', include("Category.urls")),
     path('announcement/', include("Announcement.urls")),
+    path('testimonial/', include("Testimonial.urls")),
     # End URLS
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -5,21 +5,23 @@
 
 {% block container %} 
 
-    {% if request.user.is_authenticated %}
-        {% if request.user.is_staff is False %}
+    {% if request.user.is_authenticated and request.user.is_staff is False and not request.user.passport %} 
             <!-- Up To Agent -->
             {% include 'partials/up-to-agent.html' %}
-        {% endif %}
+         
     {% endif %}
 
     {% if not request.user.is_authenticated %} 
         <!-- Signup Alert -->
         {% include 'partials/signup-alert.html' %} 
     {% endif %}
-    
+     
     <!-- Our services -->
     {% include 'partials/services.html' %} 
 
+    <!-- Create Testimonial -->
+    {% include 'partials/create-testimonial.html' %}
+    
     <!-- Testimonials -->
     {% include 'partials/testimonials.html' %}
 

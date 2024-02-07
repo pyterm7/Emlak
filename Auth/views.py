@@ -1,4 +1,5 @@
-import os
+import os 
+import re
 from PIL import Image
 from Auth.models import CustomUser
 from django.contrib import messages
@@ -120,8 +121,6 @@ def MyAccount(request):
     if my_account := CustomUser.objects.filter(phone=request.user.phone).first(): data["my_account"] = my_account 
     return render(request, "my-account.html", context=data)
 
-
-
 @login_required(login_url="sign-in-page", redirect_field_name=None)
 def SetSocialAccount(request):
     if not request.user.is_staff: return redirect("home-page")
@@ -185,7 +184,6 @@ def SetSocialAccount(request):
         else: messages.info(request, "Xəta oldu.")
     return redirect("my-account")
 
-
 @login_required(login_url="sign-in-page", redirect_field_name=None)
 def ChangeAvatar(request):
     if not request.user.is_staff:
@@ -222,21 +220,30 @@ def ChangeAvatar(request):
 
 @login_required(login_url="sign-in-page", redirect_field_name=None)
 def EditAccount(request):
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
     if not request.user.is_staff: return redirect("home-page") 
     if user := CustomUser.objects.filter(id=request.user.id).first():
         if request.POST:
             position = request.POST.get("edit_position", user.position)
             bio = request.POST.get("edit_bio", user.bio)
+            email = request.POST.get("edit_email", user.email)
 
             if len(position) > 100:
                 messages.info(request, "Vəzifə maksimum 100 simvoldan ibarət olmalıdır.")
                 return redirect("my-account")
+            
             if len(bio) > 1000:
                 messages.info(request, "Haqqında məlumat maksimum 1000 simvoldan ibarət olmalıdır.")
                 return redirect("my-account")
+            
+            if not (re.fullmatch(regex, email)):
+                messages.info(request, "E-poçt doğru daxil edilməyib.")
+                return redirect("my-account")
+            
             try:
                 user.position = position 
                 user.bio = bio 
+                user.email = email
                 user.save()
                 messages.success(request, "Məlumatlar uğurla güncəlləndi.")
             except:
@@ -245,6 +252,43 @@ def EditAccount(request):
 
     messages.info(request, "İcazəsiz cəhd.")
     return redirect("home-page")
+
+@login_required(login_url="sign-in-page", redirect_field_name=None)
+def GetPassport(request):
+    if request.user.is_staff: return redirect("home-page")  
+
+    if request.POST and request.FILES:
+        passport = request.FILES['passport']
+
+        passport_byte = passport.size 
+        if passport_byte / (1024 * 1024) > 2:
+            messages.info(request, "Şəklin həcmi maksimum 2MB olmalıdır.")
+            return redirect("get-passport")
+
+        img = Image.open(passport)
+        width = img.width
+        height = img.height
+        if width < 400 or height < 300:
+            messages.info(request, "Şəklin ölçüləri minimum 400x300 olmalıdır.")
+            return redirect("get-passport")
+        
+        if user:= CustomUser.objects.filter(id=request.user.id).first():
+            try:
+                user.passport = passport 
+                user.save()
+                messages.success(request, "Müraciətiniz qeydə alındı. Tezliklə telefonunuza təsdiq mesajı göndəriləcək.")
+                return redirect("home-page")
+            except:
+                messages.info(request, "Müraciət qeydə alınmadı. Daha sonra yenidən cəhd edin.")
+                return redirect("get-passport")
+        messages.info(request, "İcazəsiz cəhd.")
+        return redirect("home-page")
+
+    return render(request, "get-passport.html")
+
+
+
+
 
 
 

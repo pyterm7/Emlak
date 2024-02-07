@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from Services.models import Service 
-from Contact.models import ContactMessage
+from Testimonial.models import Testimonial
 
 
 
@@ -10,7 +10,7 @@ def Home(request):
     our_services = Service.objects.all()
 
     # Reyler
-    testimonials = ContactMessage.objects.filter(show=True)
+    testimonials = Testimonial.objects.filter(show=True)
 
     
     # CollectData

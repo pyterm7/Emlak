@@ -66,11 +66,19 @@
                                 <div class="upper clearfix">
                                     <div class="title-inner pull-left">
                                         <h4>
-                                            {{my_account.name}}
-                                            {{my_account.surname}}
+                                            {% if my_account.name and my_account.surname %}
+                                                {{my_account.name}}
+                                                {{my_account.surname}}
+                                            {% else %}
+                                                Ad, Soyad daxil edilməyib.
+                                            {% endif %}
                                         </h4>
                                         <span class="designation">
-                                            {{my_account.position}}
+                                            {% if my_account.position %}
+                                                {{my_account.position}}
+                                            {% else %}
+                                                Vəzifə daxil edilməyib.
+                                            {% endif %}
                                         </span>
                                     </div>
                                     <ul class="social-list pull-right clearfix">
@@ -81,7 +89,16 @@
                                     <p>{{my_account.bio}}</p>
                                 </div>
                                 <ul class="info clearfix mr-0">
-                                    <li><i class="fab fa fa-envelope"></i><a href="mailto:{{my_account.email}}">{{my_account.email}}</a></li>
+                                    <li>
+                                        <i class="fab fa fa-envelope"></i>
+                                        
+                                            {% if my_account.email %}
+                                            <a href="mailto:{{my_account.email}}">{{my_account.email}} </a>
+                                            {% else %}
+                                                E-poçt daxil edilməyib.
+                                            {% endif %}
+                                       
+                                    </li>
                                     <li><i class="fab fa fa-phone"></i><a href="tel:{{my_account.phone}}">{{my_account.phone}}</a></li>
                                 </ul>
                             </div>
@@ -96,6 +113,10 @@
                     <div class="col-lg-8 col-md-12 col-sm-12 content-side">
                         <form method="post" class="default-form" action="{% url 'edit-account' %}">
                             {% csrf_token %}
+                            <div class="form-group">
+                                <label for="edit_email">E-poçt</label>
+                                <input type="text" name="edit_email" required="" autocomplete="off" id="edit_email" value="{% if my_account.email %}{{my_account.email}}{% endif %}">
+                            </div>  
                             <div class="form-group">
                                 <label for="edit_position">Vəzifəm</label>
                                 <input type="text" name="edit_position" required="" autocomplete="off" id="edit_position" value="{% if my_account.position %}{{my_account.position}}{% endif %}">

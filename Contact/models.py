@@ -8,9 +8,6 @@ class ContactMessage(models.Model):
     # Ip adresinə də bax
     ip_address = models.CharField(verbose_name = "İP ünvan", max_length = 30)
 
-    # Saytda gorunsunmu ?
-    show = models.BooleanField(default = False, verbose_name = "Bu mesaj saytda görünsün")
-
     # Cavablandımı
     answer = models.BooleanField(default = False, verbose_name = "Baxıldı və cavablandırıldı kimi işarələ")
 
