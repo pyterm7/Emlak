@@ -1,8 +1,9 @@
 {% extends 'layout.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}
-    Daşınmaz.az |
+    Daşınmaz.az | {{news_detail.title}}
 {% endblock title %}
 
 {% block container %}
@@ -10,98 +11,46 @@
         <div class="auto-container">
             <div class="row clearfix">
                 <div class="col-lg-8 col-md-12 col-sm-12 content-side">
-                    <div class="blog-details-content">
-                        <div class="news-block-one">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image"><img src="assets/images/news/news-21.jpg" alt=""></figure>
-                                    <span class="category">Əmlak Bazarı</span>
-                                </div>
-                                <div class="lower-content">
-                                    <h3>Including Animation In Your Design System.</h3>
-                                    <ul class="post-info clearfix">
-                                        
-                                        <li>10 Yanvar, 2023</li>
-                                    </ul>
-                                    <div class="text">
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing sed do eiusmod tempor incididunt labore dolore magna aliqua enim minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed perspiciatis unde omnis iste natus error sit voluptem accusantium doloremque laudantium.</p>
-                                        <blockquote>
-                                            <h4>“Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis.”</h4>
-                                        </blockquote>
-                                        <p>Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed perspiciatis unde omnis iste natus error sit voluptem accusantium doloremque laudantium totam rem aperiam.</p>
-                                    </div>
-                                    <div class="post-tags">
-                                        <ul class="tags-list clearfix">
-                                            <li><h5>Teqlər:</h5></li>
-                                            <li><a href="blog-details.html">Əmlak bazarı</a></li>
-                                            <li><a href="blog-details.html">Həyət evi</a></li>
-                                            <li><a href="blog-details.html">Binə qəsəbəsi</a></li>
+                    {% if news_detail %}
+                        <div class="blog-details-content">
+                            <div class="news-block-one">
+                                <div class="inner-box">
+                                    {% if news_detail.cover %}
+                                        <div class="image-box">
+                                            <figure class="image"><img src="{{news_detail.cover.url}}" alt=""></figure> 
+                                        </div>
+                                    {% endif %}
+                                    <div class="lower-content">
+                                        <h3>{{news_detail.title}}</h3>
+                                        <ul class="post-info clearfix"> 
+                                            <li>
+                                                {% language 'az' %}
+                                                    {{news_detail.created_at|date:"d M, Y"}}
+                                                {% endlanguage %}
+                                            </li>
                                         </ul>
+                                        <div class="text">
+                                            {{news_detail.description|safe}}
+                                        </div>
+                                        <div class="post-tags">
+                                            <ul class="tags-list clearfix">
+                                                <li><h5>Teqlər:</h5></li>
+                                                {% for tag in news_detail.tags.all %}
+                                                    <li><a href="javascript:void(0)">{{tag}}</a></li>
+                                                {% endfor %} 
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
-                        <div class="comments-area">
-                            <div class="group-title">
-                                <h4>Facebook Koment</h4>
-                            </div>
-                            <div class="comment-box">
-                                <div class="comment">
-                                    <figure class="thumb-box">
-                                        <img src="assets/images/news/comment-1.jpg" alt="">
-                                    </figure>
-                                    <div class="comment-inner">
-                                        <div class="comment-info clearfix">
-                                            <h5>Rebeka Dawson</h5>
-                                            <span>April 10, 2020</span>
-                                        </div>
-                                        <div class="text">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nos trud exerc.</p>
-                                            <a href="blog-details.html"><i class="fas fa-share"></i>Reply</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comment replay-comment">
-                                    <figure class="thumb-box">
-                                        <img src="assets/images/news/comment-2.jpg" alt="">
-                                    </figure>
-                                    <div class="comment-inner">
-                                        <div class="comment-info clearfix">
-                                            <h5>Elizabeth Winstead</h5>
-                                            <span>April 10, 2020</span>
-                                        </div>
-                                        <div class="text">
-                                            <p>Lorem ipsum dolor sit amet, consectur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nos</p>
-                                            <a href="blog-details.html"><i class="fas fa-share"></i>Reply</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comment">
-                                    <figure class="thumb-box">
-                                        <img src="assets/images/news/comment-3.jpg" alt="">
-                                    </figure>
-                                    <div class="comment-inner">
-                                        <div class="comment-info clearfix">
-                                            <h5>Benedict Cumbatch</h5>
-                                            <span>April 10, 2020</span>
-                                        </div>
-                                        <div class="text">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nos trud exerc.</p>
-                                            <a href="blog-details.html"><i class="fas fa-share"></i>Reply</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
+                    {% endif %}
                 </div>
                 <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                     <div class="blog-sidebar">
                         <div class="sidebar-widget search-widget">
                             <div class="widget-title">
-                                <h4>Axtarış</h4>
+                                <h4>Xəbərlərdə axtarış et</h4>
                             </div>
                             <div class="search-inner">
                                 <form action="blog-1.html" method="post">
@@ -112,84 +61,22 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="sidebar-widget social-widget">
-                            <div class="widget-title">
-                                <h4>Bizi Sosial Mediyada İzlə</h4>
-                            </div>
-                            <ul class="social-links clearfix">
-                                <li><a href="blog-1.html"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="blog-1.html"><i class="fab fa-google-plus-g"></i></a></li>
-                                <li><a href="blog-1.html"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="blog-1.html"><i class="fab fa-linkedin-in"></i></a></li>
-                                <li><a href="blog-1.html"><i class="fab fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="sidebar-widget category-widget">
-                            <div class="widget-title">
-                                <h4>Keteqoriyalar</h4>
-                            </div>
-                            <div class="widget-content">
-                                <ul class="category-list clearfix">
-                                    <li><a href="blog-details.html">Ev İnteyeri<span>(9)</span></a></li>
-                                    <li><a href="blog-details.html">Tikinti<span>(5)</span></a></li>
-                                    <li><a href="blog-details.html">Əmlak Bazarı <span>(2)</span></a></li>
-                                    <li><a href="blog-details.html">İpoteka<span>(7)</span></a></li>
-                                    <li><a href="blog-details.html">Xarici Əmlak<span>(3)</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="sidebar-widget post-widget">
-                            <div class="widget-title">
-                                <h4>Ən Son Yazılar</h4>
-                            </div>
-                            <div class="post-inner">
-                                <div class="post">
-                                    <figure class="post-thumb"><a href="blog-details.html"><img src="assets/images/news/post-1.jpg" alt=""></a></figure>
-                                    <h5><a href="blog-details.html">Best interior design idea for your home.</a></h5>
-                                    <span class="post-date">20 Yanvar, 2023</span>
+                          
+                        {% if tags %}
+                            <div class="sidebar-widget tags-widget">
+                                <div class="widget-title">
+                                    <h4>Teqlər :</h4>
                                 </div>
-                                <div class="post">
-                                    <figure class="post-thumb"><a href="blog-details.html"><img src="assets/images/news/post-2.jpg" alt=""></a></figure>
-                                    <h5><a href="blog-details.html">A digital prescription for the industry.</a></h5>
-                                    <span class="post-date">20 Yanvar, 2023</span>
-                                </div>
-                                <div class="post">
-                                    <figure class="post-thumb"><a href="blog-details.html"><img src="assets/images/news/post-3.jpg" alt=""></a></figure>
-                                    <h5><a href="blog-details.html">Strategic &amp; commercial approach with issues.</a></h5>
-                                    <span class="post-date">20 Yanvar, 2023</span>
+                                <div class="widget-content">
+                                    <ul class="tags-list clearfix">
+                                        {% for tag in tags %}
+                                            <li><a href="javascript:void(0)">{{tag.name}}</a></li> 
+                                        {% endfor %}
+                                    </ul>
                                 </div>
                             </div>
-                        </div>
-                        <!-- <div class="sidebar-widget category-widget">
-                            <div class="widget-title">
-                                <h4>Archives</h4>
-                            </div>
-                            <div class="widget-content">
-                                <ul class="category-list clearfix">
-                                    <li><a href="blog-details.html">November 2016<span>(9)</span></a></li>
-                                    <li><a href="blog-details.html">November 2017<span>(5)</span></a></li>
-                                    <li><a href="blog-details.html">November 2018<span>(2)</span></a></li>
-                                    <li><a href="blog-details.html">November 2019<span>(7)</span></a></li>
-                                    <li><a href="blog-details.html">November 2020<span>(3)</span></a></li>
-                                </ul>
-                            </div>
-                        </div> -->
-                        <div class="sidebar-widget tags-widget">
-                            <div class="widget-title">
-                                <h4>Teqlər</h4>
-                            </div>
-                            <div class="widget-content">
-                                <ul class="tags-list clearfix">
-                                    <li><a href="blog-details.html">Həyət evi</a></li>
-                                    <li><a href="blog-details.html">İzolasiya</a></li>
-                                    <li><a href="blog-details.html">Avadanlıq Seçimi</a></li>
-                                    <li><a href="blog-details.html">Ev interyeri</a></li>
-                                    <li><a href="blog-details.html">Kombi</a></li>
-                                    <li><a href="blog-details.html">Soyutma Sistemi</a></li>
-                                    <li><a href="blog-details.html">Hazır Biznes</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        {% endif %}
+                        
                     </div>
                 </div>
             </div>

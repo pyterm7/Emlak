@@ -40,31 +40,8 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12 footer-column">
-                    <div class="footer-widget post-widget">
-                        <div class="widget-title">
-                            <h3>Xəbərlər</h3>
-                        </div>
-                        {% if news %} 
-                            {% for odd_news in news %} 
-                                <div class="post-inner">
-                                    <div class="post">
-                                        <figure class="post-thumb">
-                                            <a href="{% url 'news-detail' %}">
-                                                <img src="{{odd_news.cover.url}}" alt="{{odd_news.title}}">
-                                            </a>
-                                        </figure>
-                                        <h5 style="margin-bottom: 0px;">
-                                            <a href="{% url 'news-detail' %}">{{odd_news.title|slice:"0:12"}}...</a>
-                                        </h5>
-                                        <p style="font-size: 12px; line-height: 15px;">
-                                            {% language 'az' %}
-                                                {{odd_news.created_at|date:"d M, Y"}}
-                                            {% endlanguage %}
-                                        </p>
-                                    </div> 
-                                </div>
-                            {% endfor %}
-                        {% endif %}
+                    <div class="footer-widget post-widget" id="news-container">
+                        <!--  -->
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12 footer-column">

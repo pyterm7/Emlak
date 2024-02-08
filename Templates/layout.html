@@ -95,7 +95,24 @@
 
     <script>  
         document.getElementById("header-social-links").innerHTML = ''
-        $.get("{% url 'get-about-data' %}", function(data, status){  
+        $.get("{% url 'get-about-data' %}", function(data, status){
+            let news_container = document.getElementById("news-container")
+            news_container.innerHTML = ""
+            news_container.innerHTML += `<div class="widget-title"> <h3>Xəbərlər</h3> </div> `
+            if(data['news_n0']){
+                news_container.innerHTML += `
+                    <li class='mb-1'><a href="${data['news_n0']['url']}/news/detail/${data['news_n0']['slug']}">${data['news_n0']['title']}</a></li> 
+                    <li class='mb-1'><a href="${data['news_n1']['url']}/news/detail/${data['news_n1']['slug']}">${data['news_n1']['title']}</a></li> 
+                    <li class='mb-1'><a href="${data['news_n2']['url']}/news/detail/${data['news_n2']['slug']}">${data['news_n2']['title']}</a></li> 
+                    <li class='mb-1'><a href="${data['news_n3']['url']}/news/detail/${data['news_n3']['slug']}">${data['news_n3']['title']}</a></li> 
+                    <li><a href="${data['news_n4']['url']}/news/detail/${data['news_n4']['slug']}">${data['news_n4']['title']}</a></li> 
+                `
+            } else {
+                news_container.innerHTML += `
+                    <li> Tezliklə... </li> 
+                `
+            }
+
             const location = data['location']
             document.getElementById("site-location").innerHTML = `<i class="far fa-map-marker-alt"></i> ${location}`
             const phone_1 = data['phone_1']
@@ -133,8 +150,6 @@
                 const tiktok = data['tiktok']
                 document.getElementById("header-social-links").innerHTML += `<li><a href="${tiktok}" target='_blank'><i class="fa-brands fa-tiktok"></i></a></li>`
             }
-            
-
         }); 
     </script>
 
