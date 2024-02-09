@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from News.models import NewsModel
 from NewsTag.models import NewsTagModel
 
@@ -13,6 +13,9 @@ def NewsDetail(request, news):
 
 
 
-
+def AllNews(request):
+    all_news = NewsModel.objects.filter(is_active=True)
+    if all_news.count() == 0: return redirect("home-page")
+    return render(request, "news.html", context={"news":all_news})
 
 
