@@ -200,15 +200,7 @@ def ChangeAvatar(request):
                 messages.info(request, "Profil şəkli minimum 270x330 ölçüdə olmalıdır.")
                 return redirect("my-account")
             else: 
-                left = (width - 270) // 2
-                top = (height - 330) // 2
-                right = (width + 270) // 2
-                bottom = (height + 330) // 2
-                cropped_image = img.crop((left, top, right, bottom))
-                save_path = os.path.join(settings.MEDIA_ROOT, 'profile', avatar.name)
-                cropped_image.save(save_path)
-
-                user.avatar = save_path
+                user.avatar = avatar
                 user.save()
                 messages.success(request, "Profil şəkli güncəlləndi.")
                 return redirect("my-account")

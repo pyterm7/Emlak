@@ -93,9 +93,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         # super().save()
         super(CustomUser, self).save(**kwargs)
         if self.avatar:
-            image = Image.open(self.avatar.path)            
-            image = image.resize((270, 330), Image.Resampling.LANCZOS)
-            image.save(self.avatar.path)  
+            img = Image.open(self.avatar.path)            
+            # img = img.resize((270, 330), Image.Resampling.LANCZOS) 
+            width = img.width
+            height = img.height
+            left = (width - 270) // 2
+            top = (height - 330) // 2
+            right = (width + 270) // 2
+            bottom = (height + 330) // 2
+            cropped_image = img.crop((left, top, right, bottom))
+            # save_path = os.path.join(settings.MEDIA_ROOT, 'profile', avatar.name) 
+            cropped_image.save(self.avatar.path) 
 
     class Meta:  
         verbose_name = "istifadəçi"
