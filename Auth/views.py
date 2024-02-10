@@ -1,6 +1,8 @@
 import os 
 import re
 from PIL import Image
+from City.models import City
+from django.conf import settings
 from Auth.models import CustomUser
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -8,7 +10,6 @@ from validator_collection import validators, checkers
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from string import ascii_lowercase, ascii_uppercase, digits, ascii_letters
-from django.conf import settings
 
 def SignIn(request):
     if request.user.is_authenticated: return redirect("home-page")
@@ -25,8 +26,7 @@ def SignIn(request):
             messages.info(request, "Xəta oldu. Yenidən cəhd edin.")
             return redirect("sign-in-page")
     return render(request, "sign-in.html")
-
-
+ 
 def SignUp(request):
     if request.user.is_authenticated: return redirect("home-page") 
 
@@ -104,8 +104,7 @@ def SignUp(request):
             messages.info(request, "Şifrə və şifrə təkrarını düzgün daxil edin.")
             return render(request, "sign-up.html", context=data)
     return render(request, "sign-up.html")
-
-
+ 
 def SignOut(request):
     if request.user.is_authenticated:
         logout(request)
@@ -118,7 +117,9 @@ def SignOut(request):
 def MyAccount(request):
     if not request.user.is_staff: return redirect("home-page") 
     data = {}
+    if cities := City.objects.all(): data['cities'] = cities
     if my_account := CustomUser.objects.filter(phone=request.user.phone).first(): data["my_account"] = my_account 
+    if our_team := CustomUser.objects.filter(parent_agent__id=request.user.id).all(): data["our_team"] = our_team
     return render(request, "my-account.html", context=data)
 
 @login_required(login_url="sign-in-page", redirect_field_name=None)
@@ -278,8 +279,85 @@ def GetPassport(request):
 
     return render(request, "get-passport.html")
 
+@login_required(login_url="sign-in-page", redirect_field_name=None)
+def AddUser2AgencyTeam(request):
+    if not CustomUser.objects.filter(id=request.user.id).first():
+        messages.info(request, "İcazəsiz cəhd.")
+        return redirect("home-page")
+    
+    agent = CustomUser.objects.filter(id=request.user.id).first()
 
+    if not request.user.is_staff: 
+        messages.info(request, "İcazəsiz cəhd.")
+        return redirect("home-page") 
+    
+    if request.POST:
+        name = request.POST.get("agent_user_name", False)
+        surname = request.POST.get("agent_user_surname", False)
+        phone = request.POST.get("agent_user_phone", False)
+        location = request.POST.get("agent_user_location", False)
+        password = request.POST.get("agent_user_password", False)
+        repassword = request.POST.get("agent_user_repassword", False)  
 
+        city = City.objects.filter(id=location).first()
+
+        if password != repassword:
+                messages.info(request, "Şifrələr eyni deyil.")
+                return redirect("my-account")
+        
+        if len(password) < 8:
+            messages.info(request, "Şifrə minimum 8 simvoldan ibarət olmalıdır.")
+            return redirect("my-account")
+        
+        has_lower = False
+        has_upper = False 
+        has_digit = False
+        has_other_char = False
+        for char in password:
+            if char in ascii_lowercase:
+                has_lower = True 
+            if char in ascii_uppercase:
+                has_upper = True
+            if char in digits:
+                has_digit = True
+            if char not in f"{ascii_letters}{digits}":
+                has_other_char = True
+        if not has_lower:
+            messages.info(request, "Şifrədə ən az 1 kiçik hərf olmalıdır.")
+            return redirect("my-account")
+        if not has_upper:
+            messages.info(request, "Şifrədə ən az 1 böyük hərf olmalıdır.")
+            return redirect("my-account")
+        if not has_digit:
+            messages.info(request, "Şifrədə ən az 1 rəqəm olmalıdır.")
+            return redirect("my-account")
+        if has_other_char:
+            messages.info(request, f"Şifrədə yalnız bu hərflər {ascii_lowercase} {ascii_uppercase}, və rəqəmlər olmalıdır.")
+            return redirect("my-account")
+
+        if CustomUser.objects.filter(phone=phone).first():
+            messages.info(request, f"{phone} ilə qeydiyyat mümkün olmadı.")
+            return redirect("my-account")
+        if len(name) < 3 and len(surname) < 3:
+            messages.info(request, f"Ad və soyad minimum 3 simvoldan ibarət olmalıdır.")
+            return redirect("my-account")
+        
+        if not city:
+            messages.info(request, f"Ünvan seçimində xəta oldu.")
+            return redirect("my-account")
+        
+        try:
+            new_user = CustomUser(parent_agent = agent, name=name.title(), surname=surname.title(), phone=phone, location=city.name)
+            new_user.set_password(password)
+            new_user.save()
+            messages.success(request, "Agentliyə istifadəçi əlavə edildi.")
+            return redirect("my-account")
+        except:
+            messages.info(request, "İstifadəçi əlavə edilmədi. Yenidən cəhd edin və ya texniki dəstəyə bildirin.")
+            return redirect("my-account")
+
+    messages.info(request, "İcazəsiz cəhd.")
+    return redirect("home-page")
 
 
 

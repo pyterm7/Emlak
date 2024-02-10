@@ -47,6 +47,8 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
 
+    parent_agent = models.ForeignKey('self', on_delete=models.CASCADE, verbose_name="Daxil olduğu agentlik", blank=True, null=True, related_name="agency_team")
+
     avatar = models.ImageField(blank=True, null=True, verbose_name = "Profil şəkli", upload_to="profile/")
     passport = models.ImageField(blank=True, null=True, verbose_name = "Şəxsiyyət vəsiqəsi", upload_to="passport/")
 

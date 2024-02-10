@@ -16,8 +16,7 @@ def NewsDetail(request, news):
         likes_count = LikedNews.objects.filter(news=news_detail).count()
         if user:=CustomUser.objects.filter(id=request.user.id).first():
             liked_it = LikedNews.objects.filter(news=news_detail, user=user).first()
-            if liked_it:
-                data["liked_it"] = True
+            if liked_it: data["liked_it"] = True
         data["news_detail"] = news_detail
         data["likes_count"] = likes_count
         data["share_url"] = request.build_absolute_uri()
