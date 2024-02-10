@@ -13,9 +13,9 @@ def AboutPage(request):
 
 
 def GetAboutData(request): 
-    # Xeberlerden son 3-u 
+    domain = "http://127.0.0.1:8000" 
     news = None
-    if NewsModel.objects.all().count() >= 5: news = NewsModel.objects.order_by('-id').all()[0:5]  
+    if NewsModel.objects.filter(is_active=True).count() >= 5: news = NewsModel.objects.filter(is_active=True).order_by('-id').all()[0:5]  
 
     if About.objects.all().count() > 0: 
         if About.objects.last(): 
@@ -35,33 +35,16 @@ def GetAboutData(request):
                     "vimeo":data.vimeo,
                     "twitter":data.twitter,
                     "pinterest":data.pinterest,
-                    "tiktok":data.tiktok, 
-                    "news_n0": {
-                        "title": news[0].title,
-                        "slug": news[0].slug, 
-                        "url": request.META['REMOTE_HOST'],
-                    },
-                    "news_n1": { 
-                        "title": news[1].title,
-                        "slug": news[1].slug, 
-                        "url": request.META['REMOTE_HOST'],
-                    },
-                    "news_n2": { 
-                        "title": news[2].title,
-                        "slug": news[2].slug, 
-                        "url": request.META['REMOTE_HOST'],
-                    },
-                    "news_n3": { 
-                        "title": news[3].title,
-                        "slug": news[3].slug, 
-                        "url": request.META['REMOTE_HOST'],
-                    },
-                    "news_n4": { 
-                        "title": news[4].title,
-                        "slug": news[4].slug, 
-                        "url": request.META['REMOTE_HOST'],
-                    },
+                    "tiktok":data.tiktok,
                 }
+
+                if news:
+                    for i in range(min(5, len(news))):
+                        context[f"news_n{i}"] = {
+                            "title": news[i].title,
+                            "slug": news[i].slug,
+                            "url": f"{domain}",
+                        }
                 return HttpResponse(json.dumps(context), content_type='application/json')
             else:
                 context = {

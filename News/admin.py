@@ -1,5 +1,5 @@
 from django.contrib import admin
-from News.models import NewsModel
+from News.models import NewsModel, LikedNews
 
 @admin.register(NewsModel)
 class NewsModelAdmin(admin.ModelAdmin):
@@ -9,3 +9,6 @@ class NewsModelAdmin(admin.ModelAdmin):
         "title",
         "description", 
     )
+
+
+admin.site.register(LikedNews)

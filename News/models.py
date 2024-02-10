@@ -41,3 +41,23 @@ class NewsModel(models.Model):
     
     class Meta:
         verbose_name_plural = "Xəbərlər"
+
+
+class LikedNews(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="İstifadəçi")
+    news = models.ForeignKey(NewsModel, on_delete=models.CASCADE, verbose_name="Xəbər")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.user.phone 
+    
+    class Meta:
+        verbose_name_plural = "Bəyənilmiş xəbərlər"
+
+
+
+
+
+

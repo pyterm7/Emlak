@@ -18,9 +18,28 @@
                                     {% if news_detail.cover %}
                                         <div class="image-box">
                                             <figure class="image"><img src="{{news_detail.cover.url}}" alt=""></figure> 
+                                            <a class="category bg-success" href="{% url 'like-news' news_detail.id %}"> 
+                                                {% if liked_it %}
+                                                    <i class="fa-solid fa-heart"></i>
+                                                {% else %}
+                                                    <i class="fa-regular fa-heart"></i> 
+                                                {% endif %}
+                                            </a>
                                         </div>
                                     {% endif %}
-                                    <div class="lower-content">
+                                    <div class="lower-content"> 
+                                        <div class="price-box clearfix">
+                                            {% if likes_count > 0 %}
+                                                <div class="price-info pull-left">
+                                                    <h6 class="text-danger">Bəyənmə sayı <i class="fa-solid fa-heart"></i></h6>
+                                                    <h4 class="text-danger">{{likes_count}}</h4>
+                                                </div>
+                                            {% endif %}
+                                            
+                                            <ul class="other-option pull-right clearfix">
+                                                <li><a class="text-success" id="share-news"><i class="icon-12"></i></a></li> 
+                                            </ul>
+                                        </div>
                                         <h3>{{news_detail.title}}</h3>
                                         <ul class="post-info clearfix"> 
                                             <li>
@@ -83,3 +102,21 @@
         </div>
     </section>
 {% endblock container %}
+
+
+{% block scripts %}
+    <script>
+        let share_news_btn = document.getElementById("share-news")
+        share_news_btn.addEventListener("click", async () => {
+            try {
+                await navigator.share({
+                    title: "Xəbəri paylaş",
+                    text: "Saytımızdakı xəbərləri yaxınlarınızla paylaşın",
+                    url: "{{share_url}}",
+                }); 
+            } catch (err) { 
+                swal("Məlumat!", "Xəbər paylaşılmadı.", "info") 
+            }
+        });
+    </script>
+{% endblock scripts %}
