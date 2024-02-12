@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings 
 from django.conf.urls.static import static 
+from About.views import Rules, UsageRules
 
 urlpatterns = [
     path('admin/', admin.site.urls), 
@@ -16,6 +17,8 @@ urlpatterns = [
     path('announcement/', include("Announcement.urls")),
     path('testimonial/', include("Testimonial.urls")),
     path('news/', include("News.urls")),
+    path('rules/', Rules, name="rules-page"),
+    path('usage-rules/', UsageRules, name="usage-rules-page"),
     # End URLS
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

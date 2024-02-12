@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load i18n %}
+
+
+{% block container %}
+    <section class="auto-container py-4">
+        <div class="sec-title"> 
+            <h2>Yeni elan paylaş</h2>
+        </div>
+        <form action="" method="POST" enctype="multipart/form-data" class="default-form col-lg-6">
+            <div class="form-group">
+                <label for="announcement_picture">Əsas şəkil</label> <br>
+                <input type="file" name="announcement_picture" id="announcement_picture" accept="image/*">
+            </div> 
+            <div class="form-group">
+                <label for="announcement_title">Başlıq</label>
+                <input type="text" name="announcement_title" autocomplete="off" id="announcement_title">
+            </div> 
+            <div class="form-group">
+                <label for="announcement_room_count">Otaq sayı</label>
+                <input type="number" name="announcement_room_count" autocomplete="off" min="1" max="30" id="announcement_room_count">
+            </div> 
+            <div class="form-group">
+                <label for="announcement_currency">Valyuta</label>
+                <select name="announcement_currency" id="announcement_currency">
+                    {% for ch in ch_tuple %}
+                        <option value="{{ch.key}}">{{ch.key}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+            <br>
+            <div class="form-group">
+                <label for="announcement_price">Qiymət</label>
+                <input type="number" name="announcement_price" autocomplete="off" min="0" step="0.1" id="announcement_price">
+            </div>
+            <div class="form-group">
+                <label for="announcement_area">Sahə</label>
+                <input type="number" name="announcement_area" autocomplete="off" min="0" step="0.1" id="announcement_area">
+            </div>
+            <div class="form-group">
+                <label for="announcement_description">Açıqlama</label>
+                <textarea name="announcement_description" id="announcement_description" ></textarea> 
+            </div> 
+        </form>
+    </section>
+{% endblock container %}

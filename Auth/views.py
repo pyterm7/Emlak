@@ -103,7 +103,8 @@ def SignUp(request):
         else:
             messages.info(request, "Şifrə və şifrə təkrarını düzgün daxil edin.")
             return render(request, "sign-up.html", context=data)
-    return render(request, "sign-up.html")
+     
+    return render(request, "sign-up.html" )
  
 def SignOut(request):
     if request.user.is_authenticated:

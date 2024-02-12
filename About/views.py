@@ -68,9 +68,17 @@ def GetAboutData(request):
     return HttpResponse(json.dumps({"about":False}), content_type='application/json')
 
 
+
+def Rules(request):
+    rules = About.objects.last()
+    rules = rules.terms_and_conditions
+    return render(request, "rules.html", context={"rules":rules})
  
  
-    
+def UsageRules(request):
+    usage_rules = About.objects.last()
+    usage_rules = usage_rules.usage_ruler
+    return render(request, "usage-rules.html", context = {"usage_rules":usage_rules})
             
 
 

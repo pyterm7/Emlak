@@ -50,7 +50,7 @@
                         <div class="inner-box mr-0">
                             <figure class="image-box">
                                 {% if my_account.avatar %}
-                                    <img src="{{my_account.avatar.url}}" alt="" style="width:100%;">
+                                    <img src="{{my_account.avatar.url}}" alt="" style="width: 270px; height: 330px; aspect-ratio: 270/330; object-fit: cover;">
                                 {% else %}
                                     <img src="{% static 'images/empty-profile270x330.png' %}" alt="">
                                 {% endif %}

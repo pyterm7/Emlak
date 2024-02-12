@@ -3,12 +3,21 @@
 
 {% block title %} Ana səhifə  {% endblock title %}
 
-{% block container %} 
+{% block container %}  
 
-    {% if request.user.is_authenticated and request.user.is_staff is False and not request.user.passport %} 
+    {% if request.user.is_authenticated %} 
             <!-- Up To Agent -->
-            {% include 'partials/up-to-agent.html' %}
-         
+            {% if not request.user.is_staff %}
+                {% if not request.user.passport %}
+                    {% include 'partials/up-to-agent.html' %}
+                {% endif %}
+            {% endif %} 
+
+            <!-- Share announcement -->
+            {% if request.user.parent_agent or request.user.is_superuser %}
+                {% include 'partials/share-announcement-alert.html' %}
+            {% endif %}
+
     {% endif %}
 
     {% if not request.user.is_authenticated %} 

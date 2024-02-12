@@ -1,6 +1,8 @@
+import os 
 from django.db import models
 from City.models import City
 from django.contrib import auth
+from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
@@ -92,20 +94,31 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self) -> str: return self.phone
 
     def save(self, **kwargs):
-        # super().save()
         super(CustomUser, self).save(**kwargs)
         if self.avatar:
-            img = Image.open(self.avatar.path)            
-            # img = img.resize((270, 330), Image.Resampling.LANCZOS) 
-            width = img.width
-            height = img.height
-            left = (width - 270) // 2
-            top = (height - 330) // 2
-            right = (width + 270) // 2
-            bottom = (height + 330) // 2
-            cropped_image = img.crop((left, top, right, bottom))
-            # save_path = os.path.join(settings.MEDIA_ROOT, 'profile', avatar.name) 
-            cropped_image.save(self.avatar.path) 
+            try:
+                img = Image.open(self.avatar.path)
+                width = img.width
+                height = img.height
+                if width > 270: width = (width - (width % 270))
+                if height > 330: height = (height - (height % 330))
+                left = 0
+                top = 0 
+                if width>height: width = height
+                else: height = width
+                right = width
+                bottom = height
+                cropped_image = img.crop((left, top, right, bottom))
+                cropped_image = cropped_image.resize((330, 330), Image.Resampling.LANCZOS)
+                new_image_name = f"{self.phone[1:]}.{img.format.lower()}"
+                new_path = os.path.join(settings.MEDIA_ROOT, 'profile', new_image_name)
+                self.avatar.delete()
+                cropped_image.save(new_path)
+                self.avatar = new_path
+                super(CustomUser, self).save(**kwargs)
+            except: self.avatar.delete()
+            
+            
 
     class Meta:  
         verbose_name = "istifadəçi"
