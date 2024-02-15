@@ -19,6 +19,3 @@ def cast2int(value):
         """
         return value
     except: return 0
-
-
-# register.filter('cast2int', cast2int)

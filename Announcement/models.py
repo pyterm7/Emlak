@@ -14,14 +14,24 @@ class AnnouncementModel(models.Model):
 
     currency = models.CharField(choices = ch, default="MANAT", max_length = 10, verbose_name = "Valyuta")
     price = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(1000000)], verbose_name="Qiymət")
+    the_initial_payment = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(1000000)], verbose_name="İlkin ödəniş")
 
     description = models.TextField(verbose_name="Açıqlama")
 
     room_count = models.SmallIntegerField(verbose_name="Otaq sayı")
     area = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(1000000)], verbose_name="Sahə")
 
-    has_internet = models.BooleanField(default=False, verbose_name="İnterneti var")
-    
+    location = models.CharField(max_length = 255, verbose_name="Ünvan", blank=True, null=True)
+
+    has_internet = models.BooleanField(default=False, verbose_name="İnternet qoşulub")
+    has_gas = models.BooleanField(default=False, verbose_name="Qaz çəkilib")
+    has_electricity = models.BooleanField(default=False, verbose_name="Elektriklı təchiz olunub")
+    has_water = models.BooleanField(default=False, verbose_name="Su çəkilib")
+    has_water_tank = models.BooleanField(default=False, verbose_name="Əlavə su çəni var")
+    has_combi = models.BooleanField(default=False, verbose_name="Kombi var") 
+    renovated = models.BooleanField(default=False, verbose_name="Təmirlidir") 
+    furnished = models.BooleanField(default=False, verbose_name="Əşyalıdır")
+    is_active = models.BooleanField(default=False, verbose_name="Elan aktivdir")
 
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)

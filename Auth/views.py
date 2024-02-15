@@ -1,6 +1,8 @@
 import os 
 import re
 from PIL import Image
+from io import BytesIO
+from random import shuffle
 from City.models import City
 from django.conf import settings
 from Auth.models import CustomUser
@@ -9,7 +11,7 @@ from django.shortcuts import render, redirect
 from validator_collection import validators, checkers
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
-from string import ascii_lowercase, ascii_uppercase, digits, ascii_letters
+from string import ascii_lowercase, ascii_uppercase, digits, ascii_letters  
 
 def SignIn(request):
     if request.user.is_authenticated: return redirect("home-page") 
@@ -193,18 +195,39 @@ def ChangeAvatar(request):
 
     if request.POST and request.FILES:
         if user := CustomUser.objects.filter(id=request.user.id).first():
-            avatar = request.FILES['user_avatar']
-            img = Image.open(avatar)
+            avatar = request.FILES['user_avatar'] 
+            img = Image.open(BytesIO(avatar.read()))
             width = img.width
             height = img.height
             if width < 270 or height < 330:
                 messages.info(request, "Profil şəkli minimum 270x330 ölçüdə olmalıdır.")
                 return redirect("my-account")
-            else: 
-                user.avatar = avatar
-                user.save()
-                messages.success(request, "Profil şəkli güncəlləndi.")
-                return redirect("my-account")
+            else:
+                random_chars = list(ascii_lowercase) 
+                shuffle(random_chars) 
+                random_str = "".join(random_chars) 
+                try: 
+                    if width > 270: width = (width - (width % 270))
+                    if height > 330: height = (height - (height % 330))
+                    left = 0
+                    top = 0 
+                    if width>height: width = height
+                    else: height = width
+                    right = width
+                    bottom = height
+                    cropped_image = img.crop((left, top, right, bottom))
+                    cropped_image = cropped_image.resize((330, 330), Image.Resampling.LANCZOS)
+                    new_image_name = f"{user.phone[1:]}-{random_str[0:4]}.{img.format.lower()}"
+                    new_path = os.path.join(settings.MEDIA_ROOT, 'profile', new_image_name) 
+                    cropped_image.save(new_path)
+                    user.avatar = new_path 
+                    user.save()
+                    messages.success(request, "Profil şəkli güncəlləndi.") 
+                    return redirect("my-account") 
+                except Exception as e:  
+                    messages.info(request, f"Xəta oldu. {e}")  
+                    return redirect("my-account") 
+
         else:
             messages.info(request, "İcazəsiz cəhd.")
             return redirect("home-page")

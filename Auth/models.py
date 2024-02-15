@@ -2,13 +2,11 @@ import os
 from django.db import models
 from City.models import City
 from django.contrib import auth
-from django.conf import settings
+
 from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
-from PIL import Image
-from string import ascii_lowercase
-from random import shuffle
+
 
 class CustomUserManager(BaseUserManager):
     use_in_migrations = True 
@@ -93,37 +91,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "phone"
     REQUIRED_FIELDS = []
 
-    def __str__(self) -> str: return self.phone
-
-    def save(self, **kwargs):
-        super(CustomUser, self).save(**kwargs)
-        if self.avatar:
-            random_chars = list(ascii_lowercase) 
-            shuffle(random_chars) 
-            random_str = "".join(random_chars) 
-            try:
-                img = Image.open(self.avatar.path)
-                width = img.width
-                height = img.height
-                if width > 270: width = (width - (width % 270))
-                if height > 330: height = (height - (height % 330))
-                left = 0
-                top = 0 
-                if width>height: width = height
-                else: height = width
-                right = width
-                bottom = height
-                cropped_image = img.crop((left, top, right, bottom))
-                cropped_image = cropped_image.resize((330, 330), Image.Resampling.LANCZOS)
-                new_image_name = f"{self.phone[1:]}-{random_str[0:4]}.{img.format.lower()}"
-                new_path = os.path.join(settings.MEDIA_ROOT, 'profile', new_image_name)
-                # self.avatar.delete()
-                cropped_image.save(new_path)
-                self.avatar = new_path
-                super(CustomUser, self).save(**kwargs)
-            except: pass
-            
-            
+    def __str__(self) -> str: return self.phone 
 
     class Meta:  
         verbose_name = "istifadəçi"
