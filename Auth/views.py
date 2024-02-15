@@ -12,8 +12,7 @@ from django.contrib.auth import login, logout, authenticate
 from string import ascii_lowercase, ascii_uppercase, digits, ascii_letters
 
 def SignIn(request):
-    if request.user.is_authenticated: return redirect("home-page")
-    
+    if request.user.is_authenticated: return redirect("home-page") 
     if request.POST:
         phone = request.POST.get("login_phone")
         password = request.POST.get("login_password")
@@ -106,12 +105,12 @@ def SignUp(request):
      
     return render(request, "sign-up.html" )
  
+@login_required(login_url="sign-in-page", redirect_field_name=None)
 def SignOut(request):
     if request.user.is_authenticated:
         logout(request)
         messages.success(request, "Hesabınızdan çıxış etdiniz.")
-    else: 
-        messages.info(request, "İcazəsiz cəhd.")
+    else: messages.info(request, "İcazəsiz cəhd.")
     return redirect("home-page")
 
 @login_required(login_url="sign-in-page", redirect_field_name=None)
@@ -361,7 +360,17 @@ def AddUser2AgencyTeam(request):
     return redirect("home-page")
 
 
-
+def SeeUser(request):
+    phone = request.GET.get("phone")
+    phone = f"+{phone}"
+    user = CustomUser.objects.filter(phone=phone).first()
+    if user:
+        our_team = CustomUser.objects.filter(parent_agent__id=user.id).all() 
+        data = {"user":user}
+        if our_team.count()>0: data["our_team"] = our_team
+        return render(request, "user.html", context=data) 
+    messages.info(request, "İcazəsiz cəhd.")
+    return redirect("home-page")
 
 
 

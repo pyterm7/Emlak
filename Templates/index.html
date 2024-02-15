@@ -7,11 +7,13 @@
 
     {% if request.user.is_authenticated %} 
             <!-- Up To Agent -->
-            {% if not request.user.is_staff %}
-                {% if not request.user.passport %}
-                    {% include 'partials/up-to-agent.html' %}
-                {% endif %}
-            {% endif %} 
+            {% if not request.user.parent_agent %} 
+                {% if not request.user.is_staff %}
+                    {% if not request.user.passport %}
+                        {% include 'partials/up-to-agent.html' %}
+                    {% endif %}
+                {% endif %} 
+            {% endif %}
 
             <!-- Share announcement -->
             {% if request.user.parent_agent or request.user.is_superuser %}
@@ -19,6 +21,8 @@
             {% endif %}
 
     {% endif %}
+
+    {% include 'partials/last-announcements.html' %}
 
     {% if not request.user.is_authenticated %} 
         <!-- Signup Alert -->

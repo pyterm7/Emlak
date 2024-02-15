@@ -1,6 +1,6 @@
 from django.urls import path 
 
-from Auth.views import SignIn, SignUp, SignOut, MyAccount, SetSocialAccount, ChangeAvatar, EditAccount, GetPassport, AddUser2AgencyTeam
+from Auth.views import SignIn, SignUp, SignOut, MyAccount, SetSocialAccount, ChangeAvatar, EditAccount, GetPassport, AddUser2AgencyTeam, SeeUser
 
 urlpatterns = [
     path('sign-in/', SignIn, name='sign-in-page'),
@@ -12,4 +12,5 @@ urlpatterns = [
     path('edit-account/', EditAccount, name="edit-account"),
     path('level-up/', GetPassport, name="get-passport"),
     path('add-user-2-agency-team/', AddUser2AgencyTeam, name="add-user-2-agency-team"),
+    path('user/', SeeUser, name="see-user"),
 ]

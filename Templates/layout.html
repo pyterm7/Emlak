@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -120,8 +120,10 @@
             const short_description = data['short_description']
             document.getElementById("short-description").innerHTML = `${short_description} <br/> <br/> <a href='{%url "about-page" %}' class='btn btn-outline-light'>Daha çoxu</a>`
             document.getElementById("footer-location").innerHTML = `<i class="fas fa-map-marker-alt"></i> ${location}`
-            document.getElementById("footer-phone-1").innerHTML = phone_1
+            document.getElementById("footer-phone-1").innerHTML = phone_1 
+            document.getElementById("footer-phone-1").setAttribute("href", `tel:${phone_1}`)
             document.getElementById("footer-email-1").innerHTML = data['email_1']
+            document.getElementById("footer-email-1").setAttribute("href", `mailto:${data['email_1']}`)
             if(data['facebook']){
                 const facebook = data['facebook']
                 document.getElementById("header-social-links").innerHTML += `<li><a href="${facebook}" target='_blank'><i class="fab fa-facebook-f"></i></a></li>`
