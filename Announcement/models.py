@@ -1,3 +1,4 @@
+from typing import Iterable
 from django.db import models
 from Auth.models import CustomUser
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -41,3 +42,15 @@ class AnnouncementModel(models.Model):
     
     class Meta:
         verbose_name_plural = "Elanlar"
+
+
+class AnnouncementPics(models.Model):
+    img = models.ImageField(upload_to="AnnouncementPics/", verbose_name="Şəkil")
+    announcement = models.ForeignKey(AnnouncementModel, on_delete=models.CASCADE, verbose_name="Elan")
+
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
+    def __str__(self) -> str: return self.announcement.title 
+
+    class Meta: verbose_name_plural = "Elan şəkilləri"
