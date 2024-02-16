@@ -14,7 +14,7 @@ def Home(request):
     testimonials = Testimonial.objects.filter(show=True)
 
     # Son 3 elan
-    last_3_announcement = AnnouncementModel.objects.all().order_by("-id")[0:3]
+    last_3_announcement = AnnouncementModel.objects.filter(is_active=True).order_by("-id")[0:3]
 
     # CollectData
     if our_services.count() >= 3: data["services"] = our_services 

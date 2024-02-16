@@ -9,6 +9,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from Announcement.models import AnnouncementModel, AnnouncementPics
 
+def Announcements(request):
+    data = {}
+    announcements = AnnouncementModel.objects.filter(is_active = True)
+    data["announcements"] = announcements
+    return render(request, "announcements.html", context=data)
+
+
 def ReturnMessagesAndData(request, data, msg):
     messages.info(request, msg)
     return render(request, "share-announcement.html", context=data)
