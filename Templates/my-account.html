@@ -86,7 +86,7 @@
                                     </ul>
                                 </div>
                                 <div class="text">
-                                    <p>{{my_account.bio}}</p>
+                                    <p>{% if my_account.bio %} {{my_account.bio}} {% else %} Haqqınızda məlumat daxil edilməyib. {% endif %}</p>
                                 </div>
                                 <ul class="info clearfix mr-0">
                                     <li>
@@ -131,40 +131,40 @@
                         </form>
 
                         <br><br><br><br>
-
-                        <div class="faq-content-side">
-                            <div class="sec-title"> 
-                                <h2>Agentlikdə olan istifadəçilər.</h2>
-                                <p>Yeni istifadəçi əlavə edə bilərsiniz. Lakin, silmək və ya redaktə etmək üçün texniki dəstəyə (və ya əlaqə formundan) bildirin.</p>
-                            </div>
-                            {% if our_team %} 
-                            <ul class="accordion-box">
-                                {% for team_member in our_team %} 
-                                    <li class="accordion block  ">
-                                        <div class="acc-btn  ">
-                                            <div class="icon-outer"><i class="fas fa-angle-down"></i></div>
-                                            <h5>{{team_member.name}} {{team_member.surname}}</h5>
-                                        </div>
-                                        <div class="acc-content current" style="display: none;">
-                                            <div class="content-box">
-                                                <ul class="list-style-one clearfix">
-                                                    <li>Telefon : {{team_member.phone}}</li>
-                                                    <li>Ünvan : {{team_member.location}}</li>
-                                                    <li>Qeydiyyat tarixi: {{team_member.created_at|date:"d M, Y"}}</li>
-                                                    {% if team_member.last_login %}
-                                                        {% language 'az' %}
-                                                            <li>Son giriş tarixi: {{team_member.last_login|date:"d M, Y - H:i:s"}}</li>
-                                                        {% endlanguage %}
-                                                    {% endif %}
-                                                </ul>
+                        {% if my_account.is_staff %}
+                            <div class="faq-content-side">
+                                <div class="sec-title"> 
+                                    <h2>Agentlikdə olan istifadəçilər.</h2>
+                                    <p>Yeni istifadəçi əlavə edə bilərsiniz. Lakin, silmək və ya redaktə etmək üçün texniki dəstəyə (və ya əlaqə formundan) bildirin.</p>
+                                </div>
+                                {% if our_team %} 
+                                <ul class="accordion-box">
+                                    {% for team_member in our_team %} 
+                                        <li class="accordion block  ">
+                                            <div class="acc-btn  ">
+                                                <div class="icon-outer"><i class="fas fa-angle-down"></i></div>
+                                                <h5>{{team_member.name}} {{team_member.surname}}</h5>
                                             </div>
-                                        </div>
-                                    </li> 
-                                {% endfor %}
-                            </ul>
-                            {% endif %}
-                        </div>
-
+                                            <div class="acc-content current" style="display: none;">
+                                                <div class="content-box">
+                                                    <ul class="list-style-one clearfix">
+                                                        <li>Telefon : {{team_member.phone}}</li>
+                                                        <li>Ünvan : {{team_member.location}}</li>
+                                                        <li>Qeydiyyat tarixi: {{team_member.created_at|date:"d M, Y"}}</li>
+                                                        {% if team_member.last_login %}
+                                                            {% language 'az' %}
+                                                                <li>Son giriş tarixi: {{team_member.last_login|date:"d M, Y - H:i:s"}}</li>
+                                                            {% endlanguage %}
+                                                        {% endif %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li> 
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                         <div class="default-sidebar agent-sidebar">
@@ -203,47 +203,49 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="agents-contact sidebar-widget">
-                                <div class="widget-title">
-                                    <h5>Agentlik üçün yeni istifadəçi əlavə et</h5>
-                                </div>
-                                <div class="form-inner">
-                                    <form action="{% url 'add-user-2-agency-team' %}" method="post" class="default-form">
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                            <input type="text" name="agent_user_name" autocomplete="off" placeholder="Ad">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" name="agent_user_surname" autocomplete="off" placeholder="Soyad">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" name="agent_user_phone" autocomplete="off" placeholder="Telefon">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" name="agent_user_password" autocomplete="off" placeholder="Şifrə">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" name="agent_user_repassword" autocomplete="off" placeholder="Təkrar şifrə">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="field-input mb-3"> 
-                                                <div class="select-box">
-                                                    <select class="wide" style="display: none;" name="agent_user_location">
-                                                        <option data-display="Ünvan seçin">Yaşadığı ünvan</option>
-                                                        {% for city in cities %}
-                                                            <option value="{{city.id}}">{{city.name}}</option> 
-                                                        {% endfor %}
-                                                    </select> 
+                            {% if my_account.is_staff %}
+                                <div class="agents-contact sidebar-widget">
+                                    <div class="widget-title">
+                                        <h5>Agentlik üçün yeni istifadəçi əlavə et</h5>
+                                    </div>
+                                    <div class="form-inner">
+                                        <form action="{% url 'add-user-2-agency-team' %}" method="post" class="default-form">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <input type="text" name="agent_user_name" autocomplete="off" placeholder="Ad">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" name="agent_user_surname" autocomplete="off" placeholder="Soyad">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" name="agent_user_phone" autocomplete="off" placeholder="Telefon">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" name="agent_user_password" autocomplete="off" placeholder="Şifrə">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" name="agent_user_repassword" autocomplete="off" placeholder="Təkrar şifrə">
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="field-input mb-3"> 
+                                                    <div class="select-box">
+                                                        <select class="wide" style="display: none;" name="agent_user_location">
+                                                            <option data-display="Ünvan seçin">Yaşadığı ünvan</option>
+                                                            {% for city in cities %}
+                                                                <option value="{{city.id}}">{{city.name}}</option> 
+                                                            {% endfor %}
+                                                        </select> 
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <br><br><br> 
-                                        <div class="form-group">
-                                            <button type="submit" class="theme-btn btn-one">Əlavə et</button>
-                                        </div>
-                                    </form>
+                                            <br><br><br> 
+                                            <div class="form-group">
+                                                <button type="submit" class="theme-btn btn-one">Əlavə et</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
                             <div class="category-widget sidebar-widget">
                                 <div class="widget-title">
                                     <h5>Sayt Aktivliyi</h5>

@@ -30,18 +30,17 @@
                     <div class="property-content-side">
                         <div class="item-shorting clearfix">
                             <div class="left-column pull-left">
+                                <h5>Saytdakı aktiv elan sayı : <span> {{ announcements_count }} </span></h5> 
+                            </div>
+                            <div class="right-column pull-right clearfix">
                                 <div class="short-box clearfix">
                                     <div class="select-box">
-                                        <select class="wide" style="display: none;">
-                                            <option>Seçin</option>
-                                            <option value="1">Öncə Yenilər</option>
-                                            <option value="2">Öncə Köhnələr</option> 
+                                        <select class="wide" style="display: none;" onchange="sortAnnouncement(this)" data-url="{{ request.path  }}"> 
+                                            <option value="1" {% if sort == "lifo" %}selected{% endif %}> Öncə Yenilər </option>
+                                            <option value="-1" {% if sort == "fifo" %}selected{% endif %}> Öncə Köhnələr </option> 
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="right-column pull-right clearfix">
-                                
                                 <div class="short-menu clearfix">
                                     <button class="list-view"><i class="icon-35"></i></button>
                                     <button class="grid-view on"><i class="icon-36"></i></button>
@@ -58,7 +57,7 @@
                                                 <div class="batch"><i class="icon-11"></i></div> 
                                             </div>
                                             <div class="lower-content">
-                                                <div class="title-text"><h4><a href="property-details.html">{{announcement.title}}</a></h4></div>
+                                                <div class="title-text"><h4><a href="{% url 'announcement-detail'%}?title={{ announcement.slug }}">{{announcement.title|slice:"0:25"}}...</a></h4></div>
                                                 <div class="price-box clearfix">
                                                     <div class="price-info pull-left">
                                                         <h6>Qiymət</h6>
@@ -75,15 +74,14 @@
                                                         </figure>
                                                     </div>
                                                 </div>
-                                                <p>{{announcement.description|slice:"0:50"}}...</p>
-                                                <ul class="more-details clearfix">
-                                                    <li><i class="icon-14"></i>3 Beds</li>
-                                                    <li><i class="icon-15"></i>2 Baths</li>
-                                                    <li><i class="icon-16"></i>600 Sq Ft</li>
+                                                <p>{{announcement.description|slice:"0:25"}}...</p>
+                                                <ul class="more-details clearfix"> 
+                                                    <li><i class="icon-16"></i>{{announcement.area}} m<sup>2</sup></li>
+                                                    <li><i class="icon-14"></i>{{announcement.room_count}} otaq</li> 
                                                 </ul>
                                                 <div class="other-info-box clearfix">
                                                     <div class="btn-box pull-left">
-                                                        <a href="property-details.html" class="theme-btn btn-two">Ətraflı bax</a>
+                                                        <a href="{% url 'announcement-detail'%}?title={{ announcement.slug }}" class="theme-btn btn-two">Ətraflı bax</a>
                                                     </div>
                                                     <ul class="other-option pull-right clearfix"> 
                                                         <li><a href="property-details.html"><i class="icon-13"></i></a></li>
@@ -111,7 +109,7 @@
                                                                 <h6>{{announcement.author.name}} {{announcement.author.surname}}</h6>
                                                             </div> 
                                                         </div>
-                                                        <div class="title-text"><h4><a href="property-details.html">{{announcement.title}}</a></h4></div>
+                                                        <div class="title-text"><h4><a href="{% url 'announcement-detail'%}?title={{ announcement.slug }}">{{announcement.title|slice:"0:25"}}...</a></h4></div>
                                                         <div class="price-box clearfix">
                                                             <div class="price-info pull-left">
                                                                 <h6>Qiymət</h6>
@@ -125,14 +123,13 @@
                                                                 <li><a href="property-details.html"><i class="icon-13"></i></a></li>
                                                             </ul>
                                                         </div>
-                                                        <p>{{announcement.description|slice:"0:50"}}...</p>
-                                                        <ul class="more-details clearfix">
-                                                            <li><i class="icon-14"></i>3 Beds</li>
-                                                            <li><i class="icon-15"></i>2 Baths</li>
-                                                            <li><i class="icon-16"></i>600 Sq Ft</li>
+                                                        <p>{{announcement.description|slice:"0:25"}}...</p> 
+                                                        <ul class="more-details clearfix"> 
+                                                            <li><i class="icon-16"></i>{{announcement.area}} m<sup>2</sup></li>
+                                                            <li><i class="icon-14"></i>{{announcement.room_count}} otaq</li> 
                                                         </ul>
                                                         <div class="btn-box">
-                                                            <a href="property-details.html" class="theme-btn btn-two">Ətraflı bax</a>
+                                                            <a href="{% url 'announcement-detail'%}?title={{ announcement.slug }}" class="theme-btn btn-two">Ətraflı bax</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -157,3 +154,16 @@
     </section>
 
 {% endblock container %}
+
+{% block scripts %}
+    <script>
+        function sortAnnouncement(e){
+            let data_url = e.getAttribute("data-url")
+            if (e.value == 1){
+                window.location.href = `${data_url}?sort=lifo`
+            }else if(e.value == -1){
+                window.location.href = `${data_url}?sort=fifo` 
+            }
+        }
+    </script>
+{% endblock scripts %}

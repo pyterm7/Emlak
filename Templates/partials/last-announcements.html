@@ -40,7 +40,7 @@
                                             </h6>
                                         </div> 
                                     </div>
-                                    <div class="title-text"><h4><a href="property-details.html">{{announcement.title|slice:"0:50"}}...</a></h4></div>
+                                    <div class="title-text"><h4><a href="{% url 'announcement-detail'%}?title={{ announcement.slug }}">{{announcement.title|slice:"0:25"}}...</a></h4></div>
                                     <div class="price-box clearfix">
                                         <div class="price-info pull-left">
                                             <h6>Qiymət</h6>
@@ -52,15 +52,15 @@
                                             </h4>
                                         </div>
                                         <ul class="other-option pull-right clearfix"> 
-                                            <li><a href="property-details.html"><i class="icon-13"></i></a></li>
+                                            <li><a href="javascript:void(0)"><i class="icon-13"></i></a></li>
                                         </ul>
                                     </div>
-                                    <p>{{announcement.description|slice:"0:50"}}...</p>
+                                    <p>{{announcement.description|slice:"0:25"}}...</p>
                                     <ul class="more-details clearfix"> 
                                         <li><i class="icon-16"></i>{{announcement.area}} m<sup>2</sup></li>
                                         <li><i class="icon-14"></i>{{announcement.room_count}} otaq</li> 
                                     </ul>
-                                    <div class="btn-box"><a href="property-details.html" class="theme-btn btn-two">Ətraflı bax</a></div>
+                                    <div class="btn-box"><a href="{% url 'announcement-detail'%}?title={{ announcement.slug }}" class="theme-btn btn-two">Ətraflı bax</a></div>
                                 </div>
                             </div>
                         </div>

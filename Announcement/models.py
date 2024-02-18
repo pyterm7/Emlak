@@ -1,8 +1,9 @@
 from typing import Iterable
 from django.db import models
 from Auth.models import CustomUser
-from django.core.validators import MinValueValidator, MaxValueValidator
 from Category.models import CategoryModel
+from django.core.validators import MinValueValidator, MaxValueValidator
+from string import ascii_lowercase
 
 class AnnouncementModel(models.Model):
     ch = (("DOLLAR", "DOLLAR"), ("MANAT", "MANAT"))
@@ -23,6 +24,7 @@ class AnnouncementModel(models.Model):
     area = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(1000000)], verbose_name="Sahə")
 
     location = models.CharField(max_length = 255, verbose_name="Ünvan", blank=True, null=True)
+    slug = models.CharField(max_length=255, verbose_name="SLUG", blank=True, null=True)
 
     has_internet = models.BooleanField(default=False, verbose_name="İnternet qoşulub")
     has_gas = models.BooleanField(default=False, verbose_name="Qaz çəkilib")
@@ -36,6 +38,15 @@ class AnnouncementModel(models.Model):
 
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+
+    def save(self, *args, **kwargs) -> None:
+        new_slug = ""
+        self.slug = self.title.lower().replace("ü", "u").replace("ç", "c").replace("ş", "s").replace("ğ","g").replace("ö","o").replace("ı", "i").replace("ə", "e").replace(" ", "-")
+        for letter in self.slug:
+            if letter in f"{ascii_lowercase}-":
+                new_slug += letter 
+        self.slug = new_slug.strip("-")
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.title

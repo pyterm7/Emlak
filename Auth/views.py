@@ -116,8 +116,7 @@ def SignOut(request):
     return redirect("home-page")
 
 @login_required(login_url="sign-in-page", redirect_field_name=None)
-def MyAccount(request):
-    if not request.user.is_staff: return redirect("home-page") 
+def MyAccount(request): 
     data = {}
     if cities := City.objects.all(): data['cities'] = cities
     if my_account := CustomUser.objects.filter(phone=request.user.phone).first(): data["my_account"] = my_account 
@@ -126,7 +125,7 @@ def MyAccount(request):
 
 @login_required(login_url="sign-in-page", redirect_field_name=None)
 def SetSocialAccount(request):
-    if not request.user.is_staff: return redirect("home-page")
+    # if not request.user.is_staff: return redirect("home-page")
     if request.POST:
         account_instagram = request.POST.get("account_instagram", False)
         account_facebook = request.POST.get("account_facebook", False)
@@ -189,9 +188,9 @@ def SetSocialAccount(request):
 
 @login_required(login_url="sign-in-page", redirect_field_name=None)
 def ChangeAvatar(request):
-    if not request.user.is_staff:
-        messages.info(request, "İcazəsiz cəhd.")
-        return redirect("home-page")
+    # if not request.user.is_staff:
+    #     messages.info(request, "İcazəsiz cəhd.")
+    #     return redirect("home-page")
 
     if request.POST and request.FILES:
         if user := CustomUser.objects.filter(id=request.user.id).first():
@@ -237,7 +236,7 @@ def ChangeAvatar(request):
 @login_required(login_url="sign-in-page", redirect_field_name=None)
 def EditAccount(request):
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
-    if not request.user.is_staff: return redirect("home-page") 
+    # if not request.user.is_staff: return redirect("home-page") 
     if user := CustomUser.objects.filter(id=request.user.id).first():
         if request.POST:
             position = request.POST.get("edit_position", user.position)

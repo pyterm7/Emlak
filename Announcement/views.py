@@ -11,10 +11,37 @@ from Announcement.models import AnnouncementModel, AnnouncementPics
 
 def Announcements(request):
     data = {}
-    announcements = AnnouncementModel.objects.filter(is_active = True)
+
+    sort = request.GET.get("sort", False) 
+    if sort == "lifo":
+        sort = "-id"
+        data["sort"] = "lifo"
+    elif sort == "fifo":
+        sort = "id"
+        data["sort"] = "fifo"
+    else:
+        sort = "-id"
+        data["sort"] = "lifo" 
+        
+    if sort: announcements = AnnouncementModel.objects.filter(is_active = True).order_by(sort)
+    else: announcements = AnnouncementModel.objects.filter(is_active = True).order_by("-id")
+
+    announcements_count = announcements.count()
     data["announcements"] = announcements
+    data["announcements_count"] = announcements_count
+    
     return render(request, "announcements.html", context=data)
 
+def AnnouncementDetail(request):
+    title = request.GET.get("title", False)
+    if title:
+        announcement = AnnouncementModel.objects.filter(slug=title, is_active=True).first()
+        announcement_pics = AnnouncementPics.objects.filter(announcement=announcement)
+        if announcement:
+            data = {"announcement":announcement, "announcement_pics":announcement_pics}
+            return render(request, "announcement-detail.html", context=data)
+    messages.info(request, "Xəta oldu.")
+    return redirect("home-page")
 
 def ReturnMessagesAndData(request, data, msg):
     messages.info(request, msg)

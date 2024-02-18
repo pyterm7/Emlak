@@ -18,12 +18,8 @@
                     <!-- Social links - Header -->
                 </ul>
                 <div class="sign-box">
-                    {% if request.user.is_authenticated %}
-                        {% if request.user.is_staff %}
-                            <a href="{% url 'my-account' %}"><i class="fas fa-user"></i>Hesabım</a>
-                        {% else %}
-                            <a href="{% url 'sign-out-page' %}"><i class="fas fa-user"></i>Çıxış</a>
-                        {% endif %}
+                    {% if request.user.is_authenticated %} 
+                        <a href="{% url 'my-account' %}"><i class="fas fa-user"></i>Hesabım</a> 
                     {% else %}
                         <a href="{% url 'sign-in-page' %}"><i class="fas fa-user"></i>Daxil ol</a>
                     {% endif %}
@@ -62,12 +58,10 @@
                                                         <li>
                                                             <h4>Profil</h4>
                                                         </li>
-                                                        {% if request.user.is_staff %}
-                                                            <li><a href="{% url 'my-account' %}">Hesabım</a></li>
-                                                            <li><a href="{% url 'sign-out-page' %}">Çıxış et</a></li> 
-                                                        {% else %}
-                                                            <li><a href="{% url 'sign-out-page' %}">Çıxış et</a></li> 
-                                                        {% endif %}
+                                                         
+                                                        <li><a href="{% url 'my-account' %}">Hesabım</a></li>
+                                                        <li><a href="{% url 'sign-out-page' %}">Çıxış et</a></li> 
+                                                         
                                                     {% else %}
                                                         <li>
                                                             <h4>Hesab</h4>
