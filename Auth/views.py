@@ -322,7 +322,24 @@ def AddUser2AgencyTeam(request):
         password = request.POST.get("agent_user_password", False)
         repassword = request.POST.get("agent_user_repassword", False)  
 
-        city = City.objects.filter(id=location).first()
+        data = {
+            "name":name,
+            "surname":surname, 
+            "phone":phone, 
+        }
+        
+        try: 
+            location = int(location)
+            city = City.objects.filter(id=location).first()
+            data['city_id'] = city.id
+            if not city: 
+                messages.info(request, f"Ünvan seçimində xəta oldu.")
+                return redirect("my-account")
+        except:  
+            messages.info(request, "Ünvan seçimində xəta oldu.")
+            return redirect("my-account")
+
+       
 
         if password != repassword:
                 messages.info(request, "Şifrələr eyni deyil.")
@@ -337,14 +354,10 @@ def AddUser2AgencyTeam(request):
         has_digit = False
         has_other_char = False
         for char in password:
-            if char in ascii_lowercase:
-                has_lower = True 
-            if char in ascii_uppercase:
-                has_upper = True
-            if char in digits:
-                has_digit = True
-            if char not in f"{ascii_letters}{digits}":
-                has_other_char = True
+            if char in ascii_lowercase: has_lower = True 
+            if char in ascii_uppercase: has_upper = True
+            if char in digits: has_digit = True
+            if char not in f"{ascii_letters}{digits}": has_other_char = True
         if not has_lower:
             messages.info(request, "Şifrədə ən az 1 kiçik hərf olmalıdır.")
             return redirect("my-account")
@@ -356,8 +369,7 @@ def AddUser2AgencyTeam(request):
             return redirect("my-account")
         if has_other_char:
             messages.info(request, f"Şifrədə yalnız bu hərflər {ascii_lowercase} {ascii_uppercase}, və rəqəmlər olmalıdır.")
-            return redirect("my-account")
-
+            return redirect("my-account") 
         if CustomUser.objects.filter(phone=phone).first():
             messages.info(request, f"{phone} ilə qeydiyyat mümkün olmadı.")
             return redirect("my-account")
@@ -365,9 +377,7 @@ def AddUser2AgencyTeam(request):
             messages.info(request, f"Ad və soyad minimum 3 simvoldan ibarət olmalıdır.")
             return redirect("my-account")
         
-        if not city:
-            messages.info(request, f"Ünvan seçimində xəta oldu.")
-            return redirect("my-account")
+        
         
         try:
             new_user = CustomUser(parent_agent = agent, name=name.title(), surname=surname.title(), phone=phone, location=city.name)
@@ -381,7 +391,6 @@ def AddUser2AgencyTeam(request):
 
     messages.info(request, "İcazəsiz cəhd.")
     return redirect("home-page")
-
 
 def SeeUser(request):
     phone = request.GET.get("phone")

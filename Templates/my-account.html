@@ -80,6 +80,13 @@
                                                 Vəzifə daxil edilməyib.
                                             {% endif %}
                                         </span>
+                                        {% if user.is_staff %}
+                                            <div class="custom-radio-box m-0"> 
+                                                <input type="checkbox" disabled  checked >
+                                                <span style="border-radius: 0;"></span>
+                                                <label class="designation">Agentlik təsdiq olunub</label>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                     <ul class="social-list pull-right clearfix">
                                         <li> Çıxış et : <a href="{% url 'sign-out-page' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i></a></li> 
