@@ -5,22 +5,12 @@
 
 {% block container %}  
 
-    {% if request.user.is_authenticated %} 
-            <!-- Up To Agent -->
-            {% if not request.user.parent_agent %} 
-                {% if not request.user.is_staff %}
-                    {% if not request.user.passport %}
-                        {% include 'partials/up-to-agent.html' %}
-                    {% endif %}
-                {% endif %} 
-            {% endif %}
-
+    {% if request.user.is_authenticated %}  
             <!-- Share announcement --> 
-            {% include 'partials/share-announcement-alert.html' %} 
-
+            {% include 'partials/share-announcement-alert.html' %}  
     {% endif %}
 
-    {% include 'partials/last-announcements.html' %}
+    {% include 'partials/last-announcements.html' %} 
 
     {% if not request.user.is_authenticated %} 
         <!-- Signup Alert -->
@@ -29,6 +19,16 @@
      
     <!-- Our services -->
     {% include 'partials/services.html' %} 
+    {% if request.user.is_authenticated %}
+        <!-- Up To Agent -->
+        {% if not request.user.parent_agent %} 
+            {% if not request.user.is_staff %}
+                {% if not request.user.passport %}
+                    {% include 'partials/up-to-agent.html' %}
+                {% endif %}
+            {% endif %} 
+        {% endif %}
+    {% endif %}
 
     <!-- Create Testimonial -->
     {% include 'partials/create-testimonial.html' %}

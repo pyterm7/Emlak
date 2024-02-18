@@ -27,13 +27,9 @@
                                 {% if not request.user.is_authenticated %}
                                     <li><a href="{% url 'sign-in-page' %}">Daxil ol</a></li> 
                                     <li><a href="{% url 'sign-up-page' %}">Qeydiyyat</a></li>
-                                {% else %}
-                                    {% if request.user.is_staff %}
-                                        <li><a href="{% url 'my-account' %}">Hesabım</a></li>
-                                        <li><a href="{% url 'sign-out-page' %}">Çıxış et</a></li>
-                                    {% else %}
-                                        <li><a href="{% url 'sign-out-page' %}">Çıxış et</a></li>
-                                    {% endif %}
+                                {% else %} 
+                                    <li><a href="{% url 'my-account' %}">Hesabım</a></li>
+                                    <li><a href="{% url 'sign-out-page' %}">Çıxış et</a></li> 
                                 {% endif %}
                             </ul>
                         </div>

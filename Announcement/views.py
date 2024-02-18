@@ -55,7 +55,8 @@ def ShareAnnouncement(request):
     ch_list = []
     for ch in ch_tuple: ch_list.append({f"key":ch[1]}) 
     user = CustomUser.objects.filter(id=request.user.id).first()
-    if user.parent_agent or user.is_staff: 
+    # if user.parent_agent or user.is_staff: 
+    if request.user.is_authenticated: 
         data = {}
         data['ch_tuple'] = ch_list
         data['categories'] = categories
@@ -212,7 +213,8 @@ def ShareAnnouncement(request):
                     new_path = os.path.join(settings.MEDIA_ROOT, 'AnnouncementPics', new_image_name)
                     img.save(new_path) 
                     new_img_for_announcement = AnnouncementPics(announcement=new_announcement)
-                    new_img_for_announcement.img = new_path
+                    # new_img_for_announcement.img = new_path
+                    new_img_for_announcement.img = os.path.join("AnnouncementPics",new_image_name)
                     new_img_for_announcement.save()
 
                 messages.success(request, "Elan uğurla paylaşıldı.")

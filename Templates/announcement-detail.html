@@ -16,16 +16,7 @@
                         <div class="author-info clearfix">
                             <div class="author-box pull-left">
                                 {% if announcement.author.parent_agent %}
-                                    <figure class="author-thumb">
-                                        {% if announcement.author.parent_agent.avatar %}
-                                            <img src="{{announcement.author.parent_agent.avatar.url}}" alt="{{announcement.author.parent_agent.name}} {{announcement.author.parent_agent.surname}}" style="aspect-ratio: 1;">
-                                        {% endif %}
-                                    </figure>
-                                    <h6>
-                                        <a href="{% url 'see-user' %}?phone={{announcement.author.parent_agent.phone|slugify}}">
-                                            {{announcement.author.parent_agent.name}} {{announcement.author.parent_agent.surname}}
-                                        </a> 
-                                    </h6>
+                                    
                                 {% else %}
                                     <figure class="author-thumb">
                                         {% if announcement.author.avatar %}
@@ -36,14 +27,7 @@
                                         {{announcement.author.name}} {{announcement.author.surname}}
                                     </h6>
                                 {% endif %}
-                            </div>
-                            <!-- <ul class="rating clearfix pull-left">
-                                <li><i class="icon-39"></i></li>
-                                <li><i class="icon-39"></i></li>
-                                <li><i class="icon-39"></i></li>
-                                <li><i class="icon-39"></i></li>
-                                <li><i class="icon-40"></i></li>
-                            </ul> -->
+                            </div> 
                         </div>
                     </div>
                     <div class="right-column pull-right clearfix">
@@ -101,7 +85,7 @@
                                     {% if announcement.has_gas %} <li>Qaz çəkilib</li> {% endif %} 
                                     {% if announcement.has_water %} <li>Su çəkilib</li> {% endif %} 
                                     {% if announcement.has_water_tank %} <li>Əlavə su çəni var</li> {% endif %} 
-                                    {% if announcement.has_electricity %} <li>Elektriklə təchiz olunub</li> {% endif %} 
+                                    {% if announcement.has_electricity %} <li>Elektrik çəkilib</li> {% endif %} 
                                     {% if announcement.furnished %} <li>Əşyalıdır</li> {% endif %} 
                                     {% if announcement.renovated %} <li>Təmirlidir</li> {% endif %} 
                                     {% if announcement.has_combi %} <li>Kombi var</li> {% endif %} 
@@ -134,7 +118,11 @@
                                 {% else %}
                                     <div class="author-box">
                                         <figure class="author-thumb">
-                                            <img src="{{ announcement.author.avatar.url }}" alt="{{announcement.author.name}} {{announcement.author.surname}}" style="aspect-ratio: 1;">
+                                            {% if announcement.author.avatar %}
+                                                <img src="{{ announcement.author.avatar.url }}" alt="{{announcement.author.name}} {{announcement.author.surname}}" style="aspect-ratio: 1;">
+                                            {% else %}
+                                                <img src="{% static 'images/empty-profile270x330.png' %}" alt="{{announcement.author.name}} {{announcement.author.surname}}" style="aspect-ratio: 1;">
+                                            {% endif %}
                                         </figure>
                                         <div class="inner">
                                             <h4>{{announcement.author.name}} {{announcement.author.surname}}</h4>
@@ -154,13 +142,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- 
-                    <div class="similar-content">
-                        <div class="title">
-                            <h4>Bənzər elanlar</h4>
-                        </div> 
-                    </div> 
-                -->
+                 
             </div>
         </section>
     {% endif %}

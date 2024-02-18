@@ -23,7 +23,7 @@ class NewsModel(models.Model):
         new_slug = ""
         self.slug = self.title.lower().replace("ü", "u").replace("ç", "c").replace("ş", "s").replace("ğ","g").replace("ö","o").replace("ı", "i").replace("ə", "e").replace(" ", "-")
         for letter in self.slug:
-            if letter in f"{ascii_lowercase}-":
+            if letter in f"{ascii_lowercase}0123456789-":
                 new_slug += letter 
         self.slug = new_slug.strip("-")
         super().save(*args, **kwargs)
