@@ -15,10 +15,8 @@
                 {% endif %} 
             {% endif %}
 
-            <!-- Share announcement -->
-            {% if request.user.parent_agent or request.user.is_superuser %}
-                {% include 'partials/share-announcement-alert.html' %}
-            {% endif %}
+            <!-- Share announcement --> 
+            {% include 'partials/share-announcement-alert.html' %} 
 
     {% endif %}
 
