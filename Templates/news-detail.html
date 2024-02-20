@@ -62,7 +62,60 @@
                                     </div>
                                 </div>
                             </div> 
-                        </div>
+                            {% if comments  %} 
+                                <div class="comments-area">
+                                    <div class="group-title">
+                                        <h4>Şərh sayı : {{comments_count}}</h4>
+                                    </div>
+                                    {% for comment in comments %}
+                                    
+                                        <div class="comment-box">
+                                            <div class="comment"> 
+                                                <div class="comment-inner">
+                                                    <figure class="thumb-box">
+                                                        {% if comment.author.avatar %}
+                                                            <img src="{{comment.author.avatar.url}}" alt="{{comment.author.name}} {{comment.author.surname}}">
+                                                        {% else %}
+                                                            <img src="{% static 'images/empty-profile270x330.png' %}" alt="{{comment.author.name}} {{comment.author.surname}}">
+                                                        {% endif %}
+                                                    </figure>
+                                                    <div class="comment-info clearfix mb-0">
+                                                        <h5>{{comment.author.name}} {{comment.author.surname}}</h5>
+                                                        <span>
+                                                            {% language 'az' %}
+                                                                {{comment.created_at|date:"d M, Y - h:i"}}
+                                                            {% endlanguage %}
+                                                        </span>
+                                                    </div>
+                                                    <div class="text">
+                                                        <p>{{comment.comment}}</p> 
+                                                    </div>
+                                                </div>
+                                            </div>  
+                                        </div>
+
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if request.user.is_authenticated %}
+                                <div class="comments-form-area">
+                                    <div class="group-title">
+                                        <h4>Şərh yazın</h4>
+                                    </div>
+                                    <form action="{% url 'add-comment' news_detail.id %}" method="post" class="comment-form default-form">
+                                        {% csrf_token %}
+                                        <div class="row">  
+                                            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                <textarea name="your_comment" placeholder="Şərhiniz"></textarea>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
+                                                <button type="submit" class="theme-btn btn-one">Göndər</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </div> 
                     {% endif %}
                 </div>
                 <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">

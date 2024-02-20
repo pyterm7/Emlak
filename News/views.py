@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from News.models import NewsModel, LikedNews
+from News.models import NewsModel, LikedNews, CommentNews
 from NewsTag.models import NewsTagModel
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
@@ -8,11 +8,15 @@ from django.contrib import messages
 
 def NewsDetail(request, news):
     data = {}
-
+ 
     if NewsTagModel.objects.all().count() > 5:
         data['tags'] = NewsTagModel.objects.all()[0:5]
         
     if news_detail := NewsModel.objects.filter(slug=news).first():
+        comments = CommentNews.objects.filter(news=news_detail).order_by("-id")
+        data['comments_count'] = comments.count()
+        if comments: data['comments'] = comments
+        
         likes_count = LikedNews.objects.filter(news=news_detail).count()
         if user:=CustomUser.objects.filter(id=request.user.id).first():
             liked_it = LikedNews.objects.filter(news=news_detail, user=user).first()
@@ -45,3 +49,28 @@ def LikeNews(request, id):
             return redirect("news-detail", news=news.slug)
     messages.info(request, "İcazəsiz cəhd.")
     return redirect("home-page")
+
+
+@login_required(login_url="sign-in-page", redirect_field_name=None)
+def CreateNewComment(request, id):
+    if request.POST:
+        comment = request.POST.get("your_comment")
+        news = NewsModel.objects.filter(id=id).first()
+        if news:
+            user = CustomUser.objects.filter(id=request.user.id).first()
+            if user:
+                comment = comment.strip()
+                if len(comment) < 3:
+                    messages.info(request, "Şərh minimum 3 simvoldan ibarət olmalıdır.")
+                    return redirect("news-detail", news=news.slug)
+                CommentNews.objects.create(news=news, author=user, comment=comment)
+                messages.success(request, "Şərhiniz qeydə alındı.")
+                return redirect("news-detail", news=news.slug)
+    messages.info(request, "İcazəsiz cəhd.")
+    return redirect("home-page")
+
+
+
+
+
+

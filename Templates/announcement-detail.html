@@ -14,19 +14,17 @@
                     <div class="left-column pull-left clearfix">
                         <h3>{{announcement.title}}</h3>
                         <div class="author-info clearfix">
-                            <div class="author-box pull-left">
-                                {% if announcement.author.parent_agent %}
-                                    
-                                {% else %}
-                                    <figure class="author-thumb">
-                                        {% if announcement.author.avatar %}
-                                            <img src="{{announcement.author.avatar.url}}" alt="{{announcement.author.name}} {{announcement.author.surname}}" style="aspect-ratio: 1;">
-                                        {% endif %}
-                                    </figure>
-                                    <h6>
-                                        {{announcement.author.name}} {{announcement.author.surname}}
-                                    </h6>
-                                {% endif %}
+                            <div class="author-box pull-left"> 
+                                <figure class="author-thumb">
+                                    {% if announcement.author.avatar %}
+                                        <img src="{{announcement.author.avatar.url}}" alt="{{announcement.author.name}} {{announcement.author.surname}}" style="aspect-ratio: 1;">
+                                    {% else %}
+                                    <img src="{% static 'images/empty-profile270x330.png' %}" alt="{{announcement.author.name}} {{announcement.author.surname}}" style="aspect-ratio: 1;">
+                                    {% endif %}
+                                </figure>
+                                <h6>
+                                    {{announcement.author.name}} {{announcement.author.surname}}
+                                </h6> 
                             </div> 
                         </div>
                     </div>
@@ -95,54 +93,32 @@
                     </div>
                     <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                         <div class="property-sidebar default-sidebar">
-                            <div class="author-widget sidebar-widget">
-                                {% if announcement.author.parent_agent %}
-                                    <div class="author-box">
-                                        <figure class="author-thumb">
-                                            <img src="assets/images/resource/author-1.jpg" alt="">
-                                        </figure>
-                                        <div class="inner">
-                                            <h4>{{announcement.author.parent_agent.name}} {{announcement.author.parent_agent.surname}}</h4>
-                                            <ul class="info clearfix">
-                                                <li><i class="fas fa-map-marker-alt"></i>84 St. John Wood High Street, 
-                                                St Johns Wood</li>
-                                                <li><i class="fas fa-phone"></i><a href="tel:03030571965">030 3057 1965</a></li>
-                                            </ul>
-                                            <div class="btn-box">
-                                                <a href="{% url 'see-user' %}?phone={{announcement.author.parent_agent.phone|slugify}}">
-                                                    Hesaba bax
-                                                </a> 
-                                            </div>
+                            <div class="author-widget sidebar-widget"> 
+                                <div class="author-box">
+                                    <figure class="author-thumb">
+                                        {% if announcement.author.avatar %}
+                                            <img src="{{ announcement.author.avatar.url }}" alt="{{announcement.author.name}} {{announcement.author.surname}}" style="aspect-ratio: 1;">
+                                        {% else %}
+                                            <img src="{% static 'images/empty-profile270x330.png' %}" alt="{{announcement.author.name}} {{announcement.author.surname}}" style="aspect-ratio: 1;">
+                                        {% endif %}
+                                    </figure>
+                                    <div class="inner">
+                                        <h4>{{announcement.author.name}} {{announcement.author.surname}}</h4>
+                                        <ul class="info clearfix">
+                                            <li><i class="fas fa-map-marker-alt"></i> {{announcement.author.location}} </li>
+                                            <li><i class="fas fa-phone"></i><a href="tel:{{announcement.author.phone}}">{{announcement.author.phone}}</a></li>
+                                        </ul>
+                                        <div class="btn-box">
+                                            <a href="{% url 'see-user' %}?phone={{announcement.author.phone|slugify}}">
+                                                Hesaba bax
+                                            </a> 
                                         </div>
-                                    </div> 
-                                {% else %}
-                                    <div class="author-box">
-                                        <figure class="author-thumb">
-                                            {% if announcement.author.avatar %}
-                                                <img src="{{ announcement.author.avatar.url }}" alt="{{announcement.author.name}} {{announcement.author.surname}}" style="aspect-ratio: 1;">
-                                            {% else %}
-                                                <img src="{% static 'images/empty-profile270x330.png' %}" alt="{{announcement.author.name}} {{announcement.author.surname}}" style="aspect-ratio: 1;">
-                                            {% endif %}
-                                        </figure>
-                                        <div class="inner">
-                                            <h4>{{announcement.author.name}} {{announcement.author.surname}}</h4>
-                                            <ul class="info clearfix">
-                                                <li><i class="fas fa-map-marker-alt"></i> {{announcement.author.location}} </li>
-                                                <li><i class="fas fa-phone"></i><a href="tel:{{announcement.author.phone}}">{{announcement.author.phone}}</a></li>
-                                            </ul>
-                                            <div class="btn-box">
-                                                <a href="{% url 'see-user' %}?phone={{announcement.author.phone|slugify}}">
-                                                    Hesaba bax
-                                                </a> 
-                                            </div>
-                                        </div>
-                                    </div> 
-                                {% endif %}
+                                    </div>
+                                </div>  
                             </div> 
                         </div>
                     </div>
-                </div>
-                 
+                </div> 
             </div>
         </section>
     {% endif %}

@@ -57,6 +57,26 @@ class LikedNews(models.Model):
         verbose_name_plural = "Bəyənilmiş xəbərlər"
 
 
+class CommentNews(models.Model):
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Müəllif")
+    news = models.ForeignKey(NewsModel, on_delete=models.CASCADE, verbose_name="Xəbər")
+
+    comment = models.CharField(max_length = 255, verbose_name = "Şərh")
+
+
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
+    def __str__(self) -> str:
+        if len(self.comment) > 30: return self.comment[0:30] + "..."
+        return self.comment
+    
+    class Meta: verbose_name_plural = "Şərhlər"
+
+
+
+
+
 
 
 
