@@ -1,8 +1,7 @@
 from django.urls import path 
-from Announcement.views import ShareAnnouncement, Announcements, AnnouncementDetail
+from Announcement.views import ShareAnnouncement, AnnouncementDetail
 
 urlpatterns = [
-    path('share/', ShareAnnouncement, name="share-announcement"),
-    path('list/', Announcements, name="announcement-list"),
+    path('share/', ShareAnnouncement, name="share-announcement"), 
     path('detail/', AnnouncementDetail, name="announcement-detail"),
 ]

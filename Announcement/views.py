@@ -9,28 +9,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from Announcement.models import AnnouncementModel, AnnouncementPics
 
-def Announcements(request):
-    data = {}
-
-    sort = request.GET.get("sort", False) 
-    if sort == "lifo":
-        sort = "-id"
-        data["sort"] = "lifo"
-    elif sort == "fifo":
-        sort = "id"
-        data["sort"] = "fifo"
-    else:
-        sort = "-id"
-        data["sort"] = "lifo" 
-        
-    if sort: announcements = AnnouncementModel.objects.filter(is_active = True).order_by(sort)
-    else: announcements = AnnouncementModel.objects.filter(is_active = True).order_by("-id")
-
-    announcements_count = announcements.count()
-    data["announcements"] = announcements
-    data["announcements_count"] = announcements_count
-    
-    return render(request, "announcements.html", context=data)
 
 def AnnouncementDetail(request):
     title = request.GET.get("title", False)

@@ -80,12 +80,12 @@
                 <div class="row clearfix">
                     <div class="col-lg-8 col-md-12 col-sm-12 content-side"> 
                         {% if user.is_staff %}
+                            {% if our_team %} 
                             <div class="faq-content-side">
                                 <div class="sec-title"> 
                                     <h2>Agentlikdə olan istifadəçilər.</h2>
                                     <p>Yeni istifadəçi əlavə edə bilərsiniz. Lakin, silmək və ya redaktə etmək üçün texniki dəstəyə (və ya əlaqə formundan) bildirin.</p>
-                                </div>
-                                {% if our_team %} 
+                                </div> 
                                 <ul class="accordion-box">
                                     {% for team_member in our_team %} 
                                         <li class="accordion block  ">
@@ -110,8 +110,8 @@
                                         </li> 
                                     {% endfor %}
                                 </ul>
-                                {% endif %}
                             </div>
+                            {% endif %}
                         {% endif %}
 
                     </div>

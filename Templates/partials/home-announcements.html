@@ -1,0 +1,119 @@
+{% load static %}
+{% load customfilters %}
+
+{% if announcements %}
+
+    <section class="property-page-section property-grid">
+        <div class="auto-container">
+            <div class="row clearfix">
+                <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
+                    <div class="default-sidebar property-sidebar" > 
+                        <!-- Filters -->
+                        <div class="category-widget sidebar-widget">
+                            <div class="widget-title">
+                                <h5>Status Of Property</h5>
+                            </div>
+                            <ul class="category-list clearfix">
+                                <li><a href="property-details.html">For Rent <span>(200)</span></a></li>
+                                <li><a href="property-details.html">For Sale <span>(700)</span></a></li>
+                            </ul>
+                        </div> 
+                        <br><br><br><br><br>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12 content-side">
+                    <div class="property-content-side">
+                        <div class="item-shorting clearfix">
+                            <div class="left-column pull-left clearfix">
+                                <h5>Saytdakı aktiv elan sayı : <span> {{ announcements_count }} </span></h5> 
+                            </div>
+                            <div class="right-column pull-right p-0">
+                                <div class="short-box clearfix">
+                                    <div class="select-box">
+                                        <select class="wide" style="display: none;" onchange="sortAnnouncement(this)" data-url="{{ request.path  }}"> 
+                                            <option value="1" {% if sort == "lifo" %}selected{% endif %}> Öncə Yenilər </option>
+                                            <option value="-1" {% if sort == "fifo" %}selected{% endif %}> Öncə Köhnələr </option> 
+                                        </select>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="wrapper grid"> 
+                            <div class="deals-grid-content grid-item">
+                                <div class="row clearfix">
+                                    {% for announcement in announcements %} 
+                                        <div class="col-lg-6 col-md-6 col-sm-12 feature-block">
+                                            <div class="feature-block-one wow fadeInUp animated animated" data-wow-delay="00ms" data-wow-duration="1500ms" style="visibility: visible; animation-duration: 1500ms; animation-delay: 0ms; animation-name: fadeInUp;">
+                                                <div class="inner-box">
+                                                    <div class="image-box">
+                                                        <figure class="image">
+                                                            <img src="{{announcement.picture.url}}" alt="{{announcement.title}}" style="width: 100%; height: 170px; object-fit: cover;">
+                                                        </figure>
+                                                        <div class="batch"><i class="icon-11"></i></div>
+                                                        <span class="category">{{announcement.category.name}}</span>
+                                                        
+                                                    </div>
+                                                    <div class="lower-content">
+                                                        <div class="author-info clearfix">
+                                                            <div class="author pull-left">
+                                                                <a href="{% url 'see-user' %}?phone={{announcement.author.phone|slugify}}">
+                                                                    <figure class="author-thumb">
+                                                                        {% if announcement.author.avatar %}
+                                                                            <img src="{{announcement.author.avatar.url}}" alt="{{announcement.author.name}}" style="aspect-ratio: 1;">
+                                                                        {% else %}
+                                                                            <img src="{% static 'images/empty-profile270x330.png' %}" alt="{{announcement.author.name}}" style="aspect-ratio: 1;">
+                                                                        {% endif %}
+                                                                    </figure>
+                                                                </a>
+                                                                <h6>
+                                                                    <a href="{% url 'see-user' %}?phone={{announcement.author.phone|slugify}}">
+                                                                        {{announcement.author.name}} {{announcement.author.surname}}
+                                                                    </a> 
+                                                                </h6>
+                                                            </div> 
+                                                        </div>
+                                                        <div class="title-text"><h4><a href="{% url 'announcement-detail'%}?title={{ announcement.slug }}">{{announcement.title|slice:"0:25"}}...</a></h4></div>
+                                                        <div class="price-box clearfix">
+                                                            <div class="price-info pull-left">
+                                                                <h6>Qiymət</h6>
+                                                                <h4>
+                                                                    {% if announcement.currency == "DOLLAR" %}${% endif %} 
+                                                                    {% if announcement.currency == "MANAT" %}₼{% endif %}
+                                                                    {{ announcement.price|cast2int }}
+                                                                
+                                                                </h4>
+                                                            </div>
+                                                            <ul class="other-option pull-right clearfix"> 
+                                                                <li><a href="javascript:void(0)"><i class="icon-13"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <p>{{announcement.description|slice:"0:25"}}...</p>
+                                                        <ul class="more-details clearfix"> 
+                                                            <li><i class="icon-16"></i>{{announcement.area}} m<sup>2</sup></li>
+                                                            <li><i class="icon-14"></i>{{announcement.room_count}} otaq</li> 
+                                                        </ul>
+                                                        <div class="btn-box"><a href="{% url 'announcement-detail'%}?title={{ announcement.slug }}" class="theme-btn btn-two">Ətraflı bax</a></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    {% endfor %} 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pagination-wrapper">
+                            <ul class="pagination clearfix">
+                                <li><a href="property-grid.html" class="current">1</a></li>
+                                <li><a href="property-grid.html">2</a></li>
+                                <li><a href="property-grid.html">3</a></li>
+                                <li><a href="property-grid.html"><i class="fas fa-angle-right"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endif %}
+

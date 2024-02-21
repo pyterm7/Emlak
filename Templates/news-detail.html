@@ -17,25 +17,18 @@
                                 <div class="inner-box">
                                     {% if news_detail.cover %}
                                         <div class="image-box">
-                                            <figure class="image"><img src="{{news_detail.cover.url}}" alt=""></figure> 
+                                            <figure class="image"><img src="{{news_detail.cover.url}}" alt="{{news_detail.author.name}} {{news_detail.author.surname}}"></figure> 
                                             <a class="category bg-success" href="{% url 'like-news' news_detail.id %}"> 
                                                 {% if liked_it %}
-                                                    <i class="fa-solid fa-heart"></i>
+                                                    <i class="fa-solid fa-heart"></i> &nbsp;&nbsp; {{likes_count}} 
                                                 {% else %}
-                                                    <i class="fa-regular fa-heart"></i> 
+                                                    <i class="fa-regular fa-heart"></i> &nbsp;&nbsp; {{likes_count}} 
                                                 {% endif %}
                                             </a>
                                         </div>
                                     {% endif %}
                                     <div class="lower-content"> 
-                                        <div class="price-box clearfix">
-                                            {% if likes_count > 0 %}
-                                                <div class="price-info pull-left">
-                                                    <h6 class="text-danger">Bəyənmə sayı <i class="fa-solid fa-heart"></i></h6>
-                                                    <h4 class="text-danger">{{likes_count}}</h4>
-                                                </div>
-                                            {% endif %}
-                                            
+                                        <div class="price-box clearfix"> 
                                             <ul class="other-option pull-right clearfix">
                                                 <li><a class="text-success" id="share-news"><i class="icon-12"></i></a></li> 
                                             </ul>
@@ -74,9 +67,9 @@
                                                 <div class="comment-inner">
                                                     <figure class="thumb-box">
                                                         {% if comment.author.avatar %}
-                                                            <img src="{{comment.author.avatar.url}}" alt="{{comment.author.name}} {{comment.author.surname}}">
+                                                            <img src="{{comment.author.avatar.url}}" alt="{{comment.author.name}} {{comment.author.surname}}" style="aspect-ratio: 1; object-fit: cover;">
                                                         {% else %}
-                                                            <img src="{% static 'images/empty-profile270x330.png' %}" alt="{{comment.author.name}} {{comment.author.surname}}">
+                                                            <img src="{% static 'images/empty-profile270x330.png' %}" alt="{{comment.author.name}} {{comment.author.surname}}" style="aspect-ratio: 1; object-fit: cover;">
                                                         {% endif %}
                                                     </figure>
                                                     <div class="comment-info clearfix mb-0">
