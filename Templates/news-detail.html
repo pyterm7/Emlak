@@ -17,7 +17,7 @@
                                 <div class="inner-box">
                                     {% if news_detail.cover %}
                                         <div class="image-box">
-                                            <figure class="image"><img src="{{news_detail.cover.url}}" alt="{{news_detail.author.name}} {{news_detail.author.surname}}"></figure> 
+                                            <figure class="image"><img src="{{news_detail.cover.url}}" alt="{{news_detail.author.name}} {{news_detail.author.surname}}" draggable="false"></figure> 
                                             <a class="category bg-success" href="{% url 'like-news' news_detail.id %}"> 
                                                 {% if liked_it %}
                                                     <i class="fa-solid fa-heart"></i> &nbsp;&nbsp; {{likes_count}} 

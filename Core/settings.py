@@ -15,6 +15,8 @@ SECRET_KEY = 'django-insecure-lxrtcp-k1bly20^d#d@v@a!rb2!&9kce3yia-zhiyk4q3^2tyj
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+if DEBUG: SITE_URL = "http://127.0.0.1:8000"
+else: SITE_URL = "https://shukurovmushvig.pythonanywhere.com"
 
 ALLOWED_HOSTS = ["*"]
 

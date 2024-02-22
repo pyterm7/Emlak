@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from About.models import About   
 from django.http import HttpResponse
 from News.models import NewsModel
+from django.conf import settings
 
 def AboutPage(request):
     data = {}
@@ -13,7 +14,8 @@ def AboutPage(request):
 
 
 def GetAboutData(request): 
-    domain = "http://127.0.0.1:8000" 
+    domain = settings.SITE_URL 
+    
     news = None
     if NewsModel.objects.filter(is_active=True).count() >= 5: news = NewsModel.objects.filter(is_active=True).order_by('-id').all()[0:5]  
 
