@@ -25,7 +25,17 @@ class NewsModel(models.Model):
         for letter in self.slug:
             if letter in f"{ascii_lowercase}0123456789-":
                 new_slug += letter 
-        self.slug = new_slug.strip("-")
+        try:
+            txt = new_slug
+            new_txt = " "
+            for i in range(0, len(txt)): 
+                if new_txt[len(new_txt)-1] == "-" and txt[i] == "-": continue
+                else: new_txt+= txt[i]
+            new_slug = new_txt
+        except: pass
+        
+
+        self.slug = new_slug.strip("-").strip(" ")
         super().save(*args, **kwargs)
 
         img = Image.open(self.cover.path) 

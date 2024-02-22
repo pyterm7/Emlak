@@ -29,11 +29,11 @@
                             </div>
                             <div class="right-column pull-right p-0">
                                 <div class="short-box clearfix">
-                                    <div class="select-box">
-                                        <select class="wide" style="display: none;" onchange="sortAnnouncement(this)" data-url="{{ request.path  }}"> 
+                                    <div class="select-box"> 
+                                        <select class="wide" style="display: none;" onchange="sortAnnouncement(this)" data-url="{{ request.path  }}?page={{aktiv_page}}"> 
                                             <option value="1" {% if sort == "lifo" %}selected{% endif %}> Öncə Yenilər </option>
                                             <option value="-1" {% if sort == "fifo" %}selected{% endif %}> Öncə Köhnələr </option> 
-                                        </select>
+                                        </select> 
                                     </div>
                                 </div> 
                             </div>
@@ -101,12 +101,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="pagination-wrapper">
+                        <div class="pagination-wrapper"> 
                             <ul class="pagination clearfix">
-                                <li><a href="property-grid.html" class="current">1</a></li>
-                                <li><a href="property-grid.html">2</a></li>
-                                <li><a href="property-grid.html">3</a></li>
-                                <li><a href="property-grid.html"><i class="fas fa-angle-right"></i></a></li>
+                                {% for page_num in page_numbers %}
+                                    {% if request.GET.sort %}
+                                        <li><a href="{% url 'home-page' %}?page={{page_num}}&sort={{request.GET.sort}}" class="{% if page_num == aktiv_page %}current{% endif %}">{{page_num}}</a></li>
+                                    {% else %}
+                                        <li><a href="{% url 'home-page' %}?page={{page_num}}&sort=lifo" class="{% if page_num == aktiv_page %}current{% endif %}">{{page_num}}</a></li>
+                                    {% endif %}
+                                {% endfor %}  
                             </ul>
                         </div>
                     </div>

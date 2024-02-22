@@ -1,10 +1,7 @@
-{% extends 'layout.html' %}
-
+{% extends 'layout.html' %} 
 {% load static %}
 
-{% block title %} 
-    Daşınmaz.az | Xəbərlər
-{% endblock title %}
+{% block title %} Daşınmaz.az | Xəbərlər {% endblock title %}
 
 {% block container %}
 <section class="news-section sec-pad">
@@ -44,8 +41,16 @@
                     </div>  
                 {% endfor %}
             {% endif %}
-                </div>
-            <div class="more-btn centred"><a href="property-list.html" class="theme-btn btn-one">Daha çoxuna bax</a></div>
+        </div>
+        {% if page_numbers %} 
+            <div class="pagination-wrapper"> 
+                <ul class="pagination clearfix">
+                    {% for page_num in page_numbers %}
+                        <li><a href="{% url 'all-news' %}?page={{page_num}}" class="{% if page_num == aktiv_page %}current{% endif %}">{{page_num}}</a></li>
+                    {% endfor %}  
+                </ul>
+            </div>    
+        {% endif %}  
     </div>
 </section>
 {% endblock container %}

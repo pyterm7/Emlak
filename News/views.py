@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from Auth.models import CustomUser 
 from django.contrib import messages
+from math import ceil
 
 def NewsDetail(request, news):
     data = {}
@@ -29,9 +30,44 @@ def NewsDetail(request, news):
 
 
 def AllNews(request):
+    data = {}
+    page = request.GET.get("page", 1)
+
     all_news = NewsModel.objects.filter(is_active=True)
     if all_news.count() == 0: return redirect("home-page")
-    return render(request, "news.html", context={"news":all_news})
+    
+    try: page = int(page)
+    except: page = 1
+
+    limit = 9
+    total_news = all_news.count() 
+    total_page = 1
+
+    if total_news != 0: total_page = ceil(total_news / limit)
+
+    if page > total_page: return redirect("all-news")
+    elif page < 1: return redirect("all-news")
+
+    page_start = (page - 1) * limit
+    page_end = page * limit 
+
+    page_numbers = [] 
+    if total_page <= 5: 
+        for page_num in range(1, total_page+1): page_numbers.append(page_num)
+    elif total_page > 5:
+        if page > 2 and page < total_page - 2:
+            for page_num in range(page - 2, page + 3): page_numbers.append(page_num) 
+        elif page > 2 and page > total_page - 3:
+            for page_num in range(total_page - 4, total_page + 1): page_numbers.append(page_num)
+        else: 
+            for page_num in range(1, 6): page_numbers.append(page_num)
+
+    
+    data["news"] = all_news[page_start:page_end] 
+    data["aktiv_page"] = page 
+    data["page_numbers"] = page_numbers
+    
+    return render(request, "news.html", context=data)
 
 
 
