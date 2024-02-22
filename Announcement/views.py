@@ -162,8 +162,7 @@ def ShareAnnouncement(request):
 
             try:
                 new_announcement = AnnouncementModel()
-                new_announcement.author = user 
-                new_announcement.picture = announcement_picture
+                new_announcement.author = user  
                 new_announcement.title = announcement_title
                 new_announcement.room_count = announcement_room_count
                 new_announcement.currency = announcement_currency
@@ -187,13 +186,17 @@ def ShareAnnouncement(request):
                 for img in announcement_pictures: 
                     pics_count = AnnouncementPics.objects.all().count()
                     img = Image.open(BytesIO(img.read()))
-                    new_image_name = f"{user.phone[1:]}-{pics_count}.{img.format.lower()}"
+                    new_image_name = f"{user.phone[1:]}-{pics_count}.webp"
                     new_path = os.path.join(settings.MEDIA_ROOT, 'AnnouncementPics', new_image_name)
-                    img.save(new_path) 
+                    img.save(new_path, quality=20, optimize=True) 
                     new_img_for_announcement = AnnouncementPics(announcement=new_announcement) 
                     new_img_for_announcement.img = os.path.join("AnnouncementPics",new_image_name)
                     new_img_for_announcement.save()
 
+                cover_img = Image.open(BytesIO(announcement_picture.read()))
+                new_image_name = f"{user.phone[1:]}-{new_announcement.id}.webp"
+                new_path = os.path.join(settings.MEDIA_ROOT, 'AnnouncementMainPics', new_image_name)
+                cover_img.save(new_path) 
                 messages.success(request, "Elan uğurla paylaşıldı.")
                 return redirect("home-page")
             except : 
