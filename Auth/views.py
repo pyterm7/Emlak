@@ -216,10 +216,9 @@ def ChangeAvatar(request):
                     bottom = height
                     cropped_image = img.crop((left, top, right, bottom))
                     cropped_image = cropped_image.resize((330, 330), Image.Resampling.LANCZOS)
-                    new_image_name = f"{user.phone[1:]}-{random_str[0:4]}.{img.format.lower()}"
-                    new_path = os.path.join(settings.MEDIA_ROOT, 'profile', new_image_name) 
-                    cropped_image.save(new_path)
-                    # user.avatar = new_path 
+                    new_image_name = f"{user.phone[1:]}-{random_str[0:4]}.webp"
+                    new_path = os.path.join(settings.MEDIA_ROOT, 'Profile', new_image_name) 
+                    cropped_image.save(new_path, quality=20, optimize=True) 
                     user.avatar = os.path.join("profile",new_image_name)
                     user.save()
                     messages.success(request, "Profil şəkli güncəlləndi.") 

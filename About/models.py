@@ -1,4 +1,7 @@
+import os
+from PIL import Image
 from django.db import models
+from django.conf import settings
 from tinymce.models import HTMLField
 
 class About(models.Model):
@@ -7,7 +10,7 @@ class About(models.Model):
     meta_description = models.TextField(verbose_name = "Meta açıqlama")
     meta_keywords = models.TextField(verbose_name = "Meta açar sözlər")
 
-    image = models.ImageField(blank=True, null=True, upload_to="about/", verbose_name="Haqqımızda səhifəsi üçün şəkil")
+    image = models.ImageField(blank=True, null=True, upload_to="About/", verbose_name="Haqqımızda səhifəsi üçün şəkil")
     experience_year = models.SmallIntegerField(verbose_name = "Təcrübə ili")
     title = models.CharField(max_length = 50, verbose_name = "Başlıq")
     subtitle = models.CharField(max_length = 50, verbose_name = "Alt başlıq")
@@ -37,6 +40,16 @@ class About(models.Model):
 
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+
+    def save(self, *args, **kwargs) -> None: 
+        if self.image:
+            img = Image.open(self.image)
+            new_image_name = f"{self.phone}.webp"
+            new_path = os.path.join(settings.MEDIA_ROOT, 'About', new_image_name) 
+            img.save(new_path, quality=20, optimize=True)
+            self.image = new_path
+        super().save(*args, **kwargs)
+
 
     def __str__(self) -> str: return self.title
     class Meta: verbose_name_plural = "Haqqımızda"

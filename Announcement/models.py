@@ -10,8 +10,9 @@ class AnnouncementModel(models.Model):
 
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Elan sahibi")
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name="Kateqoriya")
+    type_of = models.BooleanField(default=False, verbose_name="Elan növu") # Default Satış
 
-    picture = models.ImageField(blank=True, null=True, verbose_name="Əsas şəkil", upload_to='announcement/')
+    picture = models.ImageField(blank=True, null=True, verbose_name="Əsas şəkil", upload_to='AnnouncementMainPics/')
     title = models.CharField(max_length = 225, verbose_name = "Başlıq")
 
     currency = models.CharField(choices = ch, default="MANAT", max_length = 10, verbose_name = "Valyuta")

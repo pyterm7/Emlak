@@ -8,7 +8,7 @@ from string import ascii_lowercase
 
 class NewsModel(models.Model):
     author = models.ForeignKey(CustomUser, verbose_name = "Müəllif", on_delete=models.CASCADE)
-    cover = models.ImageField(blank=True, null=True, verbose_name="Şəkil", upload_to="news-covers/")
+    cover = models.ImageField(blank=True, null=True, verbose_name="Şəkil", upload_to="News-covers/")
     title = models.CharField(max_length = 255, verbose_name = "Başlıq")
     description = HTMLField(verbose_name="Məzmun")
     is_active = models.BooleanField(default = False, verbose_name = "Aktiv")

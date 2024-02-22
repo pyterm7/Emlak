@@ -190,8 +190,7 @@ def ShareAnnouncement(request):
                     new_image_name = f"{user.phone[1:]}-{pics_count}.{img.format.lower()}"
                     new_path = os.path.join(settings.MEDIA_ROOT, 'AnnouncementPics', new_image_name)
                     img.save(new_path) 
-                    new_img_for_announcement = AnnouncementPics(announcement=new_announcement)
-                    # new_img_for_announcement.img = new_path
+                    new_img_for_announcement = AnnouncementPics(announcement=new_announcement) 
                     new_img_for_announcement.img = os.path.join("AnnouncementPics",new_image_name)
                     new_img_for_announcement.save()
 
