@@ -7,12 +7,13 @@ from string import ascii_lowercase
 
 class AnnouncementModel(models.Model):
     ch = (("DOLLAR", "DOLLAR"), ("MANAT", "MANAT"))
+    
+    picture = models.ImageField(blank=True, null=True, verbose_name="Əsas şəkil", upload_to='AnnouncementMainPics/')
 
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Elan sahibi")
-    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name="Kateqoriya")
     type_of = models.BooleanField(default=False, verbose_name="Elan növu") # Default Satış
+    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name="Kateqoriya")
 
-    picture = models.ImageField(blank=True, null=True, verbose_name="Əsas şəkil", upload_to='AnnouncementMainPics/')
     title = models.CharField(max_length = 225, verbose_name = "Başlıq")
 
     currency = models.CharField(choices = ch, default="MANAT", max_length = 10, verbose_name = "Valyuta")
@@ -24,7 +25,6 @@ class AnnouncementModel(models.Model):
     room_count = models.SmallIntegerField(verbose_name="Otaq sayı")
     area = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(1000000)], verbose_name="Sahə")
 
-    location = models.CharField(max_length = 255, verbose_name="Ünvan", blank=True, null=True)
     slug = models.CharField(max_length=255, verbose_name="SLUG", blank=True, null=True)
 
     has_internet = models.BooleanField(default=False, verbose_name="İnternet qoşulub")
@@ -33,6 +33,7 @@ class AnnouncementModel(models.Model):
     has_water = models.BooleanField(default=False, verbose_name="Su çəkilib")
     has_water_tank = models.BooleanField(default=False, verbose_name="Əlavə su çəni var")
     has_combi = models.BooleanField(default=False, verbose_name="Kombi var") 
+    has_elevator = models.BooleanField(default=False, verbose_name="Lift var")
     renovated = models.BooleanField(default=False, verbose_name="Təmirlidir") 
     furnished = models.BooleanField(default=False, verbose_name="Əşyalıdır")
     is_active = models.BooleanField(default=False, verbose_name="Elan aktivdir")
