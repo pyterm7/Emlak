@@ -15,254 +15,295 @@
         <div class="sec-title"> 
             <h2>Yeni elan paylaş</h2>
         </div>
-        <form action="" method="POST" enctype="multipart/form-data" class="default-form col-lg-6 col-md-12">
-            {% csrf_token %}
-             
-            <!-- Əsas şəkil -->
-            <div class="file is-success">
-                <label class="file-label">
-                    <input class="file-input" type="file" name="announcement_picture" accept="image/*">
-                    <span class="file-cta">
-                        <span class="file-icon"> <i class="fas fa-upload"></i> </span>
-                        <span class="file-label"> Əsas şəkli seçin </span>
-                    </span>
-                </label>
+        <div class="columns">
+            <div class="col-lg-4 col-md-12 column">
+                <h1 class="title text-danger">Diqqət!</h1>
+                <h2 class="subtitle">Qeydlər</h2>
+                <div class="box col-lg-10"> 
+                    Əsas şəkil maksimum 3MB olmalıdır. <br>
+                    Əsas şəkildən əlavə maksimum 7 şəkil əlavə edə bilərsiniz. <br>
+                    Elanı paylaşmamışdan əvvəl <a href="{% url 'rules-page' %}">Qaydalar və Şərtlərə</a> göz atın. <br>
+                    Şəkillər üçün 770x520 normal ölçülərdir. <br> 
+                </div>
             </div>
-            <br>
+            <form action="" method="POST" enctype="multipart/form-data" class="default-form col-lg-8 col-md-12 column" id="share-announcement-form" style="user-select: none;">
+                {% csrf_token %}
+                
+                <!-- Əsas şəkil -->
+                <div class="file is-success" style="display: flex; align-items: center; gap: 20px; justify-content: flex-start;">
+                    <figure class="image" style="width: 128px; height: 128px;">
+                        <img src="https://bulma.io/images/placeholders/256x256.png" draggable="false" id="main-img" style="object-fit: cover; width: 100%; height: 100%;">
+                    </figure>
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="announcement_picture" accept="image/*" id="set-main-img">
+                        <span class="file-cta">
+                            <span class="file-icon"> <i class="fas fa-upload"></i> </span>
+                            <span class="file-label"> Əsas şəkli seçin </span>
+                        </span>
+                    </label> 
+                </div>
+                <br>
 
-            <!-- Elanın növü -->
-            <div class="field is-success">
-                <label class="label" for="announcement_type_of">Elanın növü</label>
-                <div class="control">
-                    <label class="radio">
-                        <input type="radio" name="announcement_type_of" value="1"> Satış
+                <!-- Elanın növü -->
+                <div class="field is-success">
+                    <label class="label" for="announcement_type_of">Elanın növü</label>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="announcement_type_of" value="1" checked> Satış
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="announcement_type_of" value="2"> Kirayə
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Kateqoriya -->
+                <div class="field">
+                    <label class="label" for="announcement_category">Kateqoriya</label>
+                    <p class="control has-icons-left">
+                        <span class="select is-success">
+                            <select name="announcement_category" id="announcement_category">
+                                {% for category in categories %}
+                                    <option value="{{category.name}}" {% if category.id == announcement_category_int %}selected{% endif %}> {{category.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </span>
+                        <span class="icon is-small is-left"> <i class="fa-solid fa-layer-group"></i> </span>
+                    </p>
+                </div>   
+
+                <!-- Mərtəbə sayı -->
+                <div class="field announcement_floor_count">
+                    <label class="label" for="announcement_floor_count">Mərtəbə sayı</label>
+                    <div class="control">
+                        <input class="input is-success" type="number" placeholder="Mərtəbə sayı" id="announcement_floor_count" name="announcement_floor_count">
+                    </div>
+                </div>
+
+                <!-- Mərtəbə -->
+                <div class="field announcement_floor ">
+                    <label class="label" for="announcement_floor">Mərtəbə</label>
+                    <div class="control">
+                        <input class="input is-success" type="number" placeholder="Mərtəbə" id="announcement_floor" name="announcement_floor">
+                    </div>
+                </div> 
+
+                <!-- Mənzil -->
+                <div class="field announcement_apartment">
+                    <label class="label" for="announcement_apartment">Mənzil nömrəsi</label>
+                    <div class="control">
+                        <input class="input is-success" type="number" placeholder="Mənzil" id="announcement_apartment" name="announcement_apartment">
+                    </div>
+                </div> 
+
+                <!-- Otaq sayı -->
+                <div class="field">
+                    <label class="label" for="announcement_room_count">Otaq sayı</label>
+                    <div class="control">
+                        <input class="input is-success" type="number" placeholder="Otaq sayı" id="announcement_room_count" name="announcement_room_count">
+                    </div>
+                </div> 
+
+                <!-- Valyuta --> 
+                <div class="field">
+                    <label class="label" for="announcement_currency">Valyuta</label>
+                    <p class="control has-icons-left">
+                        <span class="select is-success">
+                            <select name="announcement_currency" id="announcement_currency">
+                                {% for ch in ch_tuple %} 
+                                    <option value="{{ch.key}}">{{ch.key}}</option>
+                                {% endfor %}
+                            </select>
+                        </span>
+                        <span class="icon is-small is-left"> <i class="fa-solid fa-coins"></i> </span>
+                    </p>
+                </div> 
+
+                <!-- Qiymət sayı -->
+                <div class="field">
+                    <label class="label" for="announcement_price">Qiymət</label>
+                    <div class="control">
+                        <input class="input is-success" type="number" placeholder="Qiymət" id="announcement_price" name="announcement_price">
+                    </div>
+                </div> 
+
+                <!-- İlkin ödəniş -->
+                <div class="field announcement_the_initial_payment">
+                    <label class="label" for="announcement_the_initial_payment">İlkin ödəniş</label>
+                    <div class="control">
+                        <input class="input is-success" type="number" placeholder="İlkin ödəniş" id="announcement_the_initial_payment" name="announcement_the_initial_payment">
+                    </div>
+                </div> 
+
+                <!-- Sahə -->
+                <div class="field">
+                    <label class="label" for="announcement_area">Sahə</label>
+                    <div class="control">
+                        <input class="input is-success" type="number" placeholder="Sahə" id="announcement_area" name="announcement_area">
+                    </div>
+                </div>  
+
+                <!-- Açıqlama -->
+                <div class="field">
+                    <label class="label" for="announcement_description">Açıqlama</label>
+                    <div class="control">
+                    <textarea class="textarea" placeholder="Açıqlama" name="announcement_description" id="announcement_description"></textarea>
+                    </div>
+                </div>
+
+                <div class="columns is-mobile is-multiline">
+                    <div class="column is-8">
+                        <!-- İnternet var -->
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox" for="announcement_has_internet">
+                                    <input type="checkbox" name="announcement_has_internet" id="announcement_has_internet"> İnternet var
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-8">
+                        <!-- Qaz çəkilib -->
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox" for="announcement_has_gas">
+                                    <input type="checkbox" name="announcement_has_gas" id="announcement_has_gas"> Qaz çəkilib
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-8">
+                        <!-- Elektriklə təchiz olunub -->
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox" for="announcement_has_electricity">
+                                    <input type="checkbox" name="announcement_has_electricity" id="announcement_has_electricity"> Elektriklə təchiz olunub
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-8">
+                        <!-- Su çəkilib -->
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox" for="announcement_has_water">
+                                    <input type="checkbox" name="announcement_has_water" id="announcement_has_water"> Su çəkilib
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-8">
+                        <!-- Əlavə su çəni var -->
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox" for="announcement_has_water_tank">
+                                    <input type="checkbox" name="announcement_has_water_tank" id="announcement_has_water_tank"> Əlavə su çəni var
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-8">
+                        <!-- Kombi var -->
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox" for="announcement_has_combi">
+                                    <input type="checkbox" name="announcement_has_combi" id="announcement_has_combi"> Kombi var
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-8">
+                        <!-- Əşyalıdır -->
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox" for="announcement_furnished">
+                                    <input type="checkbox" name="announcement_furnished" id="announcement_furnished"> Əşyalıdır
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-8">
+                        <!-- Təmirlidir -->
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox" for="announcement_renovated">
+                                    <input type="checkbox" name="announcement_renovated" id="announcement_renovated"> Təmirlidir
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-8 announcement_elevator">
+                        <!-- Lift var -->
+                        <div class="field">
+                            <div class="control">
+                                <label class="checkbox" for="announcement_elevator">
+                                    <input type="checkbox" name="announcement_elevator" id="announcement_elevator"> Lift var
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                
+
+                <!-- Digər şəkillər -->
+                <div class="file is-success">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="announcement_pictures" accept="image/*" multiple id="announcement_pictures">
+                        <span class="file-cta">
+                            <span class="file-icon"> <i class="fas fa-upload"></i> </span>
+                            <span class="file-label"> Digər şəkilləri seçin </span>
+                        </span>
                     </label>
-                    <label class="radio">
-                        <input type="radio" name="announcement_type_of" value="2"> Kirayə
-                    </label>
                 </div>
-            </div>
 
-            <!-- Kateqoriya -->
-            <div class="field">
-                <label class="label" for="announcement_category">Kateqoriya</label>
-                <p class="control has-icons-left">
-                    <span class="select is-success">
-                        <select name="announcement_category" id="announcement_category">
-                            {% for category in categories %}
-                                <option value="{{category.name}}" {% if category.id == announcement_category_int %}selected{% endif %}> {{category.name}} </option>
-                            {% endfor %}
-                        </select>
-                    </span>
-                    <span class="icon is-small is-left"> <i class="fa-solid fa-layer-group"></i> </span>
-                </p>
-            </div>   
+                <!-- İmages box -->
+                <div class="images-box"></div> 
 
-            <!-- Mərtəbə sayı -->
-            <div class="field announcement_floor_count">
-                <label class="label" for="announcement_floor_count">Mərtəbə sayı</label>
-                <div class="control">
-                    <input class="input is-success" type="number" placeholder="Mərtəbə sayı" id="announcement_floor_count" name="announcement_floor_count">
-                </div>
-            </div>
-
-            <!-- Mərtəbə -->
-            <div class="field announcement_floor ">
-                <label class="label" for="announcement_floor">Mərtəbə</label>
-                <div class="control">
-                    <input class="input is-success" type="number" placeholder="Mərtəbə" id="announcement_floor" name="announcement_floor">
-                </div>
-            </div> 
-
-            <!-- Mənzil -->
-            <div class="field announcement_apartment">
-                <label class="label" for="announcement_apartment">Mənzil nömrəsi</label>
-                <div class="control">
-                    <input class="input is-success" type="number" placeholder="Mənzil" id="announcement_apartment" name="announcement_apartment">
-                </div>
-            </div> 
-
-            <!-- Otaq sayı -->
-            <div class="field">
-                <label class="label" for="announcement_room_count">Otaq sayı</label>
-                <div class="control">
-                    <input class="input is-success" type="number" placeholder="Otaq sayı" id="announcement_room_count" name="announcement_room_count">
-                </div>
-            </div> 
-
-            <!-- Valyuta --> 
-            <div class="field">
-                <label class="label" for="announcement_currency">Valyuta</label>
-                <p class="control has-icons-left">
-                    <span class="select is-success">
-                        <select name="announcement_currency" id="announcement_currency">
-                            {% for ch in ch_tuple %} 
-                                <option value="{{ch.key}}">{{ch.key}}</option>
-                            {% endfor %}
-                        </select>
-                    </span>
-                    <span class="icon is-small is-left"> <i class="fa-solid fa-coins"></i> </span>
-                </p>
-            </div> 
-
-            <!-- Qiymət sayı -->
-            <div class="field">
-                <label class="label" for="announcement_price">Qiymət</label>
-                <div class="control">
-                    <input class="input is-success" type="number" placeholder="Qiymət" id="announcement_price" name="announcement_price">
-                </div>
-            </div> 
-
-            <!-- İlkin ödəniş -->
-            <div class="field announcement_the_initial_payment">
-                <label class="label" for="announcement_the_initial_payment">İlkin ödəniş</label>
-                <div class="control">
-                    <input class="input is-success" type="number" placeholder="İlkin ödəniş" id="announcement_the_initial_payment" name="announcement_the_initial_payment">
-                </div>
-            </div> 
-
-            <!-- Sahə -->
-            <div class="field">
-                <label class="label" for="announcement_area">Sahə</label>
-                <div class="control">
-                    <input class="input is-success" type="number" placeholder="Sahə" id="announcement_area" name="announcement_area">
-                </div>
-            </div>  
-
-            <!-- Açıqlama -->
-            <div class="field">
-                <label class="label" for="announcement_description">Açıqlama</label>
-                <div class="control">
-                  <textarea class="textarea" placeholder="Açıqlama" name="announcement_description" id="announcement_description"></textarea>
-                </div>
-            </div>
-
-            <div class="columns is-mobile is-multiline">
-                <div class="column is-8">
-                    <!-- İnternet var -->
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox" for="announcement_has_internet">
-                                <input type="checkbox" name="announcement_has_internet" id="announcement_has_internet"> İnternet var
-                            </label>
-                        </div>
+                <div class="field">
+                    <div class="control">
+                        <label class="checkbox">
+                        <input type="checkbox">
+                            <a href="{% url 'rules-page' %}" target="_blank">Qaydalar və Şərtləri</a> qəbul edərək elanın paylaşılmasını istəyirəm.
+                        </label>
                     </div>
                 </div>
-                <div class="column is-8">
-                    <!-- Qaz çəkilib -->
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox" for="announcement_has_gas">
-                                <input type="checkbox" name="announcement_has_gas" id="announcement_has_gas"> Qaz çəkilib
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="column is-8">
-                    <!-- Elektriklə təchiz olunub -->
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox" for="announcement_has_electricity">
-                                <input type="checkbox" name="announcement_has_electricity" id="announcement_has_electricity"> Elektriklə təchiz olunub
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="column is-8">
-                    <!-- Su çəkilib -->
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox" for="announcement_has_water">
-                                <input type="checkbox" name="announcement_has_water" id="announcement_has_water"> Su çəkilib
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="column is-8">
-                    <!-- Əlavə su çəni var -->
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox" for="announcement_has_water_tank">
-                                <input type="checkbox" name="announcement_has_water_tank" id="announcement_has_water_tank"> Əlavə su çəni var
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="column is-8">
-                    <!-- Kombi var -->
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox" for="announcement_has_combi">
-                                <input type="checkbox" name="announcement_has_combi" id="announcement_has_combi"> Kombi var
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="column is-8">
-                    <!-- Əşyalıdır -->
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox" for="announcement_furnished">
-                                <input type="checkbox" name="announcement_furnished" id="announcement_furnished"> Əşyalıdır
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="column is-8">
-                    <!-- Təmirlidir -->
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox" for="announcement_renovated">
-                                <input type="checkbox" name="announcement_renovated" id="announcement_renovated"> Təmirlidir
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="column is-8 announcement_elevator">
-                    <!-- Lift var -->
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox" for="announcement_elevator">
-                                <input type="checkbox" name="announcement_elevator" id="announcement_elevator"> Lift var
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-            
 
-            <!-- Digər şəkillər -->
-            <div class="file is-success">
-                <label class="file-label">
-                    <input class="file-input" type="file" name="announcement_pictures" accept="image/*" multiple id="announcement_pictures">
-                    <span class="file-cta">
-                        <span class="file-icon"> <i class="fas fa-upload"></i> </span>
-                        <span class="file-label"> Digər şəkilləri seçin </span>
-                    </span>
-                </label>
-            </div>
-
-            <!-- İmages box -->
-            <div class="images-box"></div> 
-
-            <div class="field">
-                <div class="control">
-                    <label class="checkbox">
-                    <input type="checkbox">
-                        <a href="{% url 'rules-page' %}" target="_blank">Qaydalar və Şərtləri</a> qəbul edərək elanın paylaşılmasını istəyirəm.
-                    </label>
-                </div>
-            </div>
-
-            <!-- Button -->
-            <button class="button is-success" type="submit">Paylaş</button>
-        </form>
+                <!-- Button -->
+                <button class="button is-success" type="submit">Paylaş</button>
+            </form> 
+        </div>
     </section>
 {% endblock container %}
 
 
-{% block scripts %} 
+{% block scripts %}
+
     <script>
+        var changeInput = document.getElementById("set-main-img")
+        var changeInputBox = document.getElementById("main-img")
+
+
+        changeInput.addEventListener("change", async function(e){
+            if(e.target.files[0].size / (1024 * 1024) < 3){
+                await changeMainPic(e.target.files[0]);
+            } else {
+                document.getElementById("share-announcement-form").reset()
+                swal("Məlumat!", "Əsas şəkil maksimum 3MB olmalıdır", "error"); 
+            }
+        })
+
+        async function changeMainPic(img_file) { 
+            return new Promise((resolve, reject) => {
+                var reader = new FileReader(); 
+                reader.onload = function (event) { 
+                    changeInputBox.src = reader.result
+                    resolve();
+                }; 
+                reader.readAsDataURL(img_file);
+            });
+        }
+
+    
         let announcement_type_ofs = document.querySelectorAll("input[name=announcement_type_of]")
         announcement_type_ofs.forEach(announcement_type_of=>{
             announcement_type_of.addEventListener("change", function(e){

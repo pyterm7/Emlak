@@ -18,11 +18,11 @@
                                     {% if news_detail.cover %}
                                         <div class="image-box">
                                             <figure class="image"><img src="{{news_detail.cover.url}}" alt="{{news_detail.author.name}} {{news_detail.author.surname}}" draggable="false"></figure> 
-                                            <a class="category bg-success" href="{% url 'like-news' news_detail.id %}"> 
+                                            <a class="category bg-success news-like" href="{% url 'like-news' news_detail.id %}"> 
                                                 {% if liked_it %}
-                                                    <i class="fa-solid fa-heart"></i> &nbsp;&nbsp; {{likes_count}} 
+                                                    <i class="fa-solid fa-heart"></i> &nbsp;&nbsp; <span>{{likes_count}}</span>
                                                 {% else %}
-                                                    <i class="fa-regular fa-heart"></i> &nbsp;&nbsp; {{likes_count}} 
+                                                    <i class="fa-regular fa-heart"></i> &nbsp;&nbsp; <span>{{likes_count}}</span>
                                                 {% endif %}
                                             </a>
                                         </div>
@@ -48,7 +48,7 @@
                                             <ul class="tags-list clearfix">
                                                 <li><h5>Teqlər:</h5></li>
                                                 {% for tag in news_detail.tags.all %}
-                                                    <li><a href="javascript:void(0)">{{tag}}</a></li>
+                                                    <li><a href="{% url 'all-news' %}?tag={{tag}}">{{tag}}</a></li>
                                                 {% endfor %} 
                                             </ul>
                                         </div>
@@ -135,7 +135,7 @@
                                 <div class="widget-content">
                                     <ul class="tags-list clearfix">
                                         {% for tag in tags %}
-                                            <li><a href="javascript:void(0)">{{tag.name}}</a></li> 
+                                            <li><a href="{% url 'all-news' %}?tag={{tag.name}}">{{tag.name}}</a></li> 
                                         {% endfor %}
                                     </ul>
                                 </div>
@@ -151,7 +151,28 @@
 
 
 {% block scripts %}
-    <script>
+    <script> 
+        let news_like_btns = document.querySelectorAll(".news-like")
+        news_like_btns.forEach(item=>{
+            item.addEventListener("click", function(e){
+                e.preventDefault()
+                like_url = item.getAttribute("href") 
+                $.get(like_url, function(data, status){
+                    if (!data.error){ 
+                        if (data.deleted == true){
+                            item.innerHTML = `<i class="fa-regular fa-heart"></i> &nbsp;&nbsp; <span>${data.count}</span>`
+                        } else if (data.liked == true){
+                            item.innerHTML = `<i class="fa-solid fa-heart"></i> &nbsp;&nbsp; <span>${data.count}</span>`
+                        }
+                    } 
+                    if (data.error){
+                        window.location.href = data.href
+                    }
+                }) 
+            })
+        })
+
+
         let share_news_btn = document.getElementById("share-news")
         share_news_btn.addEventListener("click", async () => {
             try {

@@ -1,17 +1,20 @@
-from django.shortcuts import render, redirect
-from News.models import NewsModel, LikedNews, CommentNews
-from NewsTag.models import NewsTagModel
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout, authenticate
+import json 
+from math import ceil
+from django.conf import settings
 from Auth.models import CustomUser 
 from django.contrib import messages
-from math import ceil
+from django.http import HttpResponse
+from NewsTag.models import NewsTagModel
+from django.shortcuts import render, redirect
+from News.models import NewsModel, LikedNews, CommentNews
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, logout, authenticate
 
 def NewsDetail(request, news):
     data = {}
  
     if NewsTagModel.objects.all().count() > 5:
-        data['tags'] = NewsTagModel.objects.all()[0:5]
+        data['tags'] = NewsTagModel.objects.all()
         
     if news_detail := NewsModel.objects.filter(slug=news).first():
         comments = CommentNews.objects.filter(news=news_detail).order_by("-id")
@@ -33,9 +36,13 @@ def AllNews(request):
     data = {}
     page = request.GET.get("page", 1)
 
-    all_news = NewsModel.objects.filter(is_active=True)
-    if all_news.count() == 0: return redirect("home-page")
+    if filter_tag := request.GET.get("tag", "").strip():
+        tag = NewsTagModel.objects.filter(name=filter_tag).first() 
+        all_news = NewsModel.objects.filter(tags__id = tag.id).order_by("-id")
+    else:
+        all_news = NewsModel.objects.filter(is_active=True).order_by("-id")
     
+    if all_news.count() == 0: return redirect("home-page")
     try: page = int(page)
     except: page = 1
 
@@ -71,20 +78,37 @@ def AllNews(request):
 
 
 
-@login_required(login_url="sign-in-page", redirect_field_name=None)
+# @login_required(login_url="sign-in-page", redirect_field_name=None)
+# def LikeNews(request, id):
+#     user = CustomUser.objects.filter(id=request.user.id).first()
+#     if user:
+#         if news := NewsModel.objects.filter(id=id).first():
+#             if liked_it := LikedNews.objects.filter(user=user, news=news).first():
+#                 liked_it.delete()
+#                 messages.success(request, "Xəbər bəyəndiklərinizin sırasından çıxarıldı.")
+#                 return redirect("news-detail", news=news.slug)
+#             LikedNews.objects.create(user=user, news=news)
+#             messages.success(request, "Bu xəbər bəyəndiklərinizin sırasına əlavə edildi.")
+#             return redirect("news-detail", news=news.slug)
+#     messages.info(request, "İcazəsiz cəhd.")
+#     return redirect("home-page")
+
+
 def LikeNews(request, id):
+    # AJAX
     user = CustomUser.objects.filter(id=request.user.id).first()
     if user:
-        if news := NewsModel.objects.filter(id=id).first():
+        if news := NewsModel.objects.filter(id=id).first(): 
             if liked_it := LikedNews.objects.filter(user=user, news=news).first():
                 liked_it.delete()
-                messages.success(request, "Xəbər bəyəndiklərinizin sırasından çıxarıldı.")
-                return redirect("news-detail", news=news.slug)
-            LikedNews.objects.create(user=user, news=news)
-            messages.success(request, "Bu xəbər bəyəndiklərinizin sırasına əlavə edildi.")
-            return redirect("news-detail", news=news.slug)
-    messages.info(request, "İcazəsiz cəhd.")
-    return redirect("home-page")
+                like_count = LikedNews.objects.filter(news=news).count()
+                return HttpResponse(json.dumps({"count":like_count, "deleted":True, "liked":False}), content_type='application/json') 
+            LikedNews.objects.create(user=user, news=news) 
+            like_count = LikedNews.objects.filter(news=news).count()
+            return HttpResponse(json.dumps({"count":like_count, "deleted":False, "liked":True}), content_type='application/json') 
+    return HttpResponse(json.dumps({"error":True, "href": settings.SITE_URL + "/auth/sign-in/" }), content_type='application/json') 
+
+
 
 
 @login_required(login_url="sign-in-page", redirect_field_name=None)

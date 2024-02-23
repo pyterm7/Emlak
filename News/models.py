@@ -1,10 +1,13 @@
-from collections.abc import Iterable
-from django.db import models
-from tinymce.models import HTMLField
-from Auth.models import CustomUser
+import os
 from PIL import Image
-from NewsTag.models import NewsTagModel
+from django.db import models
 from string import ascii_lowercase
+from Auth.models import CustomUser
+from collections.abc import Iterable
+from tinymce.models import HTMLField
+from NewsTag.models import NewsTagModel
+from django.conf import settings
+
 
 class NewsModel(models.Model):
     author = models.ForeignKey(CustomUser, verbose_name = "Müəllif", on_delete=models.CASCADE)
@@ -23,8 +26,7 @@ class NewsModel(models.Model):
         new_slug = ""
         self.slug = self.title.lower().replace("ü", "u").replace("ç", "c").replace("ş", "s").replace("ğ","g").replace("ö","o").replace("ı", "i").replace("ə", "e").replace(" ", "-")
         for letter in self.slug:
-            if letter in f"{ascii_lowercase}0123456789-":
-                new_slug += letter 
+            if letter in f"{ascii_lowercase}0123456789-": new_slug += letter 
         try:
             txt = new_slug
             new_txt = " "
@@ -36,21 +38,22 @@ class NewsModel(models.Model):
         
 
         self.slug = new_slug.strip("-").strip(" ")
+        
+        if self.cover:
+            img = Image.open(self.cover) 
+            if img.height > 520 or img.width > 770:
+                new_img = (770, 520)
+                img.thumbnail(new_img)
+                new_image_name = f"{self.slug}.webp"
+                new_path = os.path.join(settings.MEDIA_ROOT, 'News-covers', new_image_name) 
+                img.save(new_path, quality=20, optimize=True)
+                self.cover = os.path.join("News-covers", new_image_name)
         super().save(*args, **kwargs)
 
-        img = Image.open(self.cover.path) 
-        if img.height > 520 or img.width > 770:
-            new_img = (770, 520)
-            img.thumbnail(new_img)
-            img.save(self.cover.path)
 
 
-
-    def __str__(self) -> str:
-        return self.title
-    
-    class Meta:
-        verbose_name_plural = "Xəbərlər"
+    def __str__(self) -> str: return self.title 
+    class Meta: verbose_name_plural = "Xəbərlər"
 
 
 class LikedNews(models.Model):
@@ -60,11 +63,9 @@ class LikedNews(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self) -> str:
-        return self.user.phone 
+    def __str__(self) -> str: return self.user.phone 
     
-    class Meta:
-        verbose_name_plural = "Bəyənilmiş xəbərlər"
+    class Meta: verbose_name_plural = "Bəyənilmiş xəbərlər"
 
 
 class CommentNews(models.Model):

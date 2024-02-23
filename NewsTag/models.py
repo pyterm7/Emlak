@@ -1,3 +1,4 @@
+from typing import Iterable
 from django.db import models
 
 class NewsTagModel(models.Model):
@@ -11,3 +12,7 @@ class NewsTagModel(models.Model):
     
     class Meta:
         verbose_name_plural = "Teq adları"
+
+    def save(self, *args, **kwargs) -> None:
+        self.name = self.name.strip().lower()
+        return super().save(*args, **kwargs)
