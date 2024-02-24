@@ -10,6 +10,8 @@ def Home(request):
 
     sort = request.GET.get("sort", False) 
     page = request.GET.get("page", 1)
+    filter_for = request.GET.get("for", False)
+   
 
     try: page = int(page)
     except: page = 1
@@ -38,6 +40,16 @@ def Home(request):
         
     if sort: announcements = AnnouncementModel.objects.filter(is_active = True).order_by(sort)
     else: announcements = AnnouncementModel.objects.filter(is_active = True).order_by("-id")
+
+    data["for_rent"] = announcements.filter(type_of=True).count()
+    data["for_sale"] = announcements.filter(type_of=False).count()
+
+    if filter_for:
+        if filter_for == "sale": announcements = announcements.filter(type_of=False)
+        elif filter_for == "rent": announcements = announcements.filter(type_of=True)
+    
+    data["filter_for"] = filter_for
+    
 
     limit = 6
     total_announcement = announcements.count() 
