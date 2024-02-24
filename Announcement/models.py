@@ -18,7 +18,7 @@ class AnnouncementModel(models.Model):
 
     currency = models.CharField(choices = ch, default="MANAT", max_length = 10, verbose_name = "Valyuta")
     price = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(1000000)], verbose_name="Qiymət")
-    the_initial_payment = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(1000000)], verbose_name="İlkin ödəniş")
+    the_initial_payment = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(1000000)], verbose_name="İlkin ödəniş", blank=True, null=True)
 
     description = models.TextField(verbose_name="Açıqlama")
 
@@ -37,6 +37,10 @@ class AnnouncementModel(models.Model):
     renovated = models.BooleanField(default=False, verbose_name="Təmirlidir") 
     furnished = models.BooleanField(default=False, verbose_name="Əşyalıdır")
     is_active = models.BooleanField(default=False, verbose_name="Elan aktivdir")
+
+    floor = models.IntegerField(verbose_name="Mərtəbə", blank=True, null=True)
+    floor_count = models.IntegerField(verbose_name="Mərtəbə sayı", blank=True, null=True)
+    apartment = models.IntegerField(verbose_name="Mənzil nömrəsi", blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
