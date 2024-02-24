@@ -214,12 +214,6 @@ def ShareAnnouncement(request):
                 if len(announcement_pictures) > 7 or len(announcement_pictures) < 3: return ReturnMessagesAndData(request, data, "Əsas şəkildən əlavə maksimum 7, minimum 3 şəkil daxil edilməlidir.")
                 try: 
                     new_announcement = AnnouncementModel(author=user) 
-                    # Əsas şəkil
-                    new_image_name = f"{user.phone[1:]}-{new_announcement.id}.webp"
-                    new_path = os.path.join(settings.MEDIA_ROOT, 'AnnouncementMainPics', new_image_name)
-                    cover_img.thumbnail((770, 520))
-                    cover_img.save(new_path, quality=20, optimize=True) 
-                    new_announcement.picture = os.path.join("AnnouncementMainPics", new_image_name)
                     # Başlıq
                     if announcement_city.name=="Bakı": new_announcement.title = f"{announcement_city.name}, {announcement_region}, {announcement_room_count}, {announcement_area} kv, {announcement_category.name}"
                     else: new_announcement.title = f"{announcement_city.name}, {announcement_room_count}, {announcement_area} kv, {announcement_category.name}"
@@ -266,6 +260,13 @@ def ShareAnnouncement(request):
                     # Əşyalıdır
                     new_announcement.furnished = announcement_furnished
                     new_announcement.save()
+
+                    # Əsas şəkil
+                    new_image_name = f"{user.phone[1:]}-{new_announcement.id}.webp"
+                    new_path = os.path.join(settings.MEDIA_ROOT, 'AnnouncementMainPics', new_image_name)
+                    cover_img.thumbnail((770, 520))
+                    cover_img.save(new_path, quality=20, optimize=True) 
+                    new_announcement.picture = os.path.join("AnnouncementMainPics", new_image_name)
 
                     for img in announcement_pictures: 
                         pics_count = AnnouncementPics.objects.all().count()
