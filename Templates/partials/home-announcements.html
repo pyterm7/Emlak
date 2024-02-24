@@ -28,13 +28,13 @@
                                 <h5>Saytdakı aktiv elan sayı : <span> {{ announcements_count }} </span></h5> 
                             </div>
                             <div class="right-column pull-right p-0">
-                                <div class="short-box clearfix">
-                                    <div class="select-box"> 
-                                        <select class="wide" style="display: none;" onchange="sortAnnouncement(this)" data-url="{{ request.path  }}?page={{aktiv_page}}"> 
+                                <div class="short-box clearfix"> 
+                                    <div class="select">
+                                        <select onchange="sortAnnouncement(this)" data-url="{{ request.path  }}?page={{aktiv_page}}">
                                             <option value="1" {% if sort == "lifo" %}selected{% endif %}> Öncə Yenilər </option>
                                             <option value="-1" {% if sort == "fifo" %}selected{% endif %}> Öncə Köhnələr </option> 
-                                        </select> 
-                                    </div>
+                                        </select>
+                                      </div>
                                 </div> 
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                                                             </figure> 
                                                         {% endif %}
                                                         <div class="batch"><i class="icon-11"></i></div>
-                                                        <span class="category">{{announcement.category.name}}</span>
+                                                        <span class="category">{% if announcement.type_of %} Kirayə {% else %} Satış {% endif %}</span>
                                                         
                                                     </div>
                                                     <div class="lower-content">

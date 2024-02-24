@@ -235,9 +235,9 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="field-input mb-3"> 
-                                                    <div class="select-box">
-                                                        <select class="wide" style="display: none;" name="agent_user_location">
-                                                            <option data-display="Ünvan seçin">Yaşadığı ünvan</option>
+                                                    <div class="select col-12 p-0 m-0 mt-1">
+                                                        <select name="agent_user_location" class="col-12">
+                                                            <option>Yaşadığı ünvan</option>
                                                             {% for city in cities %}
                                                                 <option value="{{city.id}}">{{city.name}}</option> 
                                                             {% endfor %}

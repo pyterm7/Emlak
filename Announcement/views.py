@@ -46,9 +46,6 @@ def ShareAnnouncement(request):
         # Rayonları göndərdim
         regions = Region.objects.all()
         data['regions'] = regions
-        # # Kendleri gonderdim
-        # villages = Village.objects.all()
-        # data['villages'] = villages
         
         
         if request.POST: 
@@ -215,8 +212,8 @@ def ShareAnnouncement(request):
                 try: 
                     new_announcement = AnnouncementModel(author=user) 
                     # Başlıq
-                    if announcement_city.name=="Bakı": new_announcement.title = f"{announcement_city.name}, {announcement_region}, {announcement_room_count}, {announcement_area} kv, {announcement_category.name}"
-                    else: new_announcement.title = f"{announcement_city.name}, {announcement_room_count}, {announcement_area} kv, {announcement_category.name}"
+                    if announcement_city.name=="Bakı": new_announcement.title = f"{announcement_city.name}, {announcement_region}, {announcement_room_count} otaq, {announcement_area} kv, {announcement_category.name}"
+                    else: new_announcement.title = f"{announcement_city.name}, {announcement_room_count} otaq, {announcement_area} kv, {announcement_category.name}"
                     # Elan növü
                     new_announcement.type_of = announcement_type_of
                     # Kateqoriya
