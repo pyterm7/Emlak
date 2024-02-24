@@ -267,7 +267,7 @@ def ShareAnnouncement(request):
                     cover_img.thumbnail((770, 520))
                     cover_img.save(new_path, quality=20, optimize=True) 
                     new_announcement.picture = os.path.join("AnnouncementMainPics", new_image_name)
-
+                    new_announcement.save()
                     for img in announcement_pictures: 
                         pics_count = AnnouncementPics.objects.all().count()
                         img = Image.open(BytesIO(img.read()))
