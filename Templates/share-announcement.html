@@ -64,23 +64,47 @@
                         </span>
                         <span class="icon is-small is-left"> <i class="fa-solid fa-layer-group"></i> </span>
                     </p>
-                </div> 
-
+                </div>  
                 <!-- Rayonlar -->
-                <div class="field announcement_region" style="display: none;">
+                <div class="field announcement_region" style="display: none;" data-url="{% url 'get-zone-for-region' %}?region=">
                     <label class="label" for="announcement_region">Rayon</label>
                     <p class="control has-icons-left">
                         <span class="select is-success">
                             <select name="announcement_region" id="announcement_region">
                                 {% for region in regions %}
-                                    <option value="{{region.name}}"> {{region.name}} </option>
+                                    <option value="{{region.id}}"> {{region.name}} </option>
                                 {% endfor %}
                             </select>
                         </span>
                         <span class="icon is-small is-left"> <i class="fa-solid fa-layer-group"></i> </span>
                     </p>
-                </div> 
-
+                </div>
+                <!-- Rayon bölgələri -->
+                <div class="field announcement_zone_for_region"  style="display: none;">
+                    <label class="label" for="announcement_zone_for_region">Seçilmiş Rayon Bölgələri</label>
+                    <p class="control has-icons-left">
+                        <span class="select is-success">
+                            <select name="announcement_zone_for_region" id="announcement_zone_for_region">
+                                 
+                            </select>
+                        </span>
+                        <span class="icon is-small is-left"> <i class="fa-solid fa-layer-group"></i> </span>
+                    </p>
+                </div>
+                <!-- Absheron bölgələri -->
+                <div class="field announcement_zone_for_absheron" style="display: none;">
+                    <label class="label" for="announcement_zone_for_absheron">Abşeron bölgələri</label>
+                    <p class="control has-icons-left">
+                        <span class="select is-success">
+                            <select name="announcement_zone_for_absheron" id="announcement_zone_for_absheron">
+                                {% for z in zone_for_absheron %}
+                                    <option value="{{z.name}}"> {{z.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </span>
+                        <span class="icon is-small is-left"> <i class="fa-solid fa-layer-group"></i> </span>
+                    </p>
+                </div>
                 <!-- Elanın növü -->
                 <div class="field is-success">
                     <label class="label" for="announcement_type_of">Elanın növü</label>
@@ -92,8 +116,7 @@
                             <input type="radio" name="announcement_type_of" value="2"> Kirayə
                         </label>
                     </div>
-                </div>
-
+                </div> 
                 <!-- Kateqoriya -->
                 <div class="field">
                     <label class="label" for="announcement_category">Kateqoriya</label>
@@ -108,16 +131,14 @@
                         </span>
                         <span class="icon is-small is-left"> <i class="fa-solid fa-layer-group"></i> </span>
                     </p>
-                </div>   
-
+                </div>
                 <!-- Mərtəbə sayı -->
                 <div class="field announcement_floor_count">
                     <label class="label" for="announcement_floor_count">Mərtəbə sayı</label>
                     <div class="control">
                         <input class="input is-success" type="number" placeholder="Mərtəbə sayı" id="announcement_floor_count" name="announcement_floor_count" value="1">
                     </div>
-                </div>
-
+                </div> 
                 <!-- Mərtəbə -->
                 <div class="field announcement_floor ">
                     <label class="label" for="announcement_floor">Mərtəbə</label>
@@ -125,23 +146,20 @@
                         <input class="input is-success" type="number" placeholder="Mərtəbə" id="announcement_floor" name="announcement_floor">
                     </div>
                 </div> 
-
                 <!-- Mənzil -->
                 <div class="field announcement_apartment">
                     <label class="label" for="announcement_apartment">Mənzil nömrəsi</label>
                     <div class="control">
                         <input class="input is-success" type="number" placeholder="Mənzil" id="announcement_apartment" name="announcement_apartment">
                     </div>
-                </div> 
-
+                </div>  
                 <!-- Otaq sayı -->
                 <div class="field">
                     <label class="label" for="announcement_room_count">Otaq sayı</label>
                     <div class="control">
                         <input class="input is-success" type="number" placeholder="Otaq sayı" id="announcement_room_count" name="announcement_room_count">
                     </div>
-                </div> 
-
+                </div>  
                 <!-- Valyuta --> 
                 <div class="field">
                     <label class="label" for="announcement_currency">Valyuta</label>
@@ -155,40 +173,36 @@
                         </span>
                         <span class="icon is-small is-left"> <i class="fa-solid fa-coins"></i> </span>
                     </p>
-                </div> 
-
+                </div>  
                 <!-- Qiymət -->
                 <div class="field">
                     <label class="label" for="announcement_price">Qiymət</label>
                     <div class="control">
                         <input class="input is-success" type="number" placeholder="Qiymət" id="announcement_price" name="announcement_price">
                     </div>
-                </div> 
-
+                </div>  
                 <!-- İlkin ödəniş -->
                 <div class="field announcement_the_initial_payment">
                     <label class="label" for="announcement_the_initial_payment">İlkin ödəniş</label>
                     <div class="control">
                         <input class="input is-success" type="number" placeholder="İlkin ödəniş" id="announcement_the_initial_payment" name="announcement_the_initial_payment">
                     </div>
-                </div> 
-
+                </div>  
                 <!-- Sahə -->
                 <div class="field">
                     <label class="label" for="announcement_area">Sahə</label>
                     <div class="control">
                         <input class="input is-success" type="number" placeholder="Sahə" id="announcement_area" name="announcement_area">
                     </div>
-                </div>  
-
+                </div>   
                 <!-- Açıqlama -->
                 <div class="field">
                     <label class="label" for="announcement_description">Açıqlama</label>
                     <div class="control">
                     <textarea class="textarea" placeholder="Açıqlama" name="announcement_description" id="announcement_description"></textarea>
                     </div>
-                </div>
-
+                </div> 
+                <!-- Properties -->
                 <div class="columns is-mobile is-multiline">
                     <div class="column is-8">
                         <!-- İnternet var -->
@@ -280,9 +294,7 @@
                             </div>
                         </div>
                     </div>
-                </div> 
-                
-
+                </div>  
                 <!-- Digər şəkillər -->
                 <div class="file is-success">
                     <label class="file-label">
@@ -292,11 +304,10 @@
                             <span class="file-label"> Digər şəkilləri seçin </span>
                         </span>
                     </label>
-                </div>
-
+                </div> 
                 <!-- İmages box -->
                 <div class="images-box"></div> 
-
+                <!-- Agreement -->
                 <div class="field">
                     <div class="control">
                         <label class="checkbox">
@@ -304,8 +315,7 @@
                             <a href="{% url 'rules-page' %}" target="_blank">Qaydalar və Şərtləri</a> qəbul edərək elanın paylaşılmasını istəyirəm.
                         </label>
                     </div>
-                </div>
-
+                </div> 
                 <!-- Button -->
                 <button class="button is-success" type="submit">Paylaş</button>
             </form> 
@@ -411,12 +421,40 @@
         // Şəhərə görə tənzimləmələr
         let announcement_city_select = document.getElementById("announcement_city")
         announcement_city_select.addEventListener("change", function(e){
-            if(announcement_city_select.value == "Bakı"){
+            if( announcement_city_select.value == "Bakı" ){
                 document.querySelector(".announcement_region").style.display = "block"
+                document.querySelector(".announcement_zone_for_absheron").style.display = "none"
+            } else if( announcement_city_select.value == "Abşeron" ) {
+                document.querySelector(".announcement_zone_for_absheron").style.display = "block"
+                document.querySelector(".announcement_region").style.display = "none" 
+                document.querySelector(".announcement_zone_for_region").style.display = "none"
             } else {
+                document.querySelector(".announcement_zone_for_absheron").style.display = "none"
                 document.querySelector(".announcement_region").style.display = "none"
             }
         }) 
+        // Rayonlara görə tənzimləmə
+        let announcement_region = document.querySelector(".announcement_region")
+        announcement_region.addEventListener("change", function(e){
+            document.getElementById("announcement_zone_for_region").innerHTML = ''
+            // Zona ucun selecti ac
+            let announcement_zone_for_region = document.querySelector(".announcement_zone_for_region")
+            announcement_zone_for_region.style.display = "block"
+            // Datani cek
+            let get_url = announcement_region.getAttribute("data-url")
+            let region_name = document.getElementById("announcement_region").value 
+            get_url+=region_name
+            $.get(get_url, function(data, status){
+                if (data['regions'].length == 0){
+                    announcement_zone_for_region.style.display = "none"
+                    document.getElementById("announcement_zone_for_region").innerHTML = '' 
+                } else {
+                    data['regions'].forEach(region => {
+                        document.getElementById("announcement_zone_for_region").innerHTML += `<option value="${region}"> ${region} </option>`
+                    });
+                }
+            });
+        })
         
     </script>
 {% endblock scripts %}

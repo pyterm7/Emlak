@@ -1,9 +1,10 @@
 from typing import Iterable
 from django.db import models
 from Auth.models import CustomUser
-from Category.models import CategoryModel
-from django.core.validators import MinValueValidator, MaxValueValidator
 from string import ascii_lowercase
+from Category.models import CategoryModel
+from City.models import City, Region, ZoneForBaku, ZoneForAbsheron
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class AnnouncementModel(models.Model):
     ch = (("DOLLAR", "DOLLAR"), ("MANAT", "MANAT"))
@@ -15,6 +16,11 @@ class AnnouncementModel(models.Model):
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, verbose_name="Kateqoriya")
 
     title = models.CharField(max_length = 225, verbose_name = "Başlıq")
+
+    city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name="Şəhər", blank=True, null=True)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, verbose_name="Rayon", blank=True, null=True)
+    zone_for_baku = models.ForeignKey(ZoneForBaku, on_delete=models.CASCADE, verbose_name="Bakı->Rayon->Bölgə", blank=True, null=True)
+    zone_for_absheron = models.ForeignKey(ZoneForAbsheron, on_delete=models.CASCADE, verbose_name="Abşeron->Bölgə", blank=True, null=True)
 
     currency = models.CharField(choices = ch, default="MANAT", max_length = 10, verbose_name = "Valyuta")
     price = models.FloatField(validators = [MinValueValidator(0), MaxValueValidator(1000000)], verbose_name="Qiymət")

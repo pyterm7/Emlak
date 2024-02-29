@@ -1,9 +1,9 @@
 from django.contrib import admin
-from City.models import City, Region, Village
+from City.models import City, Region, ZoneForBaku, ZoneForAbsheron
 
-# admin.site.register(City)
 admin.site.register(Region)
-# admin.site.register(Village)
+admin.site.register(ZoneForBaku)
+admin.site.register(ZoneForAbsheron)
 
 @admin.register(City)
 class CityAdminModel(admin.ModelAdmin):
