@@ -162,19 +162,7 @@
 
     
 
-    <script>  
-        
-
-        function sortAnnouncement(e){
-            let data_url = e.getAttribute("data-url")
-            if (e.value == 1){
-                window.location.href = `${data_url}&sort=lifo`
-            }else if(e.value == -1){
-                window.location.href = `${data_url}&sort=fifo` 
-            }
-        }
-
-
+    <script>
 
         document.getElementById("header-social-links").innerHTML = ''
         $.get("{% url 'get-about-data' %}", function(data, status){

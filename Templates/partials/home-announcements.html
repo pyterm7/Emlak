@@ -6,19 +6,180 @@
     <section class="property-page-section property-grid">
         <div class="auto-container">
             <div class="row clearfix">
-                <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
+                <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side" style="user-select: none;">
                     <div class="default-sidebar property-sidebar" > 
                         <!-- Filters --> 
                         <div class="category-widget sidebar-widget">
                             <div class="widget-title">
-                                <h5>Elanları filtirlə</h5>
+                                <h5>Elanları filtirlə</h5> 
                             </div>
-                            <ul class="category-list clearfix">
-                                <li><a href="{% url 'home-page' %}?for=rent"> Kirayə <span>({{for_rent}})</span></a></li>
-                                <li><a href="{% url 'home-page' %}?for=sale"> Satış <span>({{for_sale}})</span></a></li>
-                            </ul>
+                            <hr>
+                            <form action="{% url 'home-page' %}" method="GET">
+                                <div class="field">
+                                    <label class="label">Axtar</label>
+                                    <div class="control">
+                                      <input class="input" name="search_text" type="text" placeholder="Axtar">
+                                    </div>
+                                </div>
+                                <hr>
+                                <h6><b>Sırala</b></h6> 
+                                <br>
+                                <div class="field">
+                                    <div class="select">
+                                        <select name="sort"> 
+                                            <option value="lifo" > Öncə Yenilər </option>
+                                            <option value="fifo" > Öncə Köhnələr </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                                <h6><b>Məzənnə</b></h6> 
+                                <br>
+                                <div class="field">
+                                    <div class="select">
+                                        <select name="currency"> 
+                                            <option value="DOLLAR"> DOLLAR </option>
+                                            <option value="MANAT"> MANAT </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr> 
+                                <div class="field">
+                                    <label class="label">Minimum qiymət</label>
+                                    <div class="control">
+                                      <input class="input" name="min_price" min="1" max="100000" type="number" step="100" placeholder="Minimum qiymət">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="field">
+                                    <label class="label">Maksimum qiymət</label>
+                                    <div class="control">
+                                      <input class="input" name="max_price" min="1" max="1000000" type="number" step="100" placeholder="Maksimum qiymət">
+                                    </div>
+                                </div>
+                                <hr>
+                                <h6><b>Otaq sayı</b></h6> 
+                                <br>
+                                <div class="field">
+                                    <div class="select">
+                                        <select name="room_count"> 
+                                          <option value="1">1</option>
+                                          <option value="2">2</option>
+                                          <option value="3">3</option>
+                                          <option value="4">4</option>
+                                          <option value="5+">5+</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                                <h6><b>Növünə görə</b></h6>
+                                <br>
+                                <div class="field">
+                                    <div class="control">
+                                      <label class="radio">
+                                        <input type="radio" name="for" value="rent"> Kirayə
+                                      </label>
+                                      <label class="radio">
+                                        <input type="radio" name="for" value="sale"> Satış
+                                      </label>
+                                    </div>
+                                </div> 
+                                <hr>
+                                <h6><b>Özəlliklərə görə</b></h6>
+                                <br>
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="renovated" value="True"> Təmirli
+                                        </label> 
+                                    </div>
+                                </div> 
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="furnished" value="True"> Əşyalı
+                                        </label> 
+                                    </div>
+                                </div> 
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="has_internet" value="True"> İnternet var
+                                        </label> 
+                                    </div>
+                                </div> 
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="has_elevator" value="True"> Lift var
+                                        </label>
+                                    </div>
+                                </div> 
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="has_gas" value="True"> Qaz çəkilib
+                                        </label> 
+                                    </div>
+                                </div> 
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="has_electricy" value="True"> Elektriklə təchiz olunub
+                                        </label> 
+                                    </div>
+                                </div> 
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="has_water" value="True"> Su çəkilib
+                                        </label> 
+                                    </div>
+                                </div> 
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="has_water_tank" value="True"> Əlavə su çəni
+                                        </label> 
+                                    </div>
+                                </div> 
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="has_combi" value="True"> Kombi
+                                        </label> 
+                                    </div>
+                                </div> 
+                                {% if a_categories %} 
+                                    <hr>
+                                    <h6><b>Kateqoriya</b></h6>
+                                    <br>
+                                    {% for category in a_categories %}
+                                        <div class="field">
+                                            <div class="control">
+                                                <label class="radio">
+                                                    <input type="radio" name="category" value="{{category.id}}"> {{category.name}}
+                                                </label> 
+                                            </div>
+                                        </div> 
+                                    {% endfor %}
+                                    <div class="field">
+                                        <div class="control">
+                                            <label class="radio">
+                                                <input type="radio" name="category" value="all"> Hamısı
+                                            </label> 
+                                        </div>
+                                    </div> 
+                                {% endif %}
+                                <hr>
+                                <button class="button">
+                                    <span class="icon is-small">
+                                        <i class="fa-solid fa-filter"></i>
+                                    </span>
+                                    <span>Axtar</span>
+                                  </button> 
+                            </form>
                         </div> 
-                        
                         <br><br><br><br><br>
                     </div>
                 </div>
@@ -29,14 +190,7 @@
                                 <h5>Saytdakı aktiv elan sayı : <span> {{ announcements_count }} </span></h5> 
                             </div>
                             <div class="right-column pull-right p-0">
-                                <div class="short-box clearfix"> 
-                                    <div class="select">
-                                        <select onchange="sortAnnouncement(this)" data-url="{{ request.path  }}?page={{aktiv_page}}{% if filter_for == 'sale' %}&for=sale{% elif filter_for == 'rent' %}&for=rent{% endif %}">
-                                            <option value="1" {% if sort == "lifo" %}selected{% endif %}> Öncə Yenilər </option>
-                                            <option value="-1" {% if sort == "fifo" %}selected{% endif %}> Öncə Köhnələr </option> 
-                                        </select>
-                                      </div>
-                                </div> 
+                                <!-- RİGHT -->
                             </div>
                         </div>
                         <div class="wrapper grid"> 
@@ -120,5 +274,9 @@
             </div>
         </div>
     </section>
+
+{% else %}
+
+    {% include 'partials/empty-data.html' %}
 
 {% endif %}

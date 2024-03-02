@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from Services.models import Service 
 from Testimonial.models import Testimonial
 from Announcement.models import AnnouncementModel
+from Category.models import CategoryModel
 
 
 def Home(request):
@@ -11,6 +12,7 @@ def Home(request):
     sort = request.GET.get("sort", False) 
     page = request.GET.get("page", 1)
     filter_for = request.GET.get("for", False)
+    search_text = request.GET.get("search_text", False)
    
 
     try: page = int(page)
@@ -36,20 +38,24 @@ def Home(request):
     if our_services.count() >= 3: data["services"] = our_services 
     if testimonials.count() >= 3: data["testimonials"] = testimonials 
 
-    
-        
+
+    # Sırala
     if sort: announcements = AnnouncementModel.objects.filter(is_active = True).order_by(sort)
     else: announcements = AnnouncementModel.objects.filter(is_active = True).order_by("-id")
 
+    # 
     data["for_rent"] = announcements.filter(type_of=True).count()
     data["for_sale"] = announcements.filter(type_of=False).count()
+    
 
+    # Elan növü
     if filter_for:
         if filter_for == "sale": announcements = announcements.filter(type_of=False)
         elif filter_for == "rent": announcements = announcements.filter(type_of=True)
-    
-    data["filter_for"] = filter_for
-    
+        data["filter_for"] = filter_for
+
+    # Sözlərə görə axtar
+    if search_text: announcements = announcements.filter(title__icontains = search_text.lower())
 
     limit = 6
     total_announcement = announcements.count() 
@@ -81,5 +87,6 @@ def Home(request):
     data["announcements_count"] = total_announcement
     data["aktiv_page"] = page 
     data["page_numbers"] = page_numbers
+    data["a_categories"] = CategoryModel.objects.all()
 
     return render(request, "index.html", context=data)
