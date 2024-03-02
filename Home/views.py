@@ -42,8 +42,9 @@ def Home(request):
     # Sırala
     if sort: announcements = AnnouncementModel.objects.filter(is_active = True).order_by(sort)
     else: announcements = AnnouncementModel.objects.filter(is_active = True).order_by("-id")
+    total_announcement = announcements.count()
 
-    # 
+    # For
     data["for_rent"] = announcements.filter(type_of=True).count()
     data["for_sale"] = announcements.filter(type_of=False).count()
     
@@ -58,7 +59,6 @@ def Home(request):
     if search_text: announcements = announcements.filter(title__icontains = search_text.lower())
 
     limit = 6
-    total_announcement = announcements.count() 
     total_page = 1
 
     if total_announcement != 0:
@@ -88,5 +88,6 @@ def Home(request):
     data["aktiv_page"] = page 
     data["page_numbers"] = page_numbers
     data["a_categories"] = CategoryModel.objects.all()
+    data["total_page"] = total_page
 
     return render(request, "index.html", context=data)

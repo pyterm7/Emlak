@@ -14,11 +14,11 @@
                                 <h5>Elanları filtirlə</h5> 
                             </div>
                             <hr>
-                            <form action="{% url 'home-page' %}" method="GET">
+                            <form action="{% url 'home-page' %}" method="GET"> 
                                 <div class="field">
                                     <label class="label">Axtar</label>
                                     <div class="control">
-                                      <input class="input" name="search_text" type="text" placeholder="Axtar">
+                                        <input class="input" name="search_text" type="text" placeholder="Axtar" value="{% if request.GET.search_text %}{{request.GET.search_text}}{%endif%}">
                                     </div>
                                 </div>
                                 <hr>
@@ -27,8 +27,8 @@
                                 <div class="field">
                                     <div class="select">
                                         <select name="sort"> 
-                                            <option value="lifo" > Öncə Yenilər </option>
-                                            <option value="fifo" > Öncə Köhnələr </option>
+                                            <option value="lifo" {% if request.GET.sort == 'lifo' %}selected{% endif %}> Öncə Yenilər </option>
+                                            <option value="fifo" {% if request.GET.sort == 'fifo' %}selected{% endif %}> Öncə Köhnələr </option>
                                         </select>
                                     </div>
                                 </div>
@@ -38,8 +38,8 @@
                                 <div class="field">
                                     <div class="select">
                                         <select name="currency"> 
-                                            <option value="DOLLAR"> DOLLAR </option>
-                                            <option value="MANAT"> MANAT </option>
+                                            <option value="DOLLAR" {% if request.GET.currency == 'DOLLAR' %}selected{% endif %}> DOLLAR </option>
+                                            <option value="MANAT" {% if request.GET.currency == 'MANAT' %}selected{% endif %}> MANAT </option>
                                         </select>
                                     </div>
                                 </div>
@@ -47,14 +47,14 @@
                                 <div class="field">
                                     <label class="label">Minimum qiymət</label>
                                     <div class="control">
-                                      <input class="input" name="min_price" min="1" max="100000" type="number" step="100" placeholder="Minimum qiymət">
+                                      <input class="input" name="min_price" min="1" max="100000" type="number" step="1" placeholder="Minimum qiymət" value="{%if request.GET.min_price%}{{request.GET.min_price}}{%endif%}">
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="field">
                                     <label class="label">Maksimum qiymət</label>
                                     <div class="control">
-                                      <input class="input" name="max_price" min="1" max="1000000" type="number" step="100" placeholder="Maksimum qiymət">
+                                      <input class="input" name="max_price" min="1" max="1000000" type="number" step="1" placeholder="Maksimum qiymət" value="{%if request.GET.max_price%}{{request.GET.max_price}}{%endif%}">
                                     </div>
                                 </div>
                                 <hr>
@@ -63,11 +63,11 @@
                                 <div class="field">
                                     <div class="select">
                                         <select name="room_count"> 
-                                          <option value="1">1</option>
-                                          <option value="2">2</option>
-                                          <option value="3">3</option>
-                                          <option value="4">4</option>
-                                          <option value="5+">5+</option>
+                                          <option value="1" {% if request.GET.room_count == '1' %}selected{% endif %}>1</option>
+                                          <option value="2" {% if request.GET.room_count == '2' %}selected{% endif %}>2</option>
+                                          <option value="3" {% if request.GET.room_count == '3' %}selected{% endif %}>3</option>
+                                          <option value="4" {% if request.GET.room_count == '4' %}selected{% endif %}>4</option>
+                                          <option value="5+" {% if request.GET.room_count == '5+' %}selected{% endif %}>5+</option>
                                         </select>
                                     </div>
                                 </div>
@@ -77,10 +77,10 @@
                                 <div class="field">
                                     <div class="control">
                                       <label class="radio">
-                                        <input type="radio" name="for" value="rent"> Kirayə
+                                        <input type="radio" name="for" value="rent" {%if request.GET.for == 'rent' %} checked {%endif%}> Kirayə
                                       </label>
                                       <label class="radio">
-                                        <input type="radio" name="for" value="sale"> Satış
+                                        <input type="radio" name="for" value="sale" {%if request.GET.for == 'sale' %} checked {%endif%}> Satış
                                       </label>
                                     </div>
                                 </div> 
@@ -90,63 +90,63 @@
                                 <div class="field">
                                     <div class="control">
                                         <label class="radio">
-                                            <input type="radio" name="renovated" value="True"> Təmirli
+                                            <input type="radio" name="renovated" value="True" {%if request.GET.renovated == 'True' %}checked{%endif%}> Təmirli
                                         </label> 
                                     </div>
                                 </div> 
                                 <div class="field">
                                     <div class="control">
                                         <label class="radio">
-                                            <input type="radio" name="furnished" value="True"> Əşyalı
+                                            <input type="radio" name="furnished" value="True" {%if request.GET.furnished == 'True' %}checked{%endif%}> Əşyalı
                                         </label> 
                                     </div>
                                 </div> 
                                 <div class="field">
                                     <div class="control">
                                         <label class="radio">
-                                            <input type="radio" name="has_internet" value="True"> İnternet var
+                                            <input type="radio" name="has_internet" value="True" {%if request.GET.has_internet == 'True' %}checked{%endif%}> İnternet var
                                         </label> 
                                     </div>
                                 </div> 
                                 <div class="field">
                                     <div class="control">
                                         <label class="radio">
-                                            <input type="radio" name="has_elevator" value="True"> Lift var
+                                            <input type="radio" name="has_elevator" value="True" {%if request.GET.has_elevator == 'True' %}checked{%endif%}> Lift var
                                         </label>
                                     </div>
                                 </div> 
                                 <div class="field">
                                     <div class="control">
                                         <label class="radio">
-                                            <input type="radio" name="has_gas" value="True"> Qaz çəkilib
+                                            <input type="radio" name="has_gas" value="True" {%if request.GET.has_gas == 'True' %}checked{%endif%}> Qaz çəkilib
                                         </label> 
                                     </div>
                                 </div> 
                                 <div class="field">
                                     <div class="control">
                                         <label class="radio">
-                                            <input type="radio" name="has_electricy" value="True"> Elektriklə təchiz olunub
+                                            <input type="radio" name="has_electricy" value="True" {%if request.GET.has_electricy == 'True' %}checked{%endif%}> Elektriklə təchiz olunub
                                         </label> 
                                     </div>
                                 </div> 
                                 <div class="field">
                                     <div class="control">
                                         <label class="radio">
-                                            <input type="radio" name="has_water" value="True"> Su çəkilib
+                                            <input type="radio" name="has_water" value="True" {%if request.GET.has_water == 'True' %}checked{%endif%}> Su çəkilib
                                         </label> 
                                     </div>
                                 </div> 
                                 <div class="field">
                                     <div class="control">
                                         <label class="radio">
-                                            <input type="radio" name="has_water_tank" value="True"> Əlavə su çəni
+                                            <input type="radio" name="has_water_tank" value="True" {%if request.GET.has_water_tank == 'True' %}checked{%endif%}> Əlavə su çəni
                                         </label> 
                                     </div>
                                 </div> 
                                 <div class="field">
                                     <div class="control">
                                         <label class="radio">
-                                            <input type="radio" name="has_combi" value="True"> Kombi
+                                            <input type="radio" name="has_combi" value="True" {%if request.GET.has_combi == 'True' %}checked{%endif%}> Kombi
                                         </label> 
                                     </div>
                                 </div> 
@@ -158,7 +158,7 @@
                                         <div class="field">
                                             <div class="control">
                                                 <label class="radio">
-                                                    <input type="radio" name="category" value="{{category.id}}"> {{category.name}}
+                                                    <input type="radio" name="category" value="{{category.id}}" {% if request.GET.category == category.id|slugify %}checked{% endif %}> {{category.name}}
                                                 </label> 
                                             </div>
                                         </div> 
@@ -166,12 +166,12 @@
                                     <div class="field">
                                         <div class="control">
                                             <label class="radio">
-                                                <input type="radio" name="category" value="all"> Hamısı
+                                                <input type="radio" name="category" value="all" {% if request.GET.category == 'all' %}checked{% endif %}> Hamısı
                                             </label> 
                                         </div>
                                     </div> 
                                 {% endif %}
-                                <hr>
+                                <hr> 
                                 <button class="button">
                                     <span class="icon is-small">
                                         <i class="fa-solid fa-filter"></i>
@@ -258,17 +258,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="pagination-wrapper"> 
-                            <ul class="pagination clearfix">
-                                {% for page_num in page_numbers %}
-                                    {% if request.GET.sort %}
-                                        <li><a href="{% url 'home-page' %}?page={{page_num}}&sort={{request.GET.sort}}" class="{% if page_num == aktiv_page %}current{% endif %}">{{page_num}}</a></li>
-                                    {% else %}
-                                        <li><a href="{% url 'home-page' %}?page={{page_num}}&sort=lifo" class="{% if page_num == aktiv_page %}current{% endif %}">{{page_num}}</a></li>
-                                    {% endif %}
-                                {% endfor %}  
-                            </ul>
-                        </div>
+                        {% if total_page > 1 %}
+                        
+                            <div class="pagination-wrapper"> 
+                                <ul class="pagination clearfix" style="display: flex; justify-content: flex-start; align-items: center;">
+                                    {% for page_num in page_numbers %}
+                                        <li>
+                                            <a href="{{request.get_full_path|exclude_page_param}}page={{page_num}}" class="{% if page_num == aktiv_page %}current{% endif %}">
+                                                {{page_num}}
+                                            </a>
+                                        </li>
+                                    {% endfor %}  
+                                </ul>
+                            </div>
+
+                        {% endif %}
                     </div>
                 </div>
             </div>

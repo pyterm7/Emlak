@@ -19,3 +19,11 @@ def cast2int(value):
         """
         return value
     except: return 0
+
+@register.filter(name='exclude_page_param')
+def exclude_page_param(value):
+    if value.find("page") != -1:
+        value = value[0:value.index("page")]
+    if value.find("?") == -1: value += "?"
+    else: value += "&"
+    return value
