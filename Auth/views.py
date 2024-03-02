@@ -1,5 +1,4 @@
-import os 
-import re
+import os, re 
 from PIL import Image
 from io import BytesIO
 from random import shuffle
@@ -187,11 +186,7 @@ def SetSocialAccount(request):
     return redirect("my-account")
 
 @login_required(login_url="sign-in-page", redirect_field_name=None)
-def ChangeAvatar(request):
-    # if not request.user.is_staff:
-    #     messages.info(request, "İcazəsiz cəhd.")
-    #     return redirect("home-page")
-
+def ChangeAvatar(request): 
     if request.POST and request.FILES:
         if user := CustomUser.objects.filter(id=request.user.id).first():
             avatar = request.FILES['user_avatar'] 
@@ -218,7 +213,7 @@ def ChangeAvatar(request):
                     cropped_image = cropped_image.resize((330, 330), Image.Resampling.LANCZOS)
                     new_image_name = f"{user.phone[1:]}-{random_str[0:4]}.webp"
                     new_path = os.path.join(settings.MEDIA_ROOT, 'Profile', new_image_name) 
-                    cropped_image.save(new_path, quality=20, optimize=True) 
+                    cropped_image.save(new_path, quality=44, optimize=True) 
                     user.avatar = os.path.join("Profile",new_image_name)
                     user.save()
                     messages.success(request, "Profil şəkli güncəlləndi.") 
@@ -243,12 +238,28 @@ def EditAccount(request):
             bio = request.POST.get("edit_bio", user.bio)
             email = request.POST.get("edit_email", user.email)
 
+            name = False 
+            surname = False
+
+            if user.name == None : name = request.POST.get("edit_name", False)
+            if user.surname == None : surname = request.POST.get("edit_surname", False)
+            
+            if name:
+                if len(name) < 3 or len(name) > 15:
+                    messages.info(request, "Ad minimum 3, maksimum 15 simvoldan ibarət ola bilər.")
+                    return redirect("my-account")
+            
+            if surname:
+                if len(surname) < 3 or len(surname) > 15:
+                    messages.info(request, "Soyad minimum 3, maksimum 15 simvoldan ibarət ola bilər.")
+                    return redirect("my-account")
+
             if len(position) > 100:
-                messages.info(request, "Vəzifə maksimum 100 simvoldan ibarət olmalıdır.")
+                messages.info(request, "Vəzifə maksimum 100 simvoldan ibarət ola bilər.")
                 return redirect("my-account")
             
             if len(bio) > 1000:
-                messages.info(request, "Haqqında məlumat maksimum 1000 simvoldan ibarət olmalıdır.")
+                messages.info(request, "Haqqında məlumat maksimum 1000 simvoldan ibarət ola bilər.")
                 return redirect("my-account")
             
             if not (re.fullmatch(regex, email)):
@@ -259,6 +270,8 @@ def EditAccount(request):
                 user.position = position 
                 user.bio = bio 
                 user.email = email
+                if name: user.name = name 
+                if surname: user.surname = surname
                 user.save()
                 messages.success(request, "Məlumatlar uğurla güncəlləndi.")
             except:
@@ -402,6 +415,31 @@ def SeeUser(request):
         return render(request, "user.html", context=data) 
     messages.info(request, "İcazəsiz cəhd.")
     return redirect("home-page")
+
+@login_required(login_url="sign-in-page", redirect_field_name=None)
+def ChangeVOEN(request):
+    if request.POST:
+        account_voen = request.POST.get("account_voen", False)
+        if account_voen:
+            account_voen = account_voen.strip()
+            try:
+                account_voen = int(account_voen)
+                if account_voen < 1000000000 or account_voen > 9999999999:
+                    messages.info(request, "Yanlış vöen.")
+                    return redirect("my-account")
+                user = CustomUser.objects.filter(id=request.user.id).first()
+                if user:
+                    user.voen = account_voen
+                    user.save()
+                    messages.success(request, "VÖEN güncəlləndi.")
+            except:
+                return redirect("my-account")
+
+    return redirect("my-account")
+
+
+
+
 
 
 

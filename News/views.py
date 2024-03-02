@@ -6,12 +6,16 @@ from django.contrib import messages
 from django.http import HttpResponse
 from NewsTag.models import NewsTagModel
 from django.shortcuts import render, redirect
+from Announcement.models import AnnouncementModel
 from News.models import NewsModel, LikedNews, CommentNews
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 
 def NewsDetail(request, news):
     data = {}
+
+    if last_announcements := AnnouncementModel.objects.all().order_by("-id")[0:3]:
+        data['last_announcements'] = last_announcements
  
     if NewsTagModel.objects.all().count() > 5:
         data['tags'] = NewsTagModel.objects.all()

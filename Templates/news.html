@@ -23,8 +23,14 @@
                                     <h4><a href="{% url 'news-detail' n.slug %}">{{n.title|slice:"0:20"}}...</a></h4>
                                     <ul class="post-info clearfix">
                                         <li class="author-box">
-                                            <figure class="author-thumb"><img src="{{n.author.avatar.url}}" alt="" style="aspect-ratio:1; object-fit: cover;"></figure>
-                                            <h5> {{n.author.name}} {{n.author.surname}} </h5>
+                                            {% if n.author.avatar %}
+                                                <figure class="author-thumb"><img src="{{n.author.avatar.url}}" alt="{% if n.author.name and n.author.surname %} {{n.author.name}} {{n.author.surname}} {% elif n.author.is_superuser %} Admin {% else %} {{n.author.phone}} {% endif %}" style="aspect-ratio:1; object-fit: cover;"></figure>
+                                            {% else %}
+                                                <figure class="author-thumb"><img src="{% static 'images/empty-profile270x330.png' %}" alt="{% if n.author.name and n.author.surname %} {{n.author.name}} {{n.author.surname}} {% elif n.author.is_superuser %} Admin {% else %} {{n.author.phone}} {% endif %}" style="aspect-ratio:1; object-fit: cover;"></figure>
+                                            {% endif %}
+                                            <h5> 
+                                                {% if n.author.name and n.author.surname %} {{n.author.name}} {{n.author.surname}} {% elif n.author.is_superuser %} Admin {% else %} {{n.author.phone}} {% endif %}
+                                            </h5>
                                         </li>
                                         <li>{{n.created_at|date:"d M, Y"}}</li>
                                     </ul>
@@ -43,7 +49,7 @@
         </div>
         {% if page_numbers %} 
             <div class="pagination-wrapper"> 
-                <ul class="pagination clearfix">
+                <ul class="pagination clearfix" style="display: flex; justify-content: flex-start; align-items: center;">
                     {% for page_num in page_numbers %}
                         <li><a href="{% url 'all-news' %}?page={{page_num}}" class="{% if page_num == aktiv_page %}current{% endif %}">{{page_num}}</a></li>
                     {% endfor %}  

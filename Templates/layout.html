@@ -31,6 +31,8 @@
     <link href=" {% static 'css/switcher-style.css' %} " rel="stylesheet">
     <link href=" {% static 'css/style.css' %} " rel="stylesheet">
     <link href=" {% static 'css/responsive.css' %} " rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/wenk/dist/wenk.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tiaanduplessis/wenk/master/dist/wenk.css">
     <style>
         .reset-css {
             margin-bottom: 1rem;
@@ -147,6 +149,7 @@
     <script src=" {% static 'js/script.js' %}"></script>
     <script src="{% static 'js/product-filter.js' %}"></script>
 
+
     {% if messages %} 
         {% for message in messages %} 
             {% if message.tags == 'alert-info' %}
@@ -160,6 +163,7 @@
     
 
     <script>  
+        
 
         function sortAnnouncement(e){
             let data_url = e.getAttribute("data-url")

@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% load i18n %}
+{% load customfilters %}
 
 {% block title %}
     Daşınmaz.az | {{news_detail.title}}
@@ -67,13 +68,15 @@
                                                 <div class="comment-inner">
                                                     <figure class="thumb-box">
                                                         {% if comment.author.avatar %}
-                                                            <img src="{{comment.author.avatar.url}}" alt="{{comment.author.name}} {{comment.author.surname}}" style="aspect-ratio: 1; object-fit: cover;">
+                                                            <img src="{{comment.author.avatar.url}}" alt="{% if comment.author.name and comment.author.surname %} {{comment.author.name}} {{comment.author.surname}} {% elif comment.author.is_superuser %} Admin {% else %} {{comment.author.phone}} {% endif %}" style="aspect-ratio: 1; object-fit: cover;">
                                                         {% else %}
-                                                            <img src="{% static 'images/empty-profile270x330.png' %}" alt="{{comment.author.name}} {{comment.author.surname}}" style="aspect-ratio: 1; object-fit: cover;">
+                                                            <img src="{% static 'images/empty-profile270x330.png' %}" alt="{% if comment.author.name and comment.author.surname %} {{comment.author.name}} {{comment.author.surname}} {% elif comment.author.is_superuser %} Admin {% else %} {{comment.author.phone}} {% endif %}" style="aspect-ratio: 1; object-fit: cover;">
                                                         {% endif %}
                                                     </figure>
                                                     <div class="comment-info clearfix mb-0">
-                                                        <h5>{{comment.author.name}} {{comment.author.surname}}</h5>
+                                                        <h5>
+                                                            {% if comment.author.name and comment.author.surname %} {{comment.author.name}} {{comment.author.surname}} {% elif comment.author.is_superuser %} Admin {% else %} {{comment.author.phone}} {% endif %}
+                                                        </h5>
                                                         <span>
                                                             {% language 'az' %}
                                                                 {{comment.created_at|date:"d M, Y - h:i"}}
@@ -126,6 +129,20 @@
                                 </form>
                             </div>
                         </div>
+                        {% if last_announcements %}
+                        <div class="featured-widget sidebar-widget">
+                            <div class="widget-title">
+                                <h5>Son paylaşılmış elanlar</h5>
+                            </div>
+                            <div class="single-item-carousel owl-carousel owl-theme owl-nav-none dots-style-one">
+                                {% for announcement in last_announcements %}
+                                    <div class="feature-block-one">
+
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
                           
                         {% if tags %}
                             <div class="sidebar-widget tags-widget">

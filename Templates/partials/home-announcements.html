@@ -8,7 +8,7 @@
             <div class="row clearfix">
                 <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                     <div class="default-sidebar property-sidebar" > 
-                        <!-- Filters -->
+                        <!-- Filters --> 
                         <div class="category-widget sidebar-widget">
                             <div class="widget-title">
                                 <h5>Elanları filtirlə</h5>
@@ -18,6 +18,7 @@
                                 <li><a href="{% url 'home-page' %}?for=sale"> Satış <span>({{for_sale}})</span></a></li>
                             </ul>
                         </div> 
+                        
                         <br><br><br><br><br>
                     </div>
                 </div>
@@ -74,7 +75,7 @@
                                                                 </h6>
                                                             </div> 
                                                         </div>
-                                                        <div class="title-text"><h4><a href="{% url 'announcement-detail'%}?title={{ announcement.slug }}">{{announcement.title|slice:"0:25"}}...</a></h4></div>
+                                                        <div class="title-text"><h4><a href="{% url 'announcement-detail'%}?title={{ announcement.slug }}"  data-wenk="{{announcement.title}}">{{announcement.title|slice:"0:25"}}...</a></h4></div>
                                                         <div class="price-box clearfix">
                                                             <div class="price-info pull-left">
                                                                 <h6>Qiymət</h6>
@@ -121,4 +122,3 @@
     </section>
 
 {% endif %}
-

@@ -126,6 +126,12 @@
                                     <li>Son giriş tarixi: <span> {% language 'az' %}{{ user.last_login|date:"F" }} {{user.last_login|date:"d, Y | H:i:s"}}{% endlanguage %} </span></li>
                                 </ul>
                             </div> 
+                            <div class="category-widget sidebar-widget">
+                                <div class="widget-title">
+                                    <h5>İstifadəçi VÖEN'i</h5>
+                                </div>
+                                <div class="box"> {{user.voen}} </div>
+                            </div>
                         </div>
                     </div>
                 </div>

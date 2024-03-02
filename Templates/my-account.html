@@ -121,15 +121,23 @@
                         <form method="post" class="default-form" action="{% url 'edit-account' %}">
                             {% csrf_token %}
                             <div class="form-group">
+                                <label for="edit_name">Ad</label>
+                                <input type="text" placeholder="Ad" autocomplete="off" id="edit_name" value="{% if my_account.name %}{{my_account.name}}{% endif %}" {% if my_account.name %}disabled{% else %}name="edit_name"{% endif %}>
+                            </div>  
+                            <div class="form-group">
+                                <label for="edit_surname">Soyad</label>
+                                <input type="text" placeholder="Soyad" autocomplete="off" id="edit_surname" value="{% if my_account.surname %}{{my_account.surname}}{% endif %}" {% if my_account.surname %}disabled{% else %}name="edit_surname"{% endif %}>
+                            </div>  
+                            <div class="form-group">
                                 <label for="edit_email">E-poçt</label>
-                                <input type="text" name="edit_email" required="" autocomplete="off" id="edit_email" value="{% if my_account.email %}{{my_account.email}}{% endif %}">
+                                <input type="text" name="edit_email" placeholder="E-poçt" autocomplete="off" id="edit_email" value="{% if my_account.email %}{{my_account.email}}{% endif %}">
                             </div>  
                             <div class="form-group">
-                                <label for="edit_position">Vəzifəm</label>
-                                <input type="text" name="edit_position" required="" autocomplete="off" id="edit_position" value="{% if my_account.position %}{{my_account.position}}{% endif %}">
+                                <label for="edit_position">Vəzifə</label>
+                                <input type="text" name="edit_position" placeholder="Vəzifə" autocomplete="off" id="edit_position" value="{% if my_account.position %}{{my_account.position}}{% endif %}">
                             </div>  
                             <div class="form-group">
-                                <label for="edit_bio">Haqqımda</label>
+                                <label for="edit_bio">Bio</label>
                                 <textarea name="edit_bio">{% if my_account.bio %}{{my_account.bio}}{%endif%}</textarea>
                             </div>  
                             <div class="form-group message-btn">
@@ -175,6 +183,27 @@
                     </div>
                     <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                         <div class="default-sidebar agent-sidebar">
+                            <div class="agents-contact sidebar-widget">
+                                <div class="widget-title">
+                                    <h5>VÖEN</h5>
+                                </div>
+                                {% if not my_account.voen %}
+                                <div class="form-inner">
+                                    <form action="{% url 'change-voen' %}" method="post" class="default-form">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <input type="text" name="account_voen" autocomplete="off" placeholder="VÖEN" value="{% if my_account.voen %}{{my_account.voen}}{%  endif %}">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="theme-btn btn-one">Yadda saxla</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% else %}
+                                    <div class="box"> {{my_account.voen}} </div>
+                                {% endif %}
+                            </div>
+                            
                             <div class="agents-contact sidebar-widget">
                                 <div class="widget-title">
                                     <h5>Sosial hesablar</h5>
