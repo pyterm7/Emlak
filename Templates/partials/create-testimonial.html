@@ -16,17 +16,16 @@
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <label for="testimonial_name">Adınız</label>
-                                        <input type="text" name="name" required="" autocomplete="off" id="testimonial_name">
+                                        <input type="text" name="name" required="" placeholder="Adınız" autocomplete="off" id="testimonial_name">
                                     </div>
                                     <div class="form-group">
                                         <label for="testimonial_surname">Soyadınız</label>
-                                        <input type="text" name="surname" required="" autocomplete="off" id="testimonial_surname">
+                                        <input type="text" name="surname" required="" placeholder="Soyadınız" autocomplete="off" id="testimonial_surname">
                                     </div> 
                                     <div class="form-group">
                                         <label for="testimonial_message">Fikirləriniz</label>
-                                        <textarea name="message" id="testimonial_message"></textarea>
-                                    </div> 
-                                        
+                                        <textarea name="message" id="testimonial_message" placeholder="Fikirləriniz"></textarea>
+                                    </div>  
                                     <div class="form-group message-btn">
                                         <button type="submit" class="theme-btn btn-one">Rəyinizi göndərin</button>
                                     </div>

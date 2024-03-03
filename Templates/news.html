@@ -47,15 +47,17 @@
                 {% endfor %}
             {% endif %}
         </div>
-        {% if page_numbers %} 
-            <div class="pagination-wrapper"> 
-                <ul class="pagination clearfix" style="display: flex; justify-content: flex-start; align-items: center;">
-                    {% for page_num in page_numbers %}
-                        <li><a href="{% url 'all-news' %}?page={{page_num}}" class="{% if page_num == aktiv_page %}current{% endif %}">{{page_num}}</a></li>
-                    {% endfor %}  
-                </ul>
-            </div>    
-        {% endif %}  
+        {% if total_page > 1 %} 
+            {% if page_numbers %} 
+                <div class="pagination-wrapper"> 
+                    <ul class="pagination clearfix" style="display: flex; justify-content: flex-start; align-items: center;">
+                        {% for page_num in page_numbers %}
+                            <li><a href="{% url 'all-news' %}?page={{page_num}}" class="{% if page_num == aktiv_page %}current{% endif %}">{{page_num}}</a></li>
+                        {% endfor %}  
+                    </ul>
+                </div>    
+            {% endif %}  
+        {% endif %}
     </div>
 </section>
 {% endblock container %}

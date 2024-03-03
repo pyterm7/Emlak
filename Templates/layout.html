@@ -223,6 +223,18 @@
                 document.getElementById("header-social-links").innerHTML += `<li><a href="${tiktok}" target='_blank'><i class="fa-brands fa-tiktok"></i></a></li>`
             }
         }); 
+
+
+
+        // Accord Filter
+        function accordFilter(e){
+            let accord_filter_id = document.getElementById("accord-filter")
+            if (getComputedStyle(accord_filter_id).display == "block"){
+                accord_filter_id.style.display = "none"
+            } else {
+                accord_filter_id.style.display = "block"
+            }
+        }
     </script>
  
 

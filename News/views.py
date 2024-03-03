@@ -38,6 +38,7 @@ def NewsDetail(request, news):
 
 def AllNews(request):
     data = {}
+    search_field = request.GET.get("search_field", False)
     page = request.GET.get("page", 1)
 
     if filter_tag := request.GET.get("tag", "").strip():
@@ -50,6 +51,7 @@ def AllNews(request):
     try: page = int(page)
     except: page = 1
 
+    
     limit = 9
     total_news = all_news.count() 
     total_page = 1
@@ -73,10 +75,12 @@ def AllNews(request):
         else: 
             for page_num in range(1, 6): page_numbers.append(page_num)
 
-    
+    if search_field: all_news = all_news.filter(title__icontains=search_field.strip().lower())
+
     data["news"] = all_news[page_start:page_end] 
     data["aktiv_page"] = page 
     data["page_numbers"] = page_numbers
+    data["total_page"] = total_page
     
     return render(request, "news.html", context=data)
 

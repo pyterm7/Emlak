@@ -38,7 +38,7 @@
                 <!-- Əsas şəkil -->
                 <div class="file is-success" style="display: flex; align-items: center; gap: 20px; justify-content: flex-start;">
                     <figure class="image" style="width: 128px; height: 128px;">
-                        <img src="https://bulma.io/images/placeholders/256x256.png" draggable="false" id="main-img" style="object-fit: cover; width: 100%; height: 100%;">
+                        <img src="{% static 'images/empty-upload.png' %}" draggable="false" id="main-img" style="object-fit: cover; width: 100%; height: 100%;">
                     </figure>
                     <label class="file-label">
                         <input class="file-input" type="file" name="announcement_picture" accept="image/*" id="set-main-img">
@@ -341,12 +341,12 @@
                     if ((img.naturalWidth < 770) || (img.naturalHeight < 520)){
                         swal("Məlumat!", "Şəklin ölçüləri minimum 770x520 olmalıdır.", "error");
                         document.getElementById("share-announcement-form").reset() 
-                        changeInputBox.setAttribute("src", "https://bulma.io/images/placeholders/256x256.png")
+                        changeInputBox.setAttribute("src", "{% static 'images/empty-upload.png' %}")
                     }
                 } 
             } else {
                 document.getElementById("share-announcement-form").reset()
-                changeInputBox.setAttribute("src", "https://bulma.io/images/placeholders/256x256.png")
+                changeInputBox.setAttribute("src", "{% static 'images/empty-upload.png' %}")
                 swal("Məlumat!", "Əsas şəkil maksimum 3MB olmalıdır", "error"); 
             } 
         }) 

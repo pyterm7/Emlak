@@ -10,11 +10,11 @@
                     <div class="default-sidebar property-sidebar" > 
                         <!-- Filters --> 
                         <div class="category-widget sidebar-widget">
-                            <div class="widget-title">
+                            <div class="widget-title" onclick="accordFilter(this)" style="display: flex; align-items: center; justify-content: flex-start; margin-bottom: 0;">
                                 <h5>Elanları filtirlə</h5> 
                             </div>
-                            <hr>
-                            <form action="{% url 'home-page' %}" method="GET"> 
+                            <form action="{% url 'home-page' %}" method="GET" id="accord-filter" style="display: none;"> 
+                                <hr>
                                 <div class="field">
                                     <label class="label">Axtar</label>
                                     <div class="control">
@@ -27,6 +27,7 @@
                                 <div class="field">
                                     <div class="select">
                                         <select name="sort"> 
+                                            <option>Seçin</option>
                                             <option value="lifo" {% if request.GET.sort == 'lifo' %}selected{% endif %}> Öncə Yenilər </option>
                                             <option value="fifo" {% if request.GET.sort == 'fifo' %}selected{% endif %}> Öncə Köhnələr </option>
                                         </select>
@@ -38,6 +39,7 @@
                                 <div class="field">
                                     <div class="select">
                                         <select name="currency"> 
+                                            <option>Seçin</option>
                                             <option value="DOLLAR" {% if request.GET.currency == 'DOLLAR' %}selected{% endif %}> DOLLAR </option>
                                             <option value="MANAT" {% if request.GET.currency == 'MANAT' %}selected{% endif %}> MANAT </option>
                                         </select>
@@ -63,11 +65,12 @@
                                 <div class="field">
                                     <div class="select">
                                         <select name="room_count"> 
-                                          <option value="1" {% if request.GET.room_count == '1' %}selected{% endif %}>1</option>
-                                          <option value="2" {% if request.GET.room_count == '2' %}selected{% endif %}>2</option>
-                                          <option value="3" {% if request.GET.room_count == '3' %}selected{% endif %}>3</option>
-                                          <option value="4" {% if request.GET.room_count == '4' %}selected{% endif %}>4</option>
-                                          <option value="5+" {% if request.GET.room_count == '5+' %}selected{% endif %}>5+</option>
+                                            <option>Seçin</option>
+                                            <option value="1" {% if request.GET.room_count == '1' %}selected{% endif %}>1</option>
+                                            <option value="2" {% if request.GET.room_count == '2' %}selected{% endif %}>2</option>
+                                            <option value="3" {% if request.GET.room_count == '3' %}selected{% endif %}>3</option>
+                                            <option value="4" {% if request.GET.room_count == '4' %}selected{% endif %}>4</option>
+                                            <option value="5+" {% if request.GET.room_count == '5+' %}selected{% endif %}>5+</option>
                                         </select>
                                     </div>
                                 </div>
@@ -125,7 +128,7 @@
                                 <div class="field">
                                     <div class="control">
                                         <label class="radio">
-                                            <input type="radio" name="has_electricy" value="True" {%if request.GET.has_electricy == 'True' %}checked{%endif%}> Elektriklə təchiz olunub
+                                            <input type="radio" name="has_electricity" value="True" {%if request.GET.has_electricity == 'True' %}checked{%endif%}> Elektriklə təchiz olunub
                                         </label> 
                                     </div>
                                 </div> 
